@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            /*el ancho total de un elemento que le dais con width cpmprende
+            contenido, padding-left, padding-rigth, border-left, border-rigth
+            
+            el alto total de un elemento que le dais heigth comprende
+            contenido, padding-top, padding-botton, border-top, border-botton*/
+            /*box-sizing: content-box*/
+            box-sizing: border-box;
+        }
+
+        /*PADDING: 20px 30px 40px 5px
+        padding-top 20px
+        paddirng-bottom 40px
+        padding-left 5px
+        padding-right 30px*/
+        
+
+        /*borde: 1px solid blue
+        border-style:solid obligatorio
+        border-color blue 
+        border-width 1px
+        
+        border-top/bottom/left/right*/
+
+        /*margin
+        margin-top/bottom/left/rigth*/
+        .container{
+            margin: auto;
+            width: 600px;
+            height: 300px;
+            background-color: aqua;
+            padding: 10px;
+            border: 1px solid blue;
+            margin: 10px;
+            border-radius: 15%;
+        }
+        /*el % es una medida relativa en relacion al padre*/
+        .container2{
+            width: 60%;
+            height: 300px;
+            background-color: blanchedalmond;
+        }
+        .container3{
+            max-width: 600px;
+            min-width: 500px;
+            height: 300px;
+            background-color:blue;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+    <div class="container2"></div>
+    <div class="container3"></div>
+</body>
+</html>

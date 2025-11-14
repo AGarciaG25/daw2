@@ -1,0 +1,142 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #000;
+    color: #fff;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 15px 15px;
+}
+
+.nav a:hover {
+    color: #7FFF00;
+}
+
+.nav a.activo {
+    background-color: #5b5b5b;
+    border-top: #7FFF00 3px solid;
+}
+
+.slide {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.arrow-left,
+.arrow-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7FFF00;
+    padding: 15px;
+    text-decoration: none;
+    font-size: 35px;
+}
+
+.arrow-left:hover{
+    font-size: 45px;
+
+}
+.arrow-right:hover {
+    font-size: 45px;
+}
+.arrow-left {
+    left: 0;
+}
+
+.arrow-right {
+    right: 0;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.target {
+    padding: 15px;
+    width: calc(33.33% - 20px);
+}
+
+.target h2 {
+
+    margin-bottom: 15px;
+}
+
+.target img {
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.target p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    color: #ccc;
+}
+
+.target a {
+    color: #fff;
+    text-decoration: none;
+}
+.target a:hover {
+    color: #7FFF00;
+}
+
+.footer {
+    text-align: center;
+    padding-top: 40px;
+}
+
+.imagenesPie {
+    display: flex;
+    justify-content:space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.imagenesPie img {
+    width: 130px;
+}
+
+.imagenesPie img:hover {
+    transform: scale(1.1);
+}
+
+.enlacesPie {
+    display: flex;
+    justify-content: right;
+    color: #ffffff;
+}
+
+.enlacesPie a {
+    color: #7FFF00;
+    text-decoration: none;
+}
+
+.enlacesPie a:hover {
+    text-decoration: underline;
+}

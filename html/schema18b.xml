@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="Paises">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="pais" minOccurs="0" maxOccurs="unbounded">
+                 <xs:complexType>
+                     <xs:sequence>
+                         <xs:element name="superficie" type="xs:integer">
+                             <xs:complexType>
+                                <xs:attribute name="unidades" type="xs:string" use="required" >
+                                    <xs:simpleType>
+                                        
+                                    </xs:simpleType>
+                                </xs:attribute>
+                             </xs:complexType>
+                         </xs:element>
+                         <xs:element name="moneda" maxOccurs="unbounded"></xs:element>
+                         <xs:element name="gobierno"></xs:element>
+                     </xs:sequence>
+                     <xs:attribute name="nombre" type="xs:ID" use="required"></xs:attribute>
+                     <xs:attribute name="fronteras" type="xs:IDREFS" use="required"></xs:attribute>
+                 </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+
+
+
+
+    <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE paises [
+<!ELEMENT paises (pais*)>
+<!ELEMENT pais (superficie, moneda+, gobierno)>
+<!ATTLIST pais nombre ID #REQUIRED>
+<!ATTLIST pais fronteras IDREFS #REQUIRED>
+<!ELEMENT superficie (#PCDATA)>
+<!ATTLIST superficie unidad NMTOKEN #REQUIRED>
+<!ELEMENT moneda (#PCDATA)>
+<!ELEMENT gobierno EMPTY>
+<!ATTLIST gobierno sistema NMTOKEN #IMPLIED>
+]>
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<softwareLibre>
+<licencias>
+<licencia nombre="GPL_v2" />
+<licencia nombre="BSD2" />
+<licencia nombre="Apache_v2" />
+</licencias>
+<aplicaciones>
+<aplicacion nombre="Inkscape">
+<version nombre="0.47" licencia="GPL_v2" fechaPublicacion="17/08/2010" />
+<version nombre="0.48" licencia="GPL_v2" fechaPublicacion="17/08/2010" />
+<version nombre="0.48.2" licencia="GPL_v2"
+fechaPublicacion="14/08/2011" />
+</aplicacion>
+<aplicacion nombre="PostgreSQL">
+<version nombre="9.1.0" licencia="BSD2" fechaPublicacion="15/09/2011" />
+<version nombre="9.1.3" licencia="BSD2" fechaPublicacion="15/09/2013" />
+</aplicacion>
+</aplicaciones>
+</softwareLibre>

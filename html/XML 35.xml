@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE cine [
+<!ELEMENT cine (paises, idiomas, personas, peliculas)>
+<!ELEMENT paises (pais+)>
+<!ELEMENT pais (#PCDATA)>
+<!ATTLIST pais
+cc ID #REQUIRED>
+<!ELEMENT idiomas (idioma+)>
+<!ELEMENT idioma (#PCDATA)>
+<!ATTLIST idioma
+lc ID #REQUIRED>
+<!ELEMENT personas (persona+)>
+<!ELEMENT persona (#PCDATA)>
+<!ATTLIST persona
+fecha_nacimiento CDATA #REQUIRED
+pais_nacimiento IDREF #REQUIRED>
+<!ELEMENT peliculas (pelicula+)>
+<!ELEMENT pelicula (estreno, titulo+, autores)>
+<!ELEMENT estreno (#PCDATA)>
+<!ELEMENT titulo (#PCDATA)>
+<!ATTLIST titulo
+idioma IDREF #REQUIRED>
+<!ELEMENT autores (#PCDATA)>
+<!ATTLIST autores
+compositor CDATA #IMPLIED
+director CDATA #REQUIRED>
+]>
+<cine>
+<paises>
+<pais cc="USA">Estados Unidos</pais>
+<pais cc="GBR">Gran Bretaña</pais>
+<pais cc="DEU">Alemania</pais>
+</paises>
+<idiomas>
+<idioma lc="en">inglés</idioma>
+<idioma lc="es">Español</idioma>
+</idiomas>
+<Personas>
+<persona  fecha_nacimiento="1970" pais_nacimiento="UK">Christopher Nolan</persona> 
+<persona  fecha_nacimiento="1942" pais_nacimiento="EEUU">Martin Scorsese</persona>
+<persona  fecha_nacimiento="1975" pais_nacimiento="EEUU">Drew Goddard</persona>
+<persona  fecha_nacimiento="1957" pais_nacimiento="Alemania">Hans Zimmer</persona>
+<persona  fecha_nacimiento="1967" pais_nacimiento="UK">David Julyan</persona>
+</Personas>
+<peliculas>
+<pelicula>
+<estreno>1990</estreno>
+<titulo idioma="en">Goodfellas</titulo>
+<titulo idioma="es">Uno de los nuestros</titulo>
+<autores director="Martin Scorsese"/>
+</pelicula>
+<pelicula>
+<estreno>1991</estreno>
+<titulo idioma="en">Thelma y Louise</titulo>
+<titulo idioma="es">Thelma y Louise</titulo>
+<autores director="Ridley Scott" compositor="Hans Zimmer"/>
+</pelicula>
+
+<pelicula >
+<estreno>2006</estreno>
+<titulo idioma="en">The Prestige</titulo>
+<titulo idioma="es">El truco final</titulo>
+<autores director="Christopher Nolan" compositor="David Julyan"/>
+</pelicula>
+
+<pelicula>
+<estreno>2010</estreno>
+<titulo idioma="en">Inception</titulo>
+<titulo idioma="es">Origen</titulo>
+<autores director="Christopher Nolan" compositor="Hans Zimmer"/>
+</pelicula>
+<pelicula>
+<estreno>2011</estreno>
+<titulo idioma="en">The Cabin in the Woods</titulo>
+<titulo idioma="es">La cabaña en el bosque</titulo>
+<autor director="Drew Goddard" compositor="David Julyan"/>
+</pelicula>
+</peliculas>
+</cine>

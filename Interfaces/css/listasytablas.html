@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /*prpoiedades de las listas*/
+        ul{
+            
+            list-style-type: square;/*cambiar las viñetas*/
+            list-style-position: outside;/*posiciona fuera o dentro del li las viñetas*/
+            /*list-style-image: url(icono.png); para insertar una magen como viñeta*/
+            /*propiedadad abreviada list-style
+            list-style: square inside url('user.svg');*/
+        }
+        ol{
+            list-style-type: lower-roman;
+        }
+        ul,ol,li{
+            border: 1px solid black;
+        }
+        table{
+            width: 60%;
+            margin: auto;
+            box-shadow: 2px 2px 2px gray;
+        }
+        table, th, td{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        tr:first-child{
+            height: 50px;
+        }
+        td{
+            padding: 10px;
+        }
+        tr:nth-child(odd){
+            background-color: gray;
+        }
+         tr:nth-child(even){
+            background-color: green;
+        }
+        th{
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>item</li>
+        <li>item</li>
+        <li>item</li>
+    </ul>
+    <ol>
+        <li>item</li>
+        <li>item</li>
+        <li>item</li>
+    </ol>
+    <table>
+        <tr>
+            <th>titulo</th>
+            <th>titulo</th>
+            <th>titulo</th>
+        </tr>
+        <tr>
+            <td>datos</td>
+            <td>datos</td>
+            <td>datos</td>
+        </tr>
+         <tr>
+            <td>datos</td>
+            <td>datos</td>
+            <td>datos</td>
+        </tr>
+         <tr>
+            <td>datos</td>
+            <td>datos</td>
+            <td>datos</td>
+        </tr>
+    </table>
+</body>
+</html>

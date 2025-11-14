@@ -1,0 +1,40 @@
+<?xml version=”1.0” encoding=”utf-8”?>
+<mensaje>
+<email respuesta="no">
+<cabecera>
+<emisor></emisor>
+<receptor></receptor>
+<fecha></fecha>
+</cabecera>
+<asunto></asunto>
+<texto></texto>
+</email>
+<carta respuesta="no">
+<encabezado>
+<emisor>Juan</emisor>
+<receptor>Maria</receptor>
+<fecha>21/01/2025</fecha>
+</encabezado>
+<texto>
+<saludo></saludo>
+</texto>
+</carta>
+</mensaje>
+
+
+
+
+
+<!ELEMENT mensaje (email|carta)*>
+<!ELEMENT email (cabecera, asunto?, texto+)>
+<!ATTLIST email respuesta (si|no) "no">
+<!ELEMENT carta (encabezado, texto)>
+<!ATTLIST carta respuesta (si|no) "no">
+<!ELEMENT cabecera (emisor, receptor*, fecha?)>
+<!ELEMENT asunto (#PCDATA)>
+<!ELEMENT texto (#PCDATA | saludo)*>
+<!ELEMENT encabezado (emisor, receptor*, fecha)>
+<!ELEMENT emisor (#PCDATA)>
+<!ELEMENT receptor (#PCDATA)>
+<!ELEMENT fecha (#PCDATA)>
+<!ELEMENT saludo (#PCDATA)>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repaso HTML</title>
+    <!--CSS externo
+        <link rel="stylesheet" href="estilo.css" type="text/css">
+         link de google fonts
+         link a favicon
+         CSS interno-->
+         <link rel="icon" href="favicon.ico">
+         <style>
+            /*comentario CSS*/
+            .titulo{
+                background-color: aqua;
+                font-weight: bold;
+                text-align: center;
+            }
+            table, tr, td, th{
+                /*border 2px dotted red*/
+                border-collapse: collapse;
+                border-width: 2px ;
+                border-color: red;
+                border-style: dotted;
+            }
+            span{
+                color:red;
+            }
+            .verde{
+                color: green;
+            }
+            .centrado{
+                text-align: center;
+            }
+            div#header{
+                background-color: chartreuse;
+            }
+         </style>
+</head>
+<body>
+    <p class="titulo">Etiquetas de texto, párrafos y encabezado</p>
+    <h1>Encabezado 1</h1>
+    <h2>Encabezado 2</h2>
+    <h3>Encabezado 3</h3>
+    <h4>Encabezado 4</h4>
+    <h5>Encabezado 5</h5>
+    <h6>Encabezado 6</h6>
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+       Modi vero temporibus veniam ab distinctio ducimus dolor 
+       impedit architecto, sed velit, enim ullam? Ea corrupti, 
+       soluta dicta voluptates explicabo facere delectus!</p>
+    
+       <!--ElementoS EN BLOQUE: empiezan  y acaban en un anueva linea
+       y ocupan el ancho de la pantalla. Pueden contener otros elementos
+       ejemplo:  p, encabezado, div, ul, ol, li, dl, dd, dt...
+       ELEMENTOS EN LINEA: no empiezan y acaban en una nueva linea 
+       y no acupan el 100%, ocupan su propio contenido. No pueden contener otros elementos
+       ejemplo: enlaces, imágenes-->
+    <p>Esto     es     un    párrafo</p>
+    <pre>Esto    es    un     parrafo</pre>
+    <!--no tiene cierre br hace salto línea-->
+    <br>
+    <br>
+    <br>
+    <p>Otro párrafo</p>
+    <!--hr crea una linea horizontal-->
+    <hr>
+    <p>Párrafo separado</p>
+
+    <p class="titulo">Etiquetas de formato</p>
+    <!--small, sup, sub, del, ins-->
+    <p>Lorem ipsum,<b>negrita</b> dolor sit amet consectetur <del>tachado</del>adipisicing elit. Aut facilis odit error, fugiat,<u>subrayado</u> sequi, rerum nisi suscipit voluptatum <mark>remarcado</mark> unde adipisci laudantium <em>enfasis</em>autem <strong>texto importante</strong>et non! Ab consequuntur accusamus aliquid quasi.
+    </p>
+
+    <p class="titulo">Enlaces</p>
+    <!--pagina externa, ruta absoluta-->
+    <a href="http://www.google.com" titulo="Google" target="_blank">google</a><!--ejecuta en una pagina nueva-->
+    <a href="http://www.google.com" titulo="Google">google</a>
+    <!--Pagina de nuestro sitio web, ruta relativa-->
+    <a href="otrapagina.html">Ir a otra pagina</a>
+    <!--Enlace a correo electronico-->
+    <a href="mailto:adry131290@gmail.com">Mail adrián</a>
+    <!--Enlace a telefono-->
+    <a href="tel:+34654987123"></a>
+    <!--Enlace con una imagen-->
+    <a href="http://www.google.com">
+        <img src="img\vertex.png" alt="logotipo" title="logo" height="50" width="50">
+    </a>
+    <!--Marcadores a la propia pagina-->
+    <a href="#cap2">Capítulo 2</a>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellendus, deleniti saepe aspernatur magnam architecto, harum distinctio non laboriosam dolorem error mollitia dolores vero inventore et facere! Exercitationem molestias sit quasi.
+    Corrupti quia, ratione pariatur aliquid nostrum adipisci impedit voluptatibus rem ipsum in aliquam reiciendis aperiam quidem tempora facilis quam voluptates eum tenetur sequi! Vero, deserunt ut perferendis officia molestiae eum?
+    Omnis doloremque, obcaecati et consequatur voluptas aliquid minima magni distinctio veritatis aspernatur voluptatibus at eligendi inventore adipisci aliquam tempora tempore doloribus dignissimos sunt qui aut ad fugiat est? Ea, animi.
+    Fuga eum, ipsam, alias ad quaerat cumque mollitia labore a voluptatum cupiditate laudantium, consectetur ea voluptas! Commodi sint quaerat voluptate accusamus. Natus provident perspiciatis molestias odit rem quod commodi quaerat!
+    Dolor, eaque? Tempora maiores quam tenetur, nam distinctio iste provident in blanditiis similique, dolor deserunt sed placeat doloribus sapiente libero perspiciatis eaque, nulla facilis nobis! Quam rem ipsum id libero!
+    Possimus alias saepe autem eligendi repudiandae sit quibusdam qui aut aperiam sapiente culpa ab ea deleniti debitis, rem, vero ipsam. In, quos! Sint natus culpa quos rerum nemo provident doloremque.
+    Reprehenderit possimus placeat vitae facere provident corrupti voluptate perferendis culpa amet? Molestiae aliquid, vero asperiores, totam unde architecto optio, suscipit minus fugit libero incidunt necessitatibus voluptatem deleniti esse sequi sit.
+    Sint nobis odio doloremque odit. Non quam quisquam ratione eius soluta eveniet culpa neque, necessitatibus modi dicta, molestias in fuga quo eligendi tempora nam ad enim quaerat explicabo rem tenetur.
+    Consectetur non illum ipsam eum laborum, officiis temporibus dolore cum exercitationem? Quasi doloremque, temporibus harum blanditiis obcaecati corrupti, fugit sapiente excepturi suscipit doloribus nisi, voluptatem itaque iure aperiam fugiat officia!
+    Ea, nobis porro delectus eligendi ab repudiandae molestias sapiente sint animi consequatur distinctio maxime harum odit aut error fuga atque quos! Ipsa ratione nobis minima dolores maiores saepe aspernatur earum?
+    Vitae esse rerum maiores nisi deserunt! Molestiae, odit placeat ab expedita ducimus quisquam nobis in praesentium perferendis dolorem maiores sequi, nulla magnam quo voluptates rem minima deleniti facilis. Accusamus, quas.
+    Quis dignissimos laboriosam sunt tempora earum obcaecati, fugit nulla explicabo saepe optio eaque alias iure. Maxime, magnam! Alias, qui numquam perspiciatis enim est earum tempora esse placeat voluptates quae totam.
+    Totam cupiditate, et laudantium, voluptatum nesciunt sit ex provident molestias omnis odit obcaecati consequuntur! Quasi, eligendi. A totam blanditiis inventore id? Veniam itaque rem expedita eligendi fugiat similique nulla exercitationem?
+    Adipisci, nihil a. Ratione quis commodi quasi asperiores in. Doloribus quae necessitatibus soluta quo non, quasi at voluptatibus laboriosam libero asperiores delectus itaque dolores mollitia? Officiis ullam numquam sunt vel.
+    Voluptates, magni. Sunt veniam eos provident cumque itaque impedit aspernatur, dicta voluptate enim ea nobis totam rem qui amet, libero nostrum aut. Necessitatibus dicta corrupti doloremque, inventore magnam nisi sit?
+    Dolore odio esse iusto expedita quibusdam dicta mollitia? Soluta dolor expedita ducimus voluptatibus hic totam doloribus, aut tempore provident possimus quo dicta iste atque aspernatur magnam beatae. Ad, nisi voluptates.
+    Eos qui sit quis beatae reiciendis ipsam cumque et? Quo nostrum ut sint laboriosam perspiciatis ullam itaque soluta modi inventore, laborum ipsam voluptatum impedit similique a magni fugit veritatis possimus?
+    Dolorum ad, fuga accusamus neque voluptas repellat quos assumenda eveniet ab laborum error explicabo aperiam, maxime numquam aspernatur vel! Nemo ab alias at harum accusantium quae voluptates mollitia neque id!
+    Accusantium, eum praesentium iste nihil voluptatum nostrum dignissimos nam eius expedita id odit assumenda itaque soluta? Quo neque doloremque blanditiis, dolorum quia odio? Autem ullam a obcaecati, assumenda fugit vel.
+    Minus aut, odio placeat quasi ab itaque sint pariatur dolorum quisquam animi, beatae veniam aliquam dignissimos nostrum harum quibusdam ipsa quidem fuga rerum cupiditate eaque exercitationem quo unde laborum? Eveniet.</p>
+    <h2 id="cap2">Capitulo 2</h2>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur amet molestiae aliquid delectus, rem voluptate possimus id deleniti incidunt quis. Provident delectus hic est obcaecati molestiae, unde esse laboriosam libero.</p>
+    
+    <p class="titulo">Listas</p>
+    <!-- mejor ne CSS con List-style-type -->
+    <ul type="square">
+        <li>Item 1</li>
+        <li>Item 2</li>
+            <ul>
+                <li>Item 2.1</li>
+            </ul>
+        <li>Item 3</li>
+    </ul>
+    <!-- 1,A,a,I,i-->
+    <ol type="I">
+        <li>Item1</li>
+        <li>Item2</li>
+        <li>Item3</li>
+    </ol>
+    <dl>
+        <dt>Terminos</dt>
+        <dd>Descripcion</dd>
+    </dl>
+
+    <!-- tbody, thead, tfoot -->
+     <caption>Titulo de la tabla</caption>
+    <p class="titulo">Tablas</p>
+    <table>
+        <tr>
+            <th>Titulo</th>
+            <th>Titulo</th>
+            <th>Titulo</th>
+        </tr>
+        <tr>
+            <td>Texto1</td>
+            <td>Texto2</td>
+            <td>Texto3</td>
+        </tr>
+    </table>
+
+    
+    <p class="titulo">Contenedor en bloque y línea div, span</p>
+    <!--div contenedor bloque contiene cualquier elemento
+    span contenedor en línea: que contiene texto para poder aplicarle un estilo-->
+    <div>
+        <h1>Titulo</h1>
+        <h2>Subtitulo</h2>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Necessitatibus maxime amet laboriosam aperiam tempore quo, ipsum minima delectus pariatur, quasi quidem fugiat. Temporibus perferendis illum qui debitis suscipit id maiores!</p>
+    </div>
+
+    <p>lorem ipsum dolor <span>texto ebtrre span</span></p>
+    
+    <p class="titulo">Clase e identificador</p>
+    <!--Clases: identifica a cualquier elemento html
+    Un elemento un p, h1 puede compartir la misma clase
+    Un elemento puede tener varias clases-->
+
+    <h1 class="verde centrado">Encabezado verde</h1>
+    <p class="verde centrado">parrafo verde</p>
+    
+    <!--Id es unico, solo puede estar en un elemento html
+    Para estructurar nuestra pagina (header div con id llamado header)
+    Se accede con #
+    para javascript vale para acceder a cada elemento del DOM
+    -->
+    <div id="header">Este es el header</div>
+
+    <p class="titulo">iframe</p>
+    <iframe src="pagina.html" frameborder="1" width="200" height="200" title="logo">otra pagina</iframe>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d25386.777223461784!2d-5.304863570784494!3d37.3106037480238!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2ses!4v1759489984388!5m2!1ses!2ses" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    
+    <p class="titulo">Etiquetas semanticas / de diseño</p>
+    <header>cabecera de la pagina</header>
+    <nav>elemento de navegacion</nav>
+    <footer>pie de pagina</footer>
+    <main>cuerpo de la pagina
+         <section></section>
+         <article></article>
+         <aside></aside>
+    </main>
+
+    <div id="header"></div>
+    <div id="footer"></div>
+
+    <div class="header" id="cabecera"></div>
+
+    <p class="titulo">Formularios</p>
+    <form action="pagina.php" method="post" autocomplete="on" target="_blank">
+        <label for="fnombre">Nombre:</label>
+        <input type="text" placeholder="tu nombre" id="fnombre" name="fnombre" size="40" maxlength="10" autofocus required>
+        <label for="fpass">Password</label>
+        <input type="password" id="fpass" name="fpass" pattern="[A-Za-z]{8}"><br>
+        <label for="fedad">Edad:</label>
+        <input type="number" id="fedad" name="fedad" value="18" min="0" max="100" step="2"><br>
+        <label for="frango">Rango</label>
+        <input type="range" id="frango" name="frango" value="5" min="0" max="100" step="10">
+        <label for="fcalendario">Calendario</label>
+        <input type="date" id="fcalendario" name="fcalendario" value="2025-09-06">
+        <label for="frojo">rojo:</label>
+        <input type="radio" id="Fcolor" name="fcolor" value="rojo" checked>
+        <label for="fverde">verde:</label>
+        <input type="radio" id="fverde" name="fcolor" value="rojo">
+        <label for="fdis">diseño:</label>
+        <input type="checkbox" id="Fdis" name="fdis" value="diseño" checked>
+        <label for="fdes">despliegue:</label>
+        <input type="checkbox" id="fdes" name="fdes" value="despliegue">
+        <label for="fselect">selectorde color:</label>
+        <select name="fselect" id="fselect">
+            <option value="verde" selected>verde</option>
+            <option value="rojo">rojo</option>
+            <option value="azul">azul</option>
+        </select>
+        <label for="fcomentario">Comentario:</label>
+        <textarea name="fcomentario" id="fcomentario" rows="10" cols="10" placeholder="Escribe comentario"></textarea>
+        <fieldset>
+            <legend>Datos Personales</legend>
+            <input type="text" placeholder="">
+        </fieldset>
+        <fieldset>
+            <input type="text" placeholder="">
+            <legend>Datos laborales</legend>
+        </fieldset>
+        <label for="flista">Lista:</label>
+        <input list="frutas" id="fruta" name="fruta">
+        <datalist id="frutas">
+           <option value="Manzana">
+           <option value="Banana">
+           <option value="Naranja">
+           <option value="Pera">
+           <option value="Kiwi">
+        </datalist>
+        <input type="submit" value="Enviar">
+        <input type="button" value="Un botón">
+        <input type="reset" value="Borrar">
+    </form>
+
+</body>
+</html>

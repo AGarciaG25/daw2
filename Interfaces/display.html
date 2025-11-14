@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+        p{
+            display: inline-block;
+            border: 1px solid black;
+            width: 200px;
+            height: 200px;
+        }
+        img{
+            display: block;
+        }
+        button:hover + .oculto{
+            display: block;
+        }
+        .oculto{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!--
+    Elementos en bloque: ocupa el 100% del ancho y empiezan y acaban en nueva linea
+                        p,h1..., ul ol, li, table, tr, tdd
+    Elementos en linea: ocuan el propio contenido, no se les puede dar tamaño
+                       no contenian elementos
+                       img, a, span, label, imput
+    display: no cambia el tipo de elemento pero si la visualizacion
+           inline
+           block
+           inline-block: actua como elemento en linea y como elemento en bloque
+           porque los elementos stan uno al lado del otro en linea 
+           porque le podemos dar tamaño a esos elementos
+           none
+    -->
+           <button>Pasa el mouse</button>
+           <p class="oculto">hola</p>
+    <p class="p1">hola</p><p class="p2">adios</p>
+    <p class="p3">saludos</p>
+    <img src="lpaisaje.png" alt="fonfo" width="200px" height="200px">
+    <form action="pagina">
+        <label for="nombre">nombre</label>
+        
+    </form>
+</body>
+</html>

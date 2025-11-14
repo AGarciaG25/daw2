@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Definir el esquema para el elemento 'cine' -->
+  <xs:element name="cine">
+    <xs:complexType>
+      <xs:all>
+        <!-- Define los elementos 'directores' y 'peliculas' en cualquier orden -->
+        <xs:element name="directores" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <!-- Define los elementos 'director' dentro de 'directores' -->
+              <xs:element name="director" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="nombre" type="xs:string" />
+                  <xs:attribute name="fecha_nacimiento" type="xs:gYear" />
+                  <xs:attribute name="pais_nacimiento" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        
+        <xs:element name="peliculas" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <!-- Define los elementos 'pelicula' dentro de 'peliculas' -->
+              <xs:element name="pelicula" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <!-- Elemento 'estreno' opcional dentro de 'pelicula' -->
+                    <xs:element name="estreno" type="xs:gYear" minOccurs="0" />
+                    <!-- Elemento 'titulo' obligatorio dentro de 'pelicula' -->
+                    <xs:element name="titulo" type="xs:string" />
+                    <!-- Elemento 'director' obligatorio dentro de 'pelicula' -->
+                    <xs:element name="director" type="xs:string" />
+                  </xs:sequence>
+                  <!-- Atributo 'titulo' obligatorio en 'pelicula' -->
+                  <xs:attribute name="titulo" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

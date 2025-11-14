@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<pedido>
+<codigo>123ABBCC123</codigo>
+<productos>
+<producto>
+<identificador>557</identificador>
+<nombre>Pantalón</nombre>
+<precio moneda="euro">35.99</precio>
+</producto>
+<producto>
+<identificador>563</identificador>
+<nombre>Abrigo</nombre>
+<precio moneda="euro">165.99</precio>
+</producto>
+</productos>
+<lineas>
+<linea identificador="557">
+<cantidad>2</cantidad>
+<color>Azul</color>
+</linea>
+<linea identificador="557">
+<cantidad>1</cantidad>
+<color>Gris</color>
+</linea>
+<linea identificador="563">
+<cantidad>1</cantidad>
+</linea>
+</lineas>
+
+</pedido>
+
+<!ELEMENT pedido (codigo,productos|lineas)>
+<!ELEMENT codigo (#PCDATA)>
+<!ELEMENT productos (producto+)>
+<!ELEMENT lineas (linea+)>
+<!ELEMENT linea (cantidad,color)>
+<!ELEMENT productos (identificador,nombre,precio)>
+<!ELEMENT identificador (#PCDATA)>
+<!ELEMENT nombre (#PCDATA)>
+<!ELEMENT precio>

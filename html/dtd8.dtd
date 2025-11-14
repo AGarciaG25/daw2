@@ -1,0 +1,9 @@
+<element XXX (AAA,BBB)>
+<element AAA (CCC,DDD)>
+<element BBB (CCC|DDD)>
+<element CCC (#PCDATA)>
+<!ELEMENT attributes (#PCDATA)> 
+<!ATTLIST attributes 
+aaa CDATA #IMPLIED  
+bbb CDATA #REQUIRED 
+ccc NMTOKENS #REQUIRED> 

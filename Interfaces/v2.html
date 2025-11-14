@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menú Vertical - Vertex</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f3f3f3;
+  }
+
+  nav {
+    background-color: #7B7B7B;
+    width: 280px; 
+    height: 100vh;
+    box-shadow: 2px 0 5px #00000033;
+    padding-top: 20px;
+  }
+
+  .logo {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .logo img {
+    height: 100px;
+  }
+
+  .logo img:hover {
+    transform: scale(1.1);
+  }
+
+  .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+  }
+
+  .menu li {
+    display: block;
+    margin: 10px 0;
+  }
+
+  li a {
+    text-decoration: none;
+    color: #092928;
+    font-size: 24px;
+    font-weight: 500;
+    display: block;
+    padding: 12px 20px;
+    transition: all 0.3s ease;
+  }
+
+  li a:hover {
+    color: #F77F2E;
+    text-shadow: 1px 1px #9b501d;
+    background-color: #d9d9d9;
+  }
+
+  .activo {
+    color: #d9d9d9;
+    background-color: #4f4f4f;
+    border-right: 10px solid #F77F2E;
+    text-shadow: 1px 1px #0000001a;
+  }
+
+  .activo:hover {
+    color: #ff9751;
+    background-color: #5f5f5f;
+    text-shadow: 1.5px 1.5px #00000033;
+  }
+
+  .busqueda {
+    background-color: #D9D9D9;
+    border-radius: 30px;
+    padding: 12px 20px;
+    width: 80%;
+    margin: 40px auto 0 auto;
+  }
+
+  .busqueda input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 16px;
+    color: #555;
+    width: 80%;
+  }
+
+  .busqueda i {
+    color: #555;
+  }
+
+  .busqueda:hover {
+    border: 1px solid #092928;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <a href="#"><img src="vertex1.png" alt="Logo Vertex"></a>
+  </div>
+
+  <ul class="menu">
+    <li><a href="#">Productos</a></li>
+    <li><a href="#" class="activo">Noticias</a></li>
+    <li><a href="#">Actividades</a></li>
+  </ul>
+
+  <div class="busqueda">
+    <i class="fa fa-search"></i>
+    <input type="text" placeholder="Buscar...">
+  </div>
+</nav>
+
+</body>
+</html>

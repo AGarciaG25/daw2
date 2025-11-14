@@ -1,0 +1,10 @@
+<!doctype html>
+<html>
+    <head>
+        <title>ejercicio 12</title>
+    </head>
+    <body>
+        <p><img src="imagen.png" width="1152" height="648" alt="formas" usemap="#formas">
+        <map name="formas">
+        <area shape="poly" coords="60,45,80,80,40,80"   
+        </p>

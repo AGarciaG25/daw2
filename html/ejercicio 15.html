@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Ejercicio 15</title>
+    </head>
+    <body>
+        <form action= "mailto:direccion@correo.com" method="post" enctype="text/plain">
+            <h3>Escriba su:</h3>
+            <pre>
+                <p>Nombre completo: <input name="nombre" maxlength="30" size="15" autofocus size="20"></p>
+                <p>Código postal: <input name="cp" maxlength="5" size="6" pattern="[0-9]{5}"></p>
+                <p>Email: <input name="email" type="email" maxlength="30" size="25" placeholder="nombre@gmail"></p>
+                <p>Prefijo Telefónico: <input name="pre" size="3" pattern="[0-9]{3}"> <input type="tel" name="telf" placeholder="teléfono (9 cifras)" size="9" pattern="[0-9]{9}"></p>
+                <p>Campo desactivado: <input name="nada" disabled size="10"></p>
+                <p><input type="submit" value="enviar formulario"></p>
+            </pre>
+        </form>
+    </body>
+</html>            

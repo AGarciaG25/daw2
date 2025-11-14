@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+   <xsl:template match="/">
+     <html>
+      <body> 
+          <h2>Obras</h2>
+             <table>
+                <tr> 
+                   <th>Título</th>
+                   <th>Año</th>
+                   <th>Autor</th>
+                   <th>País</th>
+                   <th>Museo</th>
+                   <th>Visible</th>
+                </tr>
+                   <xsl:for-each select="pinacoteca/obra">
+                     <xsl:sort select="@anyo" data-type="number" />
+                      <tr>
+                          <td><xsl:value-of select="titulo" /></td>
+                          <td><xsl:value-of select="@anyo" /></td>
+                          <td><xsl:value-of select="autor" /></td>
+                          <td><xsl:value-of select="@pais" /></td>
+                          <td><xsl:value-of select="museo" /></td>
+                          <td><xsl:value-of select="museo/@visible" /></td>
+                      </tr>
+                   </xsl:for-each>
+             </table>
+
+      </body>
+     </html>
+   </xsl:template>
+</xsl:stylesheet>
+
+
+
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+   <xsl:template match="/">
+     <html>
+      <body> 
+          <h2>Obras</h2>
+             <table>
+                <tr>
+                   <th>Título</th>
+                   <th>Año</th>
+                   <th>Autor</th>
+                   <th>País</th>
+                   <th>Museo</th>
+                   <th>Visible</th>
+                </tr>
+                   <xsl:for-each select="pinacoteca/obra">
+                     <xsl:sort select="@anyo" data-type="number" />
+                     <xsl:if test="@anyo &gt; '1850'">
+                      <tr>
+                          <td><xsl:value-of select="titulo" /></td>
+                          <td><xsl:value-of select="@anyo" /></td>
+                          <td><xsl:value-of select="autor" /></td>
+                          <td><xsl:value-of select="@pais" /></td>
+                          <td><xsl:value-of select="museo" /></td>
+                          <td><xsl:value-of select="museo/@visible" /></td>
+                      </tr>
+                     </xsl:if>
+                   </xsl:for-each>
+             </table>
+
+      </body>
+     </html>
+   </xsl:template>
+</xsl:stylesheet>
+
+3
+
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+   <xsl:template match="/">
+     <html>
+      <body> 
+          <h2>Obras</h2>
+             <table>
+                <tr>
+                   <th>Título</th>
+                   <th>Año</th>
+                   <th>Autor</th>
+                   <th>País</th>
+                   <th>Museo</th>
+                   <th>Visible</th>
+                </tr>
+                   <xsl:for-each select="pinacoteca/obra">
+                     <xsl:sort select="@anyo" data-type="number" />
+                     <xsl:if test="(@anyo &gt; '1800') and (@anyo &lt; '1901')">
+                      <tr>
+                          <td><xsl:value-of select="titulo" /></td>
+                          <td><xsl:value-of select="@anyo" /></td>
+                          <td><xsl:value-of select="autor" /></td>
+                          <td><xsl:value-of select="@pais" /></td>
+                          <td><xsl:value-of select="museo" /></td>
+                          <td><xsl:value-of select="museo/@visible" /></td>
+                      </tr>
+                     </xsl:if>
+                   </xsl:for-each>
+             </table>
+
+      </body>
+     </html>
+   </xsl:template>
+</xsl:stylesheet>
+
+
+4
+
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+   <xsl:template match="/">
+     <html>
+      <body> 
+          <h2>Obras</h2>
+             <table>
+                <tr>
+                   <th>Título</th>
+                   <th>Año</th>
+                   <th>Autor</th>
+                   <th>País</th>
+                   <th>Museo</th>
+                   <th>Visible</th>
+                </tr>
+                   <xsl:for-each select="pinacoteca/obra">
+                     <xsl:sort select="@anyo" data-type="number" />
+                     <xsl:if test="contains(autor, 'van Gogh')">
+                      <tr>
+                          <td><xsl:value-of select="titulo" /></td>
+                          <td><xsl:value-of select="@anyo" /></td>
+                          <td><xsl:value-of select="autor" /></td>
+                          <td><xsl:value-of select="@pais" /></td>
+                          <td><xsl:value-of select="museo" /></td>
+                          <td><xsl:value-of select="museo/@visible" /></td>
+                      </tr>
+                     </xsl:if>
+                   </xsl:for-each>
+             </table>
+
+      </body>
+     </html>
+   </xsl:template>
+</xsl:stylesheet>
+
+
+5
+
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+   <xsl:template match="/">
+     <html>
+      <body> 
+          <h2>Obras</h2>
+             <table>
+                <tr>
+                   <th>Título</th>
+                   <th>Año</th>
+                   <th>Autor</th>
+                   <th>País</th>
+                   <th>Museo</th>
+                   <th>Visible</th>
+                </tr>
+                   <xsl:for-each select="pinacoteca/obra">
+                     <xsl:sort select="@anyo" data-type="number" />
+                     <xsl:if test="(autor = 'Vincent Willen van Gogh')and(museo = 'Museo van Gogh')">
+                      <tr>
+                          <td><xsl:value-of select="titulo" /></td>
+                          <td><xsl:value-of select="@anyo" /></td>
+                          <td><xsl:value-of select="autor" /></td>
+                          <td><xsl:value-of select="@pais" /></td>
+                          <td><xsl:value-of select="museo" /></td>
+                          <td><xsl:value-of select="museo/@visible" /></td>
+                      </tr>
+                     </xsl:if>
+                   </xsl:for-each>
+             </table>
+
+      </body>
+     </html>
+   </xsl:template>
+</xsl:stylesheet>
+
+6
+
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+   <xsl:template match="/">
+     <html>
+      <body> 
+          <h2>Obras</h2>
+             <table>
+                <tr>
+                   <th>Título</th>
+                   <th>Año</th>
+                   <th>Autor</th>
+                   <th>País</th>
+                   <th>Museo</th>
+                   <th>Visible</th>
+                </tr>
+                   <xsl:for-each select="pinacoteca/obra">
+                     <xsl:sort select="museo" type="text"/>
+                     <xsl:if test="museo/@visible = 'true'">
+                      <tr>
+                          <td><xsl:value-of select="titulo" /></td>
+                          <td><xsl:value-of select="@anyo" /></td>
+                          <td><xsl:value-of select="autor" /></td>
+                          <td><xsl:value-of select="@pais" /></td>
+                          <td><xsl:value-of select="museo" /></td>
+                          <td><xsl:value-of select="museo/@visible" /></td>
+                      </tr>
+                     </xsl:if>
+                   </xsl:for-each>
+             </table>
+
+      </body>
+     </html>
+   </xsl:template>
+</xsl:stylesheet>
+
+7
+
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+   <xsl:template match="/">
+     <html>
+      <body> 
+          <h2>Obras</h2>
+             <table>
+                <tr>
+                   <th>Título</th>
+                   <th>Año</th>
+                   <th>Autor</th>
+                   <th>País</th>
+                   <th>Museo</th>
+                   <th>Visible</th>
+                </tr>
+                   <xsl:for-each select="pinacoteca/obra">
+                     <xsl:sort select="museo" type="text"/>
+                     <xsl:choose>
+                     <xsl:then test="museo/@visible = 'true'">
+                      <tr>
+                          <td bgcolor="yellow"><xsl:value-of select="titulo" /></td>
+                          <td><xsl:value-of select="@anyo" /></td>
+                          <td><xsl:value-of select="autor" /></td>
+                          <td><xsl:value-of select="@pais" /></td>
+                          <td><xsl:value-of select="museo" /></td>
+                          <td><xsl:value-of select="museo/@visible" /></td>
+                      </tr>
+                      
+                      
+                            <tr>
+                          <td><xsl:value-of select="titulo" /></td>
+                          <td><xsl:value-of select="@anyo" /></td>
+                          <td><xsl:value-of select="autor" /></td>
+                          <td><xsl:value-of select="@pais" /></td>
+                          <td><xsl:value-of select="museo" /></td>
+                          <td><xsl:value-of select="museo/@visible" /></td>
+                      </tr>
+                      
+                     </xsl:choose>
+                   </xsl:for-each>
+             </table>
+
+      </body>
+     </html>
+   </xsl:template>
+</xsl:stylesheet>

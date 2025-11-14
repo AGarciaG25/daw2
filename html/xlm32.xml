@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<software>
+<programa id="P0001">
+<nombre>Firefox <version>6</version></nombre>
+<fecha_publicacion año="2011" mes="agosto" />
+<sistema_operativo>Windows</sistema_operativo>
+<sistema_operativo>GNU/Linux</sistema_operativo>
+<sistema_operativo>Mac</sistema_operativo>
+</programa>
+</software>
+<!DOCTYPE software [
+<!ELEMENT software (programa)+>
+<!ELEMENT programa (nombre,fecha_publicacion,(sistema_operativo)+)>
+<!ATTLIST programa id ID #REQUIRED>
+
+<!ELEMENT nombre (#PCDATA | version)*>
+<!ELEMENT version (#PCDATA)>
+
+<!ELEMENT fecha_publicacion EMPTY>
+<!ATTLIST fecha_publicacion anno NMTOKEN #REQUIRED  mes NMTOKEN #REQUIRED>
+<!ELEMENT sistema_operativo (#PCDATA)>
+]>

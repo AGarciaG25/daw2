@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet type="text/xsl" href="plantillas.xsl"?>
+<libreria>
+	<libro>
+		<titulo>Java se 6</titulo>
+		<autor>F. Javier Moldes</autor>
+		<editor>Anaya Multimedia</editor>
+		<isbn>978-84-415-2288-6</isbn>
+		<precio>10.25</precio>
+		<numPaginas>150</numPaginas>
+	</libro>
+	<libro>
+		<titulo>Physics-based animation</titulo>
+		<autor>Kenny Erleben</autor>
+		<editor>Charles River Media</editor>
+		<isbn>978-1584503804</isbn>
+		<precio>50</precio>
+		<numPaginas>520</numPaginas>
+	</libro>
+	<libro>
+		<titulo>HTML 5</titulo>
+		<autor>Alonso Álvarez García</autor>
+		<editor>Anaya Multimedia</editor>
+		<isbn>978-84-415-2222-2</isbn>
+		<precio>7.25</precio>
+		<numPaginas>185</numPaginas>
+	</libro>
+	<libro>
+		<titulo>Principios de seguridad informática para usuarios</titulo>
+		<autor>Carlos Garre</autor>
+		<editor>Dykinson</editor>
+		<isbn>978-84-9849-998-8</isbn>
+		<precio>13</precio>
+		<numPaginas>120</numPaginas>
+	</libro>
+	<libro>
+		<titulo>Ejercicios complementarios de lógica digital</titulo>
+		<autor>Alberto Sánchez</autor>
+		<editor>Dykinson</editor>
+		<isbn>978-84-9849-703-8</isbn>
+		<precio>12</precio>
+		<numPaginas>202</numPaginas>
+	</libro>
+	<libro>
+		<titulo>Ejercicios complementarios de lógica digital</titulo>
+		<autor>Alberto Sánchez</autor>
+		<editor>Dykinson Bolsillo</editor>
+		<isbn>978-84-9849-703-8</isbn>
+		<precio>8.50</precio>
+		<numPaginas>210</numPaginas>
+	</libro>
+	<libro>
+		<titulo>Desarrollo Web con PHP 6 y MySQL 5.1</titulo>
+		<autor>Juan Diego Gutiérrez Gallardo</autor>
+		<editor>Anaya Multimedia</editor>
+		<isbn>978-84-415-2616-7</isbn>
+		<precio>9.75</precio>
+		<numPaginas>132</numPaginas>
+	</libro>
+	<libro>
+		<titulo>Java para Desarrolladores</titulo>
+		<autor>F. Javier Moldes</autor>
+		<editor>Anaya Multimedia</editor>
+		<isbn>978-84-415-2288-8</isbn>
+		<precio>32.25</precio>
+		<numPaginas>450</numPaginas>
+	</libro>
+</libreria>

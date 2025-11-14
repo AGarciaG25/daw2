@@ -1,0 +1,70 @@
+/*Propiedades heredables
+    Propiedades de fuentes y texto:color, font-size, fonr-weight, font-family etc
+    text-shadow
+    */
+    
+
+
+/*Propiedades no heredables
+    bordes: border, border-color, border-style...
+    anchos y altos: with y heigt
+    margin y padding
+    display y los posicionamientos
+    background y derivados*/    
+
+
+    /*Los enlaces se comportan distinto porque tienen propiedades distintas
+    color no lo acepta*/
+
+    /*initial: poner los estilos a su valor original
+    inherit: fuerza la herencia
+    unset: si un elemento puede heredar, lo deja que herede y si no resetea a su valor original*/
+    .padre{
+        color: red;
+        /*propiedades de la fuente*/
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        text-shadow: 2px 2px black;
+        /*bordes*/
+        border-color: blue;
+        border-style: solid;
+        border-width: 2px;
+        background-color: aqua;
+    }
+    body{
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+    
+    .padre > p{
+        color: inherit;
+        text-shadow: initial;
+    }
+
+    .padre a{
+        color: inherit;
+    }
+
+    .hijo p{
+        border: 2px solid red;
+        
+    }
+    .parrafo2{
+        font-size: 5vw;
+    }
+
+    /*Propiedades de la fuente
+    fonr-family
+    font-weight
+    font-variant
+    font-size
+          medidas absolutas: fija no varian entre pantallas
+          px (media screen), cm, mm, pt, in (media print)
+          
+          medidas relativas
+          rem "root em": depende del elemento raiz root (html)
+          por defecto html son 16px
+          em: depende del elemento padre
+          vw viewport width 1% del ancho del dispositivo
+          vh viewport heigth
+          % depende del elemento padre
+          */
+          

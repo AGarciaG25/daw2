@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE persona SYSTEM "persona.dtd">
+<persona dni="12345678-L" estadoCivil="Casado">
+<nombre> María Pilar </nombre>
+<apellido1>Sánchez </apellido1>
+<apellido2> López </apellido2>
+<edad>60</edad>
+<enActivo/>
+</persona>
+
+<!ELEMENT persona (nombre,apellido1,apellido2,edad,en activo?)>
+<!ATTLIST presona dni MMTOKEN #REQUIEED>
+<!ATTLIST persona estadoCivil
+(soltero|casado|divorciado|viudo)"soltero">
+<!ELEMENT nombre (#PCDATA)>
+<!ELEMENT apellido1 (#PCDATA)>
+<!ELEMENT apellido2 (#PCDATA)>
+<!ELEMENT edad (#PCDATA)>
+<!ELEMENT enActivo (#PCDATA)>

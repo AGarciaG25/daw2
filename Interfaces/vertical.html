@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vertex Sidebar</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+  }
+
+  .menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #7B7B7B;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    list-style: none;
+    gap: 30px;
+    box-shadow: 2px 0 5px #00000033;
+  }
+
+  .logo img {
+    height: 80px;
+  }
+
+  .logo img:hover {
+    transform: scale(1.1);
+  }
+
+  .botones {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    list-style: none;
+    align-items: center;
+    width: 100%;
+  }
+
+  .botones li a {
+    text-decoration: none;
+    color: #092928;
+    font-size: 25px;
+    font-weight: 500;
+    width: 100%;
+    text-align: center;
+  }
+
+  .botones li a:hover {
+    color: #F77F2E;
+    text-shadow: 2px 2px #9b501d;
+  }
+
+  .busqueda {
+    display: flex;
+    align-items: center;
+    background-color: #D9D9D9;
+    border-radius: 30px;
+    padding: 10px 20px;
+    width: 80%;
+    height: 50px;
+  }
+
+  .busqueda input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 18px;
+    color: #555;
+    margin-left: 10px;
+    width: 100%;
+  }
+
+  .busqueda i {
+    font-size: 25px;
+    color: #555;
+  }
+
+  .busqueda:hover {
+    border: 1px solid #092928;
+  }
+
+</style>
+</head>
+<body>
+
+<ul class="menu">
+  <li class="logo">
+    <a href="#"><img src="vertex1.png" alt="Logo Vertex"></a>
+  </li>
+
+  <li>
+    <ul class="botones">
+      <li><a href="#">Productos</a></li>
+      <li><a href="#">Noticias</a></li>
+      <li><a href="#">Actividades</a></li>
+    </ul>
+  </li>
+
+  <li class="busqueda">
+    <i class="fa fa-search"></i>
+    <input type="text" placeholder="Investigar">
+  </li>
+</ul>
+</body>
+</html>

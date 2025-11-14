@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ejemplo 22</title>
+		<style type="text/css">
+			P{
+				font-size:12pt;
+				font-family:;
+			}
+  
+
+
+	</head>
+	<body>
+		<h1>Página que lee estilos</h1>
+		Esta página tiene en la cabecera la etiqueta necesaria para aplicar la hoja de estilos. Es muy fácil.
+		<table>
+			<th>
+				<td>Esto está dentro de un TD, luego tiene estilo propio, declarado en el fichero</td>
+			</th>
+			<th>
+				<td>la segunda fila de la tabla</td>
+			</th>
+			</table>
+	</body>
+</html>	

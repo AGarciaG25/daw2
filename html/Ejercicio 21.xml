@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ejemplo 121</title>
+		
+	</head>
+	<body>
+		<form action="agacriag24@fpcoruna.afundacion.org" method="post" enctype="text/plain"></form>
+		<h3>Intoduzca sus datos:</h3>
+		<pre>
+		<p>Nombre:   <input type="text" name="Nombre" maxlength="30" size="15"></p>
+		<p>Apellidos:<input type="text" name="apellido 1" maxlength="30" size="15"></p>
+		<p>          <input type="text" name="apellido 2" maxlength="30" size="15"></p>
+		<p>Dirección:<input type="text" maxlength="30" size="15"></p>
+		<p>Localidad:<input type="text" maxlength="30" size="15"></p>
+		<p>Provincia <input type="text" maxlength="30" size="15"></p>
+		<p>CP        <input type="text" maxlength="30" size="15" pattern="[0-9]{5}"></p>
+		<p>Teléfono: <input type="text" maxlength="30" size="15" pattern="[0-9]{9}"></p>
+		<p>Sexo:     <input type="radio" name="sexo">hombre<input type="radio" name="sexo">mujer
+		</pre>
+    </body>
+<html>   

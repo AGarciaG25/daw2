@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Definir el esquema para el elemento 'sudokus' -->
+  <xs:element name="sudokus">
+    <xs:complexType>
+      <xs:sequence>
+        <!-- Define los elementos 'sudoku' dentro de 'sudokus' -->
+        <xs:element name="sudoku" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <!-- Define los elementos 'dato' dentro de cada 'sudoku' -->
+              <xs:element name="dato" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="celda" type="xs:string" >
+                      <xs:simpleType>
+                          <xs:restriction>
+                               <xs:pattern value="[A-I]-[1-9]"></xs:pattern>
+                          </xs:restriction>
+                      </xs:simpleType>
+                       
+                  </xs:attribute>
+                  <xs:attribute name="valor" type="xs:int" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <!-- Atributos del elemento 'sudoku' -->
+            <xs:attribute name="tamaño" type="xs:string" />
+            <xs:attribute name="solucion" type="xs:string" minOccurs="0" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

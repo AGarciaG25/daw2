@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galería de productos</title>
+  <script src="https://kit.fontawesome.com/69898e44be.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="galeriaflex.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    } 
+    body{
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      max-width: 1200px;
+      margin: 20px auto 0px;
+      gap: 20px;
+    }
+    .card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5%;
+      width: 260px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 275px;
+    }
+    .card:hover{
+        box-shadow: 0 4px 16px  #ccc;
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 5%;
+    }
+    .title {
+      font-size: 18px;
+      margin: 10px 0 5px;
+    font-weight: bold;
+    }
+    .price {
+      color: #27934e;
+      font-size: 16px;
+      font-weight: bold;
+
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+    }
+
+    .pagination a {
+      color: #333;
+      padding: 10px 15px;
+      text-decoration: none;
+      border: 1px solid #ddd;
+      margin: 0 5px;
+      border-radius: 5px;
+    }
+
+    .pagination a:hover {
+      background-color: #626262;
+      color: #fff;
+    }
+
+    .pagination a.active {
+      background-color: #333;
+      color: #fff;
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>GALERÍA DE PRODUCTOS</h1>
+  <div class="gallery">
+    <div class="card">
+      <img src="https://picsum.photos/id/48/260/200" alt="producto" />
+      <div>
+        <p class="title">Portátil Gris</p>
+        <p class="price">1200.99€</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/id/63/260/200" alt="producto" />
+      <div>
+        <p class="title">Taza de café</p>
+        <p class="price">1.80€</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/id/85/260/200" alt="producto" />
+      <div>
+        <p class="title">Tractor</p>
+        <p class="price">15000.50€</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/id/76/260/200" alt="producto" />
+      <div>
+        <p class="title">Bicicleta Verde</p>
+        <p class="price">310.00€</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/id/48/260/200" alt="producto" />
+      <div>
+        <p class="title">Portátil Gris</p>
+        <p class="price">1200.99€</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/id/63/260/200" alt="producto" />
+      <div>
+        <p class="title">Taza de café</p>
+        <p class="price">1.80€</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/id/85/260/200" alt="producto" />
+      <div>
+        <p class="title">Tractor</p>
+        <p class="price">15000.50€</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/id/76/260/200" alt="producto" />
+      <div>
+        <p class="title">Bicicleta Verde</p>
+        <p class="price">310.00€</p>
+      </div>
+    </div>
+  </div>
+  <div class="pagination">
+        <a href="#prev"><i class="fa-solid fa-arrow-left"></i></a>
+        <a href="#1" class="active">1</a>
+        <a href="#2">2</a>
+        <a href="#3">3</a>
+        <a href="#next"><i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</body>
+</html>

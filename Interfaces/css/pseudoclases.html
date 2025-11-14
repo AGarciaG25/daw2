@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        a:link{
+            color: black;
+            font-size: 30px;
+            font-weight: 700;
+        }
+        a:hover{
+            color: gold;
+            text-decoration: 3px dotted gold;
+            font-size: 25px;
+        }
+        a:visited{
+            font-style: italic;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            letter-spacing: 10px;
+        }
+        a:active{
+            font-weight: bold;
+            color: darkorchid;
+        }
+        h1:hover{
+            text-decoration: underline dashed pink;
+
+        }
+        l1:first-child{
+            color: aqua;
+        }
+        l1:first-of-type{
+            color: aqua;
+        }
+        li:nth-child(2){
+            color: bisque;
+        }
+        input#fnombre:focus{
+            outline: none;
+            background-color: pink;
+            border: 2px solid red;
+        }
+        input#fnombre + input:checked{
+            accent-color: red; /*Cambia el color de fondo del radio*/
+        }
+    </style>
+</head>
+<body>
+    <!--Pseudoclases: para dar estilos a los distintos estadosde un elemento html
+    sintaxis:
+        elemento:nombrepseudoclase{
+           estilos css}
+           
+           los enlaces: estado normal (link), estado visible (sisited)
+           estado activo (active), pasar el raton (hover)
+           
+           a:link{
+           }
+           a:hover{
+           }
+           a:visited{
+           }
+           a:active{
+           }
+
+           pseudocales con lsitas
+               first-child
+               first-of-type
+               last-child
+               last-of-type
+               only-child
+               nth-child()
+           -->
+           <a href="https://www.google.com">Ir a google</a>
+           <h1>Encabezado</h1>
+           <ul>
+            <li>item 1</li>
+           <li>item2</li>
+           <li>item3</li>
+        </ul>
+        <form action="pagina.php" method="get">
+            <label for="fnombre">Tu nombre</label>
+            <input type="text" size="30" id="fnombre" name="fnombre" maxlength="20"
+            placeholder="Tu nombre">
+            <input type="radio" name="fradio" value="valor1">
+            <input type="radio" name="fradio" value="valor2">
+
+        </form>
+</body>
+</html>

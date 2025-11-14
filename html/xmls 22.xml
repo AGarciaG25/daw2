@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Definir el esquema para el elemento 'arbol' -->
+  <xs:element name="arbol">
+    <xs:complexType>
+      <xs:sequence>
+        <!-- Elemento 'lugares' que contiene múltiples 'lugar' -->
+        <xs:element name="lugares">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="lugar" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="nombre" type="xs:string" />
+                  <xs:attribute name="pais" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <!-- Elemento 'personas' que contiene múltiples 'persona' -->
+        <xs:element name="personas">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="persona" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <!-- Elemento 'nombre' obligatorio -->
+                    <xs:element name="nombre" type="xs:string" />
+                    <!-- Elemento 'padre' opcional -->
+                    <xs:element name="padre" type="xs:string" minOccurs="0" />
+                    <!-- Elemento 'madre' opcional -->
+                    <xs:element name="madre" type="xs:string" minOccurs="0" />
+                    <!-- Elemento 'nacimiento' opcional -->
+                    <xs:element name="nacimiento" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="lugar" type="xs:string" />
+                          <xs:element name="fecha" type="xs:date" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

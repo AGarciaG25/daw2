@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="arbol">
+       <xs:complexType>
+           <xs:all>
+               <xs:element name="lugares">
+                   <xs:complexType>
+                       <xs:sequence>
+                            <xs:element name="lugar" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:attribute name="nombre" type="xs:ID" use="required"/>
+                                    <xs:attribute name="pais" type="xs:string"/>
+                                </xs:complexType>
+                            </xs:element>
+                       </xs:sequence>
+                   </xs:complexType>
+               </xs:element>
+               <xs:element name="personas">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element  name="persona">
+                               <xs:complexType>
+                                   <xs:sequence>
+                                       <xs:element name="nombre" type="xs:string" ></xs:element>
+                                       <xs:element name="padre" type="xs:string" minOccurs="0"></xs:element>
+                                       <xs:element name="madre" type="xs:string" minOccurs="0"></xs:element>
+                                       <xs:element name="nacimiento">
+                                             <xs:complexType>
+                                                 <xs:attribute name="lugar" type="xs:IDREF" use="required"></xs:attribute>
+                                                 <xs:attribute name="fecha" use="optional">
+                                                     <xs:simpleType>
+                                                         <xs:restriction base="xs:string" >
+                                                             <xs:pattern value="[0-3]{1}[0-9]{1}-[0-1]{1}[0-2]"></xs:pattern>
+                                                         </xs:restriction>
+                                                     </xs:simpleType>
+                                                 </xs:attribute>
+                                             </xs:complexType>
+                                       </xs:element>
+                                   </xs:sequence>
+                               </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+               </xs:element>
+           </xs:all>
+       </xs:complexType>       
+   </xs:element>   
+</xs:schema>

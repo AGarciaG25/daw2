@@ -1,0 +1,7 @@
+<!ELEMENT XXX (AAA+, BBB+)>
+<!ELEMENT AAA (#PCDATA)>
+<!ELEMENT BBB (#PCDATA)>
+<!ATTLIST AAA
+true ( yes | no ) "yes">
+<!ATTLIST BBB
+month NMTOKEN "1">

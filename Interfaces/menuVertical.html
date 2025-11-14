@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Vertical</title>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        ul{
+            list-style-type: none;
+            width: 200px;
+            padding: 0%;
+            margin: 0%;
+            background-color:aliceblue;
+            text-align: center;
+            border: 1px solid black;
+            box-shadow: 5px 5px 6px -2px #888888;
+        }
+        li{
+            border-bottom: 1px solid grey;
+        }
+        li:last-child{
+            border-bottom: none;
+        }
+        a{
+            text-decoration: none;
+            color: initial;
+            display: block;
+            padding: 20px 26px;
+        }
+        li > a:hover:not(.activo){
+            color: white;
+            background-color: dimgrey;
+        }
+        li > a.activo{
+            background-color: green;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li><a href="#" class="activo">Inicio</a></li>
+        <li><a href="#">Noticias</a></li>
+        <li><a href="#">Productos</a></li>
+        <li><a href="#">Contacta</a></li>
+        <li><a href="#">Nosotros</a></li>
+    </ul>
+</body>
+</html>

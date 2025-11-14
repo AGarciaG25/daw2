@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="estilos.css">
+    <script src="https://kit.fontawesome.com/69898e44be.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+   <style>
+    *{
+        padding: 0px;
+        margin: 0px;
+        box-sizing: border-box;
+    }
+    body{
+        font-family: "Barlow",sans-serif;
+    }
+    /*rem: medida relativa que hace referencia al elemento raiz html. 16px*/
+
+    header{
+        display: flex;
+        background-color: black;
+        padding: 1.25rem;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        position: sticky;
+    }
+    
+    .header_logo .logo_link{
+        display: flex;
+        text-decoration: none;
+        color: white;
+        align-items: center;
+        top:0;
+        z-index: 100;
+    }
+
+    .header_logo .logo_link i{
+        font-size: 2rem;
+        margin-right: 0.5rem;
+        color: orange;
+        text-shadow: 2px 2px 2px gray;
+    }
+    .header_logo .logo_link .logo_title {
+        font-size: 2rem;
+        font-weight: 400;
+    }
+    .header_logo .logo_link .logo_title span{
+        display: block;
+    }
+
+    .header_nav{
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        overflow: hidden;
+    }
+    .header_nav > a{
+        text-decoration: none;
+        color: white;
+        padding: 1.15rem 1.5rem;
+        border-radius: 1.25rem;
+    }
+
+    .header_nav > a:hover{
+        background-color: rgb(59, 56, 56);
+    }
+
+    .header_nav .search{
+        position:relative;
+        background-color: orange;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 100%;
+    }
+
+    .header_nav .search .glass{
+      position:absolute;
+      top:50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+    }
+
+    .header_nav .search:hover i{
+        transform: scale(1.2);
+    }
+
+    .header_icons i{
+        color: white;
+        font-size: 1.5rem;
+    }
+    .header_icons i:hover{
+        color: orange;
+    }
+   </style>
+</head>
+<body>
+    <!--Cabecera-->
+    <header class="header">
+        <!--Logo-->
+        <div class="header_logo">
+            <a href="index.html" class="logo_link">
+                <i class="fas fa-gamepad"></i>
+                <h1 class="logo_title">CORUÑA<span>GAMING</span></h1>
+            </a>
+        </div>
+
+        <!--Menú de navegación-->
+        <nav class="header_nav">
+            <a href="#"><i class="fas fa-desktop"></i>PC</a>
+            <a href="#"><i class="fa-brands fa-playstation"></i> PlayStation</a>
+            <a href="#"><i class="fa-brands fa-xbox"></i> Xbox</a>
+            <a href="#"><i class="fa-brands fa-microsoft"></i>Nintendo</a>
+            <div class="search">
+                <a href="#" class="glass"><i class="fas fa-magnifying-glass"></i></a>
+            </div>
+        </nav>
+
+        <!--Iconos de la Cabecera-->
+        <div class="header_icons">
+            <a href="#"><i class="fas fa-cart-shopping"></i></a>
+            <a href="#"><i class="fa-solid fa-user"></i></a>
+        </div>
+    </header>
+    <div class="main">
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus dolorem sed, esse deserunt minima numquam atque nostrum qui quasi dolor aperiam quos possimus reiciendis repudiandae reprehenderit temporibus repellat unde cum?
+        Quasi, voluptatibus excepturi pariatur vel ad est tempora quisquam, a id magni, dicta quam ratione repudiandae enim doloremque perspiciatis mollitia. Repellendus consectetur totam consequuntur magni maxime eligendi repellat iusto molestiae.
+        Iure facilis error ducimus qui et iusto amet, ipsam soluta optio tempora nisi nesciunt ratione exercitationem molestiae. Asperiores, magnam. A cupiditate iste reprehenderit! Officia eaque aliquid eius quae omnis expedita.
+        Sapiente quis voluptate consectetur debitis laboriosam veniam placeat quidem consequuntur enim fuga dolorum ad officiis, explicabo accusamus praesentium suscipit temporibus commodi. Iste eveniet et beatae dolorem reprehenderit ea, tempora officiis!
+        Tenetur accusamus aliquid asperiores consectetur, recusandae quas. Veniam saepe itaque sit. Nam provident officiis expedita tempore sint dicta amet dolor, suscipit assumenda, incidunt, tempora voluptatibus animi neque et sit facere!
+        Praesentium voluptas, aliquam dignissimos labore at perferendis minus animi eum cupiditate assumenda magnam facilis molestias mollitia eaque non illo amet natus alias voluptate quaerat beatae odio rerum? Accusantium, consectetur dolores!
+        Nisi dolorem, labore fugiat consequuntur quas doloribus veritatis suscipit earum molestias ipsum animi qui, magnam eaque. Repudiandae delectus rem quidem, neque nostrum nulla fuga illo similique placeat, animi itaque magnam!
+        Quaerat, quae accusamus dolores eos asperiores adipisci animi libero, molestias expedita assumenda quasi exercitationem nisi cupiditate, error nobis. Ipsa odio cumque, blanditiis quos aliquid maxime quae dicta aspernatur corrupti magni.
+        Dolorum cumque doloremque id. Non eos fugiat, tempore excepturi quo, perferendis aliquam, nihil ratione placeat suscipit sunt omnis esse dolores adipisci harum vero ullam atque? Quas aperiam veniam impedit? Et.
+        Ex, a ab. Iste, dolorum tempora laudantium velit molestiae sit atque at sapiente, dicta error, culpa commodi amet. Tenetur nisi voluptatibus quam ullam magnam aspernatur, at dolore pariatur esse eaque?
+        Saepe error odit ut officiis corrupti amet eaque impedit eum fuga at reiciendis porro, iste consequatur nemo, perspiciatis quas consectetur non illum, et quibusdam! Mollitia pariatur ipsam a placeat quidem.
+        Necessitatibus neque eos ut quam veniam voluptatum fuga doloremque pariatur laboriosam eum? Rerum neque voluptatum vitae fugiat molestiae molestias eveniet quasi pariatur illum enim error, maiores beatae dolorum atque illo.
+        Aperiam ea iusto libero velit eveniet incidunt dolore ipsam asperiores pariatur aliquid dicta fugiat quis dignissimos, illum dolor eius qui mollitia sit molestias voluptas exercitationem. Corporis quibusdam earum maxime eos.
+        Accusantium esse architecto aspernatur nisi sint? Minima ipsam sint deserunt dolor vero blanditiis distinctio sequi deleniti repellendus laborum accusamus culpa at ipsum aut nisi molestiae beatae tempore, tenetur eaque possimus.
+        Sapienre! Esse itaque deserunt possimus blanditiis earum illum libero adipisci placeat expedita reiciendis doloremque ex eum distinctio ea, facere ut vel ratione accusantium nam dolore commodi explicabo.</p>
+    </div>
+</body>
+</html>

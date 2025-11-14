@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container1{
+            background-color: aqua;
+            display:flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+            flex-wrap: wrap;
+            align-content: space-between;
+        }
+        .container2{
+            background-color: burlywood;
+            flex-direction: column;
+            display: flex;
+            justify-content: space-between;
+            height: 500px;
+            align-items: center;
+            
+        }
+        .flex_item{
+            background-color: yellowgreen;
+            width: 400px;
+            border: 1px solid black;
+        }
+        .nav{
+            display: flex;
+            flex-direction: row;
+            background-color: black;
+            color: white;
+            flex-wrap: wrap;
+            /*flex-flow: row wrap*/
+
+        }
+        .nav a{
+            text-decoration: none;
+            color: inherit;
+            padding: 20px;
+        }
+        .nav a:hover{
+            background-color: gray;
+            color: black;
+        }
+        .centrado{
+            display: flex;
+            width: 200px;
+            height: 200px;
+            background-color:chartreuse;
+            justify-content: center ;
+            align-items: center;
+            margin: auto;
+            
+
+        }
+
+        /*flex-direction: direccion de la linea flexible:row(defecto), column, row-reverse, column-reverse
+        justify-content: alinea la linea flexible en horizontal o en vertical dependiendo de flex-direction
+        flex-start, flex-end, center, space-between, space-evenly, space-around
+        align-items:alinea la linea flecible en horizontal o en vertical dependiendo de flex-direction
+        flex-start, flex-end, center, stretch
+        flex-wrap: permite que los hijos directos de un contenedor flcexible bajen de linea. por defecto su valor es nowrap
+        valores: wrap, nowrap, wrap-reverse
+        flex-flow: flex-direction y flrex wrap
+        align-content: alinea las lineas flexibles si las hay
+        flex-start, flex-end, center, space-between, space-evenly, space-around*/
+        
+    </style>
+</head>
+<body>
+    <div class="container1">
+        <div class="flex_iten">1</div>
+        <div class="flex_iten">2</div>
+        <div class="flex_iten">3</div>
+        <div class="flex_iten">4</div>
+        <div class="flex_iten">5</div>
+    </div>
+    <div class="container2">
+        <div class="flex_iten">1</div>
+        <div class="flex_iten">2</div>
+        <div class="flex_iten">3</div>
+        <div class="flex_iten">4</div>
+        <div class="flex_iten">5</div>
+    </div>
+  
+    <div class="nav">
+        <a href="#">Enlace1</a>
+        <a href="#">Enlace1</a>
+        <a href="#">Enlace1</a>
+        <a href="#">Enlace1</a>
+        <a href="#">Enlace1</a>
+    </div>
+    <div class="centrado">hola</div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Definir el esquema para el elemento 'pedido' -->
+  <xs:element name="pedido">
+    <xs:complexType>
+      <xs:sequence>
+        <!-- Elemento 'codigo' obligatorio -->
+        <xs:element name="codigo" type="xs:string" />
+        <!-- Elemento 'productos' que contiene múltiples 'producto' -->
+        <xs:element name="productos">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="producto" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <!-- Elemento 'identificador' obligatorio -->
+                    <xs:element name="identificador" type="xs:int" />
+                    <!-- Elemento 'nombre' obligatorio -->
+                    <xs:element name="nombre" type="xs:string" />
+                    <!-- Elemento 'precio' con atributo 'moneda' obligatorio -->
+                    <xs:element name="precio">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="valor" type="xs:decimal" />
+                        </xs:sequence>
+                        <xs:attribute name="moneda" type="xs:string" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <!-- Elemento 'lineas' que contiene múltiples 'linea' -->
+        <xs:element name="lineas">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="linea" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <!-- Elemento 'cantidad' obligatorio -->
+                    <xs:element name="cantidad" type="xs:int" />
+                    <!-- Elemento 'color' opcional -->
+                    <xs:element name="color" type="xs:string" minOccurs="0" />
+                  </xs:sequence>
+                  <!-- Atributo 'identificador' obligatorio -->
+                  <xs:attribute name="identificador" type="xs:int" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

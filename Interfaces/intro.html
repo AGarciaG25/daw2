@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="intro.css" type="text/css" media="screen">
+    <!--Podemos asociar tantos css conqueramos-->
+    <link rel="stylesheet" href="intro2.css" media="screen">
+    <style>
+        /*Estiloscss de forma interna*/
+        h1{
+            color: brown;
+        }
+    </style>
+</head>
+<body>
+    <!--Comó se incluye
+    1. Css documento externo .css se asocia con link colocado en el head
+    2. Css interna en el html. en el head etiqueta style
+    3. Css inline. dentro de la etiqueta de apertura de un elemento html-->
+    <h1 style="color: green;">Introducción a css</h1>
+    <h2>como agregarlo y selectores basicos</h2>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam quasi, itaque debitis dolore velit pariatur eaque ipsa magnam commodi saepe voluptate earum aut. Dignissimos nobis aspernatur dolores assumenda totam?</p>
+    <div class="contenedor1">Soy el contenedor 1</div>
+    <div class="contenedor2">Soy el contenedor 2</div>
+    <div id="nav">Soy el menu</div>
+    <div class="padre">
+        <p class="parrafo1">parrafo1</p>
+        <div class="hijo">
+            <p class="parrafo2">parrafo2</p>
+        </div>
+    </div>
+    
+</body>
+</html>

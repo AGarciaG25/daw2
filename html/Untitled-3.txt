@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<title>ejemplo 121</title>
+		
+	</head>
+	<body>
+		<form action= "mailto:direccion@correo.com" method="post" enctype="text/plain">
+			<h3>Nuevos tipos de entrada de datos en HTML 5</h3>
+			<pre>
+			<p>Nombre:   <input name="nombre" maxlength="30" size="15"> <!--Si no pongo el atributo type asume que es texto-->
+			<p>Password: <input name="nombre" type="password" maxlength="10" size="8">
+			<!--Nuevos de HTML 5-->
+			<p>Número:   <input name="valor" type="number" step="7">
+			<p>Rango:    <input name="kms" type="range" min="1" max="10">
+			<p>Color:    <input name="color" type="color">
+			<p>Día:      <input name="dia" type="date">
+			<p>Mes:      <input name="mes" type="month">
+			<p>Semana:   <input name="semana" type="week">
+			<p>Local:    <input name="h" type="datetime-local">
+			</pre>
+		</form>
+	</body>
+</html>

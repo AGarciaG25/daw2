@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="pinacoteca7.xsl"?>
+<pinacoteca>
+	<obra pais="Francia" anyo="1876">
+		<titulo>Bal au moulin de la Galette</titulo>
+		<autor>Pierre-Aguste Renoir</autor>
+		<museo visible="true">Museo de Orsay</museo>
+	</obra>
+	<obra pais="Francia" anyo="1879">
+		<titulo>Pont de Maincy</titulo>
+		<autor>Paul Cézanne</autor>
+		<museo visible="true">Museo de Orsay</museo>
+	</obra>
+	<obra pais="España" anyo="1822">
+		<titulo>Amalia de Llano y Dotres, condesa de Vilches</titulo>
+		<autor>Federico de Madrazo y Kuntz</autor>
+		<museo visible="true">Museo del Prado</museo>
+	</obra>
+	<obra pais="España" anyo="1823">
+		<titulo>Saturno devorando a su hijo</titulo>
+		<autor>Francisco José de Goya y Lucientes</autor>
+		<museo visible="true">Museo del Prado</museo>
+	</obra>
+	<obra pais="España" anyo="1635">
+		<titulo>El príncipe Baltasar Carlos a caballo</titulo>
+		<autor>Diego Rodríguez de Silva y Velázquez</autor>
+		<museo visible="false">Museo del Prado</museo>
+	</obra>
+	<obra pais="Países Bajos" anyo="1890">
+		<titulo>Trigal con cuervos</titulo>
+		<autor>Vincent Willen van Gogh</autor>
+		<museo visible="true">Museo van Gogh</museo>
+	</obra>
+	<obra pais="Reino Unido" anyo="1874">
+		<titulo>El palco</titulo>
+		<autor>Pierre-Aguste Renoir</autor>
+		<museo visible="true">Courtland Institute Gallery</museo>
+	</obra>
+	<obra pais="Países Bajos" anyo="1881">
+		<titulo>Joven cortando hierba con una hoz</titulo>
+		<autor>Vincent Willen van Gogh</autor>
+		<museo visible="true">Museo Kröller-Müller</museo>
+	</obra>
+	<obra pais="España" anyo="1937">
+		<titulo>Guernica</titulo>
+		<autor>Pablo Ruiz Picasso</autor>
+		<museo visible="true">Museo Nacional Centro de Arte Reina Sofía</museo>
+	</obra>
+	<obra pais="Francia" anyo="1890">
+		<titulo>Almendro en flor</titulo>
+		<autor>Vincent Willen van Gogh</autor>
+		<museo visible="true">Museo van Gogh</museo>
+	</obra>
+	<obra pais="España" anyo="1795">
+		<titulo>La duquesa de Alba</titulo>
+		<autor>Francisco José de Goya y Lucientes</autor>
+		<museo visible="true">Palacio de Lira</museo>
+	</obra>
+	<obra pais="España" anyo="1800">
+		<titulo>La familia de Carlos IV</titulo>
+		<autor>Francisco José de Goya y Lucientes</autor>
+		<museo visible="true">Museo del Prado</museo>
+	</obra>
+	<obra pais="España" anyo="1795">
+		<titulo>Retrato del duque de Alba</titulo>
+		<autor>Francisco José de Goya y Lucientes</autor>
+		<museo visible="true">Museo del Prado</museo>
+	</obra>
+</pinacoteca>

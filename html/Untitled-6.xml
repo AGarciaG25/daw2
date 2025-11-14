@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<supermercado>
+  <articulo codigo="1">
+    <nombre>merluza</nombre>
+    <seccion>pescadería</seccion>
+    <cantidad>5</cantidad>
+    <c_minima>2</c_minima>
+    <precio>5</precio>
+    <tipo_iva>21</tipo_iva>
+    <pvp>7.865</pvp>
+  </articulo>
+
+  <articulo codigo="2">
+    <nombre>rodaballo</nombre>
+    <seccion>pescadería</seccion>
+    <cantidad>3</cantidad>
+    <c_minima>3</c_minima>
+    <precio>15</precio>
+    <tipo_iva>21</tipo_iva>
+    <pvp>18.15</pvp>
+  </articulo>
+
+  <articulo codigo="3">
+    <nombre>colonia Heno de Pravia</nombre>
+    <seccion>perfumería</seccion>
+    <cantidad>8</cantidad>
+    <c_minima>4</c_minima>
+    <precio>10</precio>
+    <tipo_iva>21</tipo_iva>
+    <pvp>12.1</pvp>
+  </articulo>
+
+  <articulo codigo="4">
+    <nombre>repollo</nombre>
+    <seccion>verduras</seccion>
+    <cantidad>6</cantidad>
+    <c_minima>4</c_minima>
+    <precio>1</precio>
+    <tipo_iva>7</tipo_iva>
+    <pvp>1.07</pvp>
+  </articulo>
+
+  <articulo codigo="5">
+    <nombre>pimientos</nombre>
+    <seccion>verduras</seccion>
+    <cantidad>4</cantidad>
+    <c_minima>4</c_minima>
+    <precio>2</precio>
+    <tipo_iva>7</tipo_iva>
+    <pvp>2.14</pvp>
+  </articulo>
+</supermercado>
+
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+   <xsl:template match="/">
+    <html>
+      <body> 
+          <h2>articulo</h2>
+             <table border="1">
+                <tr>
+                   <th>codigo</th>
+                   <th>nombre</th>
+                   <th>seccion</th>
+                   <th>cantidad</th>
+                   <th>c_minima</th>
+                   <th>precio</th>
+                   <th>tipo_iva</th>
+                   <th>pvp</th>
+                </tr>
+                <xsl:for-each select="supermercado/articulo">
+                  
+
+                </xsl:for-each>

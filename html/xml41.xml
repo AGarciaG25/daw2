@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE alumnos [
+    <!ELEMENT alumnos (alumno+)>
+    <!ELEMENT alumno (dni, nombre, primer_apellido, segundo_apellido,ciclo, asignaturas, edad, direccion, telefonos*, e-mail?)>
+    <!ELEMENT dni (#PCDATA)>
+    <!ELEMENT nombre (#PCDATA)>
+    <!ELEMENT primer_apellido (#PCDATA)>
+    <!ELEMENT segundo_apellido (#PCDATA)>
+    <!ELEMENT ciclo (#PCDATA)>
+    <!ELEMENT asignaturas (asignatura+)>
+    <!ELEMENT asignatura (#PCDATA)>
+    <!ELEMENT edad (#PCDATA)>
+    <!ELEMENT direccion (#PCDATA)>
+    <!ELEMENT telefonos (telefono*)>
+    <!ELEMENT telefono (#PCDATA)>
+    <!ELEMENT e-mail (#PCDATA)>
+    <!ATTLIST alumno sexo (V|M) #REQUIRED>
+    <!ATTLIST asignatura curso CDATA #REQUIRED>
+]>
+<alumnos>
+   <alumno sexo="V">
+      <dni>38246187H</dni>
+      <nombre>pepe</nombre>
+      <primer_apellido>garcia</primer_apellido>
+      <segundo_apellido>lopez</segundo_apellido>
+      <ciclo>DAW</ciclo>
+      <asignaturas>
+         <asignatura curso="1º">entornos</asignatura>
+         <asignatura curso="1º">bases de datos</asignatura>
+      </asignaturas>
+      <edad>25</edad>
+      <direccion>Calle sol, 54</direccion>
+      <telefonos></telefonos>
+      <e-mail></e-mail>
+   </alumno>
+</alumnos>

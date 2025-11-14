@@ -1,0 +1,78 @@
+/*Estilos CSS del documento externo*/
+/*
+    selector{
+       propiedad:valor;
+       propiedad2: valor2;
+    }
+       
+    selector:
+          * universal: selecciona todo elemento del html
+          eliminar espacios que tienen por defecto los elementos html
+          padding, margin
+          
+        etiqueta: seleciona un elemento dhtml: p,h1,h2
+        de clases: se accede con .nombre
+        de identificadores se acceden con #nombreidentificador
+        encadenado:cuando varios elementos html tienen estilos iguales en lugar de duplicar estilos, los unimos
+        descendiente directo (hijo directo): se representa con el simbolo >, elemento > elemento
+        descendientes: selecciona todo los hijos nietos, bisnietos descendentes de un elemento. se representa con un espacio*/
+*{
+   padding: 0%;
+   margin: 0%;
+}
+h1{
+    color: rgb(0, 255, 255);
+    /*propiedad abreviada*/
+    /*text-decoration:underline double red 2px*/ 
+    /*especificafas*/
+    text-decoration-line:underline ;
+    text-decoration-color: red;  /*se puede omitir*/
+    text-decoration-thickness:2px ; /*se puede omitir*/
+    text-decoration-style:double; /*se puede omitir*/
+    text-shadow: 2px 2px 5px black, 2px 2px 5px red ;
+    text-transform: uppercase;
+}
+h2{
+    background-color: aqua;
+    text-decoration: line-through wavy red;
+    text-align: right;
+}
+.contenedor1{
+    background-color: chartreuse;
+}
+.contenedor2{
+    background-color: yellow;
+}
+#nav{
+    background-color: darkgoldenrod;
+}
+.padre > .parrafo1{
+    color: darkmagenta;
+}
+.parrafo1{
+    color: yellow;
+}
+.padre p{
+    color: deeppink;
+}
+.texto{
+    line-height: 50px;
+    word-spacing: 20px;
+    letter-spacing: 20px;
+}
+a{
+    text-decoration:none;
+}
+/*propiedades de texto
+
+color
+background-color
+text-align
+letter-spacing
+word-spading
+line-height
+text-shadow
+
+
+
+*/

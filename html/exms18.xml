@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <xs:element name="paises" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+       <xs:complexType>
+            <xs:sequence>
+                <xs:element name="pais" id="">
+                    <xs:complexType>
+                        <xs:sequence>
+                             <xs:element name="superficie" type="xs:string"></xs:element>
+                             <xs:element name="moneda" type="xs:string" maxOccurs="unbounded"></xs:element>
+                             <xs:element name="gobierno" type="xs:string" minOccurs="0"></xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+       </xs:complexType>
+   </xs:element>

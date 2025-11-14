@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .flex_container{
+        background-color: aqua;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        /*align-content: center;*/
+    }
+    .flex_item{
+        background-color: yellowgreen;
+        border: 1px solid black;
+        flex-basis: 100px;
+    }
+    .flex_container div:nth-child(1){
+        order:7;
+        align-self: flex-start;
+        flex-grow: 3;
+    }
+    .flex_container div:nth-child(3){
+        order: -1;
+        align-self: flex-end;
+        flex-grow: 1;
+    }
+    .flex_container div:nth-child(2){
+        align-self: stretch;
+        
+    }
+    
+    /*Propiedades hijos directos de un contenedor flexible
+    order: permite cambiar el orden de los hijos flexibles. El html no se ve afectado.
+    es un número entero y cuanto mayor sea el elemento estará colocado despues.
+    por defecto tiene el valor 0
+    util:cambiar el orden de los hijos en pantallas pequeñas
+    
+    
+    align-self: alinea el hijo flexible en el eje cruzado.(align-items)
+    valores: flex_start,  flex_end,  center , stretch, baseline
+    
+    flex_basis: tamaño inicial que tiienen los hijos flex antes de repartir 
+    el espacio sobrante(aumentar, disminuir) el padred. px %, auto, etc.
+    flex_grow:: indica como debe crecer un hijo flexible. Puede crecer o no y ocupar el espaciodisponible del padre.
+    valor por defecto 0 y es que no crece. Para que crezca se le da un valor y ese valor indica en que proporcion crece con 
+    respecto a sus hermanos
+    flew_shrink: indica como debe disminuir un hijo flexible. Puede crecer o no y ocupar el espaciodisponible del padre.
+    valor por defecto 0 y es que no disminuye. Para que disminuya se le da un valor y ese valor indica en que proporcion crece con 
+    respecto a sus hermanos
+    */
+</style>
+<body>
+    <div class="flex_container">
+        <div class="flex_item">1</div>
+        <div class="flex_item">2</div>
+        <div class="flex_item">3</div>
+        <div class="flex_item">4</div>
+        <div class="flex_item">5</div>
+        <div class="flex_item">6</div>
+    </div>
+    <div class="flex_container2">
+        <div class="flex_item">1</div>
+        <div class="flex_item">2</div>
+        <div class="flex_item">3</div>
+    </div>
+</body>
+</html>

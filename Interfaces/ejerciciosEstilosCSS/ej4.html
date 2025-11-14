@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table, tr, td{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        table{
+            width: 50%;
+        }
+        th{
+            height: 70px;
+            vertical-align: center;
+            color: cornsilk;
+            font-weight: bold;
+            background-color: sienna;
+        }
+        tr:nth-of-type(odd){
+            background-color: cornsilk;
+        }
+        tr:nth-of-type(even){
+            background-color: darksalmon;
+        }
+        tr:hover{
+            background-color: sienna;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>PSEUDOCLASES</h1>
+    <h2>Tabla</h2>
+    <table>
+        <tr>
+            <th>Artículo</th>
+            <th>Código</th>
+            <th>Precio</th>
+        </tr>
+        <tr>
+            <td>Lápiz</td>
+            <td>L-122</td>
+            <td>0.95€</td>
+        </tr>
+        <tr>
+            <td>Bolígrafo</td>
+            <td>B-343</td>
+            <td>1.95€</td>
+        </tr>
+        <tr>
+            <td>Goma</td>
+            <td>G-111</td>
+            <td>1.05€</td>
+        </tr>
+        <tr>
+            <td>Carpeta</td>
+            <td>C-555</td>
+            <td>3.955€</td>
+        </tr>
+    </table>
+</body>
+</html>

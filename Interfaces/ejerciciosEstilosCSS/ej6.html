@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /*grammar-error permite dar estilo a los errores gramaticales que se marquen
+        *No se hacer que funcione*/
+        p::grammar-error{
+            text-decoration: underline blue;
+            color: red;
+        }
+        /*permite dar estilos a los botones de type="file"*/
+        #boton::file-selector-button{
+             border: 5px solid blue;    
+             background-color: aqua;
+             size: 20px;
+        }
+        /*::highlight() es un pseudo-elemento dinámico que permite aplicar estilos 
+        a rangos de texto destacados con la API de CSS Custom Highlight*/
+        
+
+        /*Sirve para aplicar estilos especiales cuando el navegador hace autocompletar*/
+        input:autofill {
+             background-color: #e0ffe0; /* verde suave */
+             color: black;
+             border: 2px solid green;
+        }
+        /*permite establecer un estilo a los input que se mantengan entre los límites mánimos y máximos*/
+        #conteo:in-range{
+            background-color: green;
+        }
+        /*lo contrario a in-range*/
+        #conteo:out-of-range{
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <p>Lorem ipsum dolor, sit amet consectetur eror adipisicing elit. Vero, doloribus? Saepe facilis nostrum ex. Quo laborum quis eos, officia facilis voluptates! Labore molestiae veritatis quae, a sed quos neque illum!</p>
+    <form action="ej6.html">
+        <label for="boton">clicar botón:</label>
+        <input type="file" id="boton" name="boton">
+    </form>
+    <form>
+  <label>Nombre:</label>
+  <input type="text" name="nombre" autocomplete="name">
+
+  <label>Correo:</label>
+  <input type="email" name="email" autocomplete="email">
+  <label for="conteo">conteo:</label>
+  <input type="number" id="conteo" name="conteo" min="0" max="5">
+</form>
+</body>
+</html>

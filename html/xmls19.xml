@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+ <xs:element name="softwareLibre">
+     <xs:complexType>
+         <xs:sequence>
+              <xs:element name="licencias">
+                  <xs:complexType>
+                       <xs:sequence>
+                            <xs:element name="licencia" ></xs:element>
+                       </xs:sequence>
+                  </xs:complexType>
+              </xs:element>
+              <xs:element name="aplicaciones">
+                   <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="aplicacion">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="version" minOccurs="0" maxOccurs="unbounded"></xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                   </xs:complexType>
+              </xs:element>
+         </xs:sequence>
+     </xs:complexType>
+ </xs:element>
+</xs:schema>

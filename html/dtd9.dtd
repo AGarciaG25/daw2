@@ -1,0 +1,23 @@
+<?xml version=”1.0” encoding=”utf-8”?>
+<!doctype XXX [
+<!ELEMENT XXX (AAA+ , BBB+ , CCC+)>
+<!ELEMENT AAA (#PCDATA)>
+<!ELEMENT BBB (#PCDATA)>
+<!ELEMENT CCC (#PCDATA)>
+<!ATTLIST AAA
+id ID #REQUIRED>
+<!ATTLIST BBB
+code ID #IMPLIED
+list NMTOKEN #IMPLIED>
+<!ATTLIST CCC
+X ID #REQUIRED
+Y NMTOKEN #IMPLIED>
+]>
+<XXX>
+  <AAA id="a1">Texto de AAA 1</AAA>
+  <AAA id="a2">Texto de AAA 2</AAA>
+  <BBB code="b1" list="item1 item2">Texto de BBB 1</BBB>
+  <BBB code="b2" list="item3 item4">Texto de BBB 2</BBB>
+  <CCC X="c1" Y="y1">Texto de CCC 1</CCC>
+  <CCC X="c2">Texto de CCC 2</CCC>
+</XXX>
