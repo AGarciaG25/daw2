@@ -1,0 +1,235 @@
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .barra_superior {
+      width: 100%;
+      height: 30px;
+      background-color: #F77F2E;
+      display: grid;
+      grid-template-columns: 92% 8%; 
+      align-items: center;             
+      position: relative;               
+    }
+  
+    .rotador {
+      display: grid;
+      place-items: center; 
+      width: 80%;
+      height: 30px;
+      overflow: hidden;
+      font-size: 20px;
+      font-weight: 600;
+      text-align: center;
+      position: relative; 
+      margin-left: 150px;   
+    }
+
+    .rotador div {
+      position: absolute;
+      width: 100%;
+      opacity: 0;
+      animation: rotar 12s infinite;
+    }
+    .iconos {
+      display: grid;
+      grid-auto-flow: column;
+      gap: 15px;
+      font-size: 1.2em;
+      justify-content: center;
+    }
+    .iconos a {
+      color: #000000;
+    }
+  
+    .iconos a:hover{
+      color: #f1f1f1;
+    }
+  
+    @keyframes rotar {
+      0% { opacity: 0; transform: translateY(100%); }
+      5% { opacity: 1; transform: translateY(0); }
+      25% { opacity: 1; transform: translateY(0); }
+      30% { opacity: 0; transform: translateY(-100%); }
+      100% { opacity: 0; }
+    }
+
+    .rotador div:nth-child(1) { animation-delay: 0s; }
+    .rotador div:nth-child(2) { animation-delay: 4s; }
+    .rotador div:nth-child(3) { animation-delay: 8s; }
+
+    .menu {
+      background-color: #7B7B7B;
+      display: grid;
+      grid-template-columns: auto 1fr auto; 
+      align-items: center;
+      padding: 10px 40px;
+      box-shadow: 2px 2px 2px #00000033;
+    }
+
+    .logo img {
+      height: 80px;
+    }
+
+    .logo img:hover {
+      transform: scale(1.1);
+      content: url('vertex5.png');
+    }
+
+  .botones {
+    display: grid;
+    grid-template-columns: 150px 150px 150px; 
+    gap: 30px;
+    list-style: none;
+    justify-content: center;
+  }
+
+  .botones li a {
+    text-decoration: none;
+    color: #092928;
+    font-size: 25px;
+    font-weight: 500;
+  }
+  .botones li a:hover {
+    color: #F77F2E;
+    text-shadow: 2px 2px#9b501d;
+  }
+
+  .botones li.activo > a {
+    text-shadow: 1px 1px #060606;
+    color: #eaeaea;
+    
+  }
+
+  .busqueda {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    background-color: #D9D9D9;
+    border-radius: 30px;
+    padding: 8px 12px;
+    width: 350px;
+    height: 44px;
+    gap: 10px;
+  }
+
+  .busqueda input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 18px;
+    color: #555;
+    margin-left: 10px;
+  }
+
+  .busqueda i {
+    font-size: 25px;
+    color: #555;
+  }
+
+  .busqueda:hover{
+    border:1px solid#092928;
+  }
+
+  .footer {
+    background-color: #7B7B7B;
+    color: #222;
+    margin-top: 50px;
+    padding: 30px 40px 10px 40px;
+    font-size: 14px;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: auto 1fr; 
+    gap: 30px;
+    align-items: flex-start;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #fff;
+  }
+
+  .footer .logo img {
+    height: 120px;
+    margin-left: 40px;
+  }
+
+  .footer-menu {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 120px;
+    justify-content: end;
+}
+
+
+  .footer-column h4 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #111;
+  }
+
+  .footer-column ul {
+    list-style: none;
+  }
+
+  .footer-column ul li {
+    margin-bottom: 6px;
+  }
+
+  .footer-column a {
+    color: #222;
+    text-decoration: none;
+    font-size: 16px;
+  }
+
+  .footer-column a:hover {
+    color: #fff;
+  }
+
+  .social-icons {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 10px;
+  align-items: center;
+  }
+
+
+  .social-icons a:hover {
+    background-color: #F77F2E;
+    color: #fff;
+  }
+
+  .social-icons a {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #fff;
+    color: #555;
+    font-size: 14px;
+  }
+
+  .footer-bottom {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding-top: 12px;
+    font-size: 15px;
+    gap: 20px;
+  }
+
+  .footer-bottom .info a {
+    margin-left: 16px;
+    color: #222;
+    text-decoration: none;
+  }
+
+  .footer-bottom .info a:hover {
+    color: #fff;
+  }

@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Tienda Vertex - electrónica y accesorios. Sustituye esta descripción por la real.">
-  <meta name="author" content="Vertex">
-  <meta name="theme-color" content="#7B7B7B">
-  <title>Vertex</title>
-  <link rel="icon" href="vertex1.png" type="image/png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-  * {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -43,7 +30,7 @@
 
   .logo img:hover {
   transform: scale(1.1);
-  content: url('vertex3.png');
+  content: url('vertex5.png');
 }
 
   .botones {
@@ -99,7 +86,7 @@
     font-size: 14px;
   }
 
-  .footer-inner {
+  .footer-top {
     display: flex;
     align-items: flex-start;
     gap: 30px;
@@ -112,7 +99,7 @@
     margin-left: 40px;
   }
 
-  .footer-links {
+  .footer-menu {
     display: flex;
     gap: 120px;
     flex: 1;
@@ -184,77 +171,3 @@
   .footer-bottom .info a:hover {
     color: #fff;
   }
-
-  
-</style>
-</head>
-<body>
-  <ul class="menu">
-  <li class="logo">
-    <a href="#"><img src="vertex1.png" alt="Logo Vertex"></a>
-  </li>
-
-  <li>
-    <ul class="botones">
-      <li><a href="#">Productos</a></li>
-      <li><a href="#">Noticias</a></li>
-      <li><a href="#">Actividades</a></li>
-    </ul>
-  </li>
-
-  <li class="busqueda">
-    <i class="fa fa-search"></i>
-    <input type="text" placeholder="Investigar">
-  </li>
-</ul>
-
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="logo">
-      <a href="#"><img src="vertex1.png" alt="Logo Vertex"></a>
-    </div>
-
-    <div class="footer-links">
-      <div class="footer-column">
-        <h4>Tienda</h4>
-        <ul>
-          <li><a href="#">Todos los productos</a></li>
-          <li><a href="#">Ofertas</a></li>
-          <li><a href="#">Novedades</a></li>
-          <li><a href="#">Marcas</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h4>Ayuda</h4>
-        <ul>
-          <li><a href="#">Contacto</a></li>
-          <li><a href="#">Envíos</a></li>
-          <li><a href="#">Devoluciones</a></li>
-          <li><a href="#">Preguntas frecuentes</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h4>Síguenos</h4>
-        <div class="social-icons">
-          <a href="#" aria-label="facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" aria-label="linkedin"><i class="fab fa-linkedin-in"></i></a>
-          <a href="#" aria-label="instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" aria-label="twitter"><i class="fab fa-x-twitter"></i></a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <div class="copy">© 2025 Vertex. Todos los derechos reservados.</div>
-    <div class="info">
-      <a href="#">Privacidad</a>
-      <a href="#">Términos</a>
-      <a href="#">Cookies</a>
-    </div>
-  </div>
-</footer>
-</body>
-</html>
