@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galería</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: mediumseagreen;
+      }
+
+      .gallery {
+        position: relative;
+        width: 350px;
+        height: 350px;
+        overflow: hidden;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      .gallery img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition:
+          transform 0.6s,
+          opacity 0.6s;
+        clip-path: circle(50% at 50% 50%);
+      }
+
+      .gallery img:first-child {
+        transform: translate(0, 0);
+        opacity: 1;
+      }
+
+      .gallery img:last-child {
+        transform: translate(100%, 100%);
+        opacity: 1;
+      }
+
+      .gallery:hover img:first-child {
+        transform: translate(-100%, -100%);
+      }
+
+      .gallery:hover img:last-child {
+        transform: translate(0, 0);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="gallery">
+      <img src="a.jpeg" alt="wolf" />
+      <img src="b.jpeg" alt="lioness" />
+    </div>
+  </body>
+</html>

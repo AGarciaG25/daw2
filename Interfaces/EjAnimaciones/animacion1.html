@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>animación gato</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        height: 100vh;
+        background: #f8db84;
+      }
+
+      .movV {
+        animation: movimientoV 4s infinite linear;
+      }
+
+      .movH {
+        width: 240px;
+        height: 90px;
+        overflow: hidden;
+        animation: movimientoH 12s infinite linear;
+      }
+
+      @keyframes movimientoH {
+        0% {
+          transform: translateX(-240px);
+        }
+        100% {
+          transform: translateX(calc(100vw + 240px));
+        }
+      }
+
+      @keyframes movimientoV {
+        0%,
+        100% {
+          transform: translateY(0px) scale(1);
+        }
+        50% {
+          transform: translateY(-20px) scale(0.9);
+        }
+      }
+
+      .caja {
+        display: flex;
+        width: calc(240px * 17);
+        animation: caminar 1s steps(17) infinite;
+      }
+
+      .caja img {
+        width: 240px;
+        height: 90px;
+      }
+
+      @keyframes caminar {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-4080px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="movV">
+      <div class="movH">
+        <div class="caja">
+          <img src="gato1.png" alt="Gato 1" />
+          <img src="gato2.png" alt="Gato 2" />
+          <img src="gato3.png" alt="Gato 3" />
+          <img src="gato4.png" alt="Gato 4" />
+          <img src="gato5.png" alt="Gato 5" />
+          <img src="gato6.png" alt="Gato 6" />
+          <img src="gato7.png" alt="Gato 7" />
+          <img src="gato8.png" alt="Gato 8" />
+          <img src="gato9.png" alt="Gato 9" />
+          <img src="gato10.png" alt="Gato 10" />
+          <img src="gato11.png" alt="Gato 11" />
+          <img src="gato12.png" alt="Gato 12" />
+          <img src="gato13.png" alt="Gato 13" />
+          <img src="gato14.png" alt="Gato 14" />
+          <img src="gato15.png" alt="Gato 15" />
+          <img src="gato16.png" alt="Gato 16" />
+          <img src="gato17.png" alt="Gato 17" />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

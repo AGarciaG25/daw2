@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--<link rel="stylesheet" href="pantalla.css" media="screen">
+    <link rel="stylesheet" href="impresora.css" media="print">
+-->
+    <style>
+        @media screen and (max-width:480px) {
+            body{background-color: pink;}
+            h1{background-color: blue;}
+            div{background-color: green;}
+        }
+         @media screen and (max-width:768px) and (min-width:481) {
+            body{background-color: yellow;}
+            h1{background-color: green;}
+            div{background-color: blue;}
+        }
+         @media screen and (min-width:769px) {
+            body{background-color: aqua;}
+            h1{background-color: orange;}
+            div{background-color: gold;}
+        }
+        
+    </style>
+</head>
+<body>
+    <!--
+    @media tipo_dispositivo and (condicion) and (condicion)...{
+        //estilos css que querais
+        }
+    tipos_dispositivos
+        all
+        screnn
+        print
+        speech
+
+    condiciones:
+        ancho de patalla dispositivo (max-width:500px, min-whidth:900px)
+        orientacion de la pantalla (portrait y landscape)
+        preferencias de usuario (prefers-colors-scheme:dark -> modo oscuro)
+        resolucion (max-resolution, min-resolution)
+
+        0-480px
+        body pink
+        h1 blue
+        div verde
+
+        481-768px
+        body yellow
+        h1 verde
+        div blue
+
+        769px en adelante
+        body aqua
+        h1 orange
+        div gold
+
+        breakponts
+        
+        /* MÓVILES */
+@media (max-width: 480px) { }
+
+/* MÓVILES GRANDES */
+@media (max-width: 576px) { }
+
+/* TABLETS */
+@media (min-width: 768px) { }
+
+/* PORTÁTILES / DESKTOP PEQUEÑO */
+@media (min-width: 992px) { }
+
+/* DESKTOP GRANDE */
+@media (min-width: 1200px) { }
+
+/* PANTALLAS MUY GRANDES */
+@media (min-width: 1400px) { }
+
+        -->
+
+    <h1>diseño responsive</h1>
+    <div class="caja">Soy un caja</div>
+</body>
+</html>

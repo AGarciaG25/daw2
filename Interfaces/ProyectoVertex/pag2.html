@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="animacionRot.css">
-    <link rel="stylesheet" href="inicio.css">
+    <link rel="stylesheet" href="pag2.css">
 </head>
 <body>
     <header class="cabecera">
@@ -43,13 +43,88 @@
         </div>
     </header>
 
-    <main>
-        <div class="montañismo">
-            <img src="montañosmo.jpeg" alt="montañismo">
-            <h1 class="textomont">montañismo</h1>
-            <h2 class="subtextomont">Descubre el poder de la montaña</h2>
+    <main class="container">
+
+    <!-- CATEGORÍAS -->
+    <section class="categories">
+        <div class="category">
+            <img src="img/hombre.jpg" alt="Hombre">
+            <span>Hombre</span>
         </div>
-    </main>
+        <div class="category">
+            <img src="img/mujer.jpg" alt="Mujer">
+            <span>Mujer</span>
+        </div>
+        <div class="category">
+            <img src="img/ninos.jpg" alt="Niños">
+            <span>Niños</span>
+        </div>
+        <div class="category">
+            <img src="img/accesorios.jpg" alt="Accesorios">
+            <span>Accesorios</span>
+        </div>
+    </section>
+
+    <div class="content">
+
+        <!-- FILTROS -->
+        <aside class="filters">
+            <h3>Precio</h3>
+            <input type="range" min="0" max="1500">
+
+            <h3>Marcas</h3>
+            <label><input type="checkbox"> La Sportiva</label>
+            <label><input type="checkbox"> Boreal</label>
+            <label><input type="checkbox"> Patagonia</label>
+
+            <h3>Color</h3>
+            <div class="colors">
+                <span class="color negro"></span>
+                <span class="color azul"></span>
+                <span class="color rojo"></span>
+                <span class="color amarillo"></span>
+            </div>
+
+            <h3>Calzado</h3>
+            <label><input type="checkbox"> Pies de gato</label>
+            <label><input type="checkbox"> Botas montaña</label>
+        </aside>
+
+        <!-- PRODUCTOS -->
+        <section class="products">
+
+            <article class="product">
+                <img src="img/scarpa.jpg" alt="">
+                <h4>Scarpa Drago</h4>
+                <p class="price">170,40 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+
+            <article class="product">
+                <img src="img/arnes.jpg" alt="">
+                <h4>Arnés escalada niños Ara</h4>
+                <p class="price">75,35 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+
+            <article class="product">
+                <img src="img/casco.jpg" alt="">
+                <h4>Casco Singing Rock Penta 2</h4>
+                <p class="price">69,95 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+
+            <article class="product">
+                <img src="img/chaqueta.jpg" alt="">
+                <h4>Chaqueta Belvis - negro</h4>
+                <p class="price">99,99 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+
+        </section>
+    </div>
+
+</main>
 
     <footer class="footer">
         <div class="footer-top">

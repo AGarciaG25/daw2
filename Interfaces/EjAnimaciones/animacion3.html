@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menú Animado</title>
+
+    <style>
+      body {
+        background-color: black;
+        color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      #menu {
+        display: none;
+      }
+
+      label {
+        background-color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        user-select: none;
+        cursor: pointer;
+      }
+
+      .menuDesplegable {
+        position: absolute;
+        top: 70px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        opacity: 0;
+        pointer-events: none;
+        transform: perspective(600px) rotateX(90deg);
+      }
+
+      @keyframes giroMenu {
+        0% {
+          opacity: 0;
+          transform: perspective(600px) rotateX(90deg);
+        }
+        60% {
+          transform: perspective(600px) rotateX(-10deg);
+        }
+        100% {
+          opacity: 1;
+          transform: perspective(600px) rotateX(0deg);
+        }
+      }
+
+      #menu:checked + label + .menuDesplegable {
+        pointer-events: auto;
+        animation: giroMenu 0.8s forwards;
+      }
+
+      .menuDesplegable a {
+        color: black;
+        text-decoration: none;
+        opacity: 0;
+        transform: perspective(400px) rotateX(90deg);
+      }
+
+      @keyframes giroX {
+        to {
+          opacity: 1;
+          transform: perspective(400px) rotateX(0deg);
+        }
+      }
+
+      #menu:checked + label + .menuDesplegable a {
+        animation: giroX 0.6s forwards;
+      }
+
+      #menu:checked + label + .menuDesplegable a:nth-child(1) {
+        animation-delay: 0.2s;
+      }
+      #menu:checked + label + .menuDesplegable a:nth-child(2) {
+        animation-delay: 0.35s;
+      }
+      #menu:checked + label + .menuDesplegable a:nth-child(3) {
+        animation-delay: 0.5s;
+      }
+      #menu:checked + label + .menuDesplegable a:nth-child(4) {
+        animation-delay: 0.65s;
+      }
+    </style>
+  </head>
+
+  <body>
+    <input type="checkbox" id="menu" />
+    <label for="menu">Abrir Menú</label>
+
+    <div class="menuDesplegable">
+      <a href="#">Inicio</a>
+      <a href="#">Servicios</a>
+      <a href="#">Acerca de</a>
+      <a href="#">Contacto</a>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Emoji</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-size: 100px;
+      }
+      .emoji {
+        filter: grayscale(100%);
+      }
+      .emoji:hover {
+        transition: transform 0.5s;
+        transform: rotate(360deg) scale(1.5);
+        filter: grayscale(0%) drop-shadow(0 8px 8px rgba(0, 0, 0, 0.5));
+      }
+    </style>
+  </head>
+  <body>
+    <div class="emoji">😺</div>
+  </body>
+</html>

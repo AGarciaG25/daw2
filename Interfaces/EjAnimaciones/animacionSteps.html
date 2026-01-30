@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flor</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #e0f7fa;
+        overflow: hidden;
+      }
+
+      .caja {
+        position: absolute;
+        width: 8px;
+        height: 200px;
+        background: #4caf50;
+        top: 50%;
+        border-radius: 4px;
+      }
+
+      .flor {
+        position: relative;
+        width: 50px;
+        height: 50px;
+      }
+
+      .centro {
+        width: 60px;
+        height: 60px;
+        background: #7c68ee;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .petalo {
+        position: absolute;
+        width: 35px;
+        height: 70px;
+        background: #010052;
+        border-radius: 40px;
+        left: 50%;
+        top: 50%;
+        transform-origin: center bottom;
+        opacity: 1;
+      }
+
+      .petalo:nth-child(2) {
+        transform: translate(-50%, -100%) rotate(0deg);
+        animation: caida 8s forwards 0.5s;
+      }
+      .petalo:nth-child(3) {
+        transform: translate(-50%, -100%) rotate(45deg);
+        animation: caida 8s forwards 1s;
+      }
+      .petalo:nth-child(4) {
+        transform: translate(-50%, -100%) rotate(90deg);
+        animation: caida 8s forwards 1.5s;
+      }
+      .petalo:nth-child(5) {
+        transform: translate(-50%, -100%) rotate(135deg);
+        animation: caida 8s forwards 2s;
+      }
+      .petalo:nth-child(6) {
+        transform: translate(-50%, -100%) rotate(180deg);
+        animation: caida 8s forwards 2.5s;
+      }
+      .petalo:nth-child(7) {
+        transform: translate(-50%, -100%) rotate(225deg);
+        animation: caida 8s forwards 3s;
+      }
+      .petalo:nth-child(8) {
+        transform: translate(-50%, -100%) rotate(270deg);
+        animation: caida 8s forwards 3.5s;
+      }
+      .petalo:nth-child(9) {
+        transform: translate(-50%, -100%) rotate(315deg);
+        animation: caida 8s forwards 4s;
+      }
+
+      @keyframes caida {
+        0%,
+        15% {
+          opacity: 1;
+        }
+        40% {
+          transform: translate(-20%, 100px) rotate(100deg);
+          opacity: 1;
+        }
+        60%,
+        100% {
+          transform: translate(20%, 500px) rotate(200deg);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="caja"></div>
+    <div class="flor">
+      <div class="centro"></div>
+      <div class="petalo"></div>
+      <div class="petalo"></div>
+      <div class="petalo"></div>
+      <div class="petalo"></div>
+      <div class="petalo"></div>
+      <div class="petalo"></div>
+      <div class="petalo"></div>
+      <div class="petalo"></div>
+    </div>
+  </body>
+</html>

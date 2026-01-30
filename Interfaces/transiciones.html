@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .btn{
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: coral;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            transition: background-color 0.3s ease, transform 0.5s ease;
+            /**transition: all 0.3s ease; **/
+        }
+        .btn:hover{
+            background-color: tomato;
+            color: rgb(0, 0, 0);
+            transform: scale(1.1);
+        }
+        #texto{
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid gray;
+            border-radius: 5px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        #texto:focus{
+            border-color: dodgerblue;
+            box-shadow: 0 0 5px dodgerblue;
+            outline: none;
+        }
+        #check{
+            width: 20px;
+            height: 20px;
+            
+        }
+        .caja{
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 20%;
+            transition: transform 0.5s ease , background-color 0.5s ease;
+        }
+        #check:checked + .caja{
+            transform: rotate(45deg);
+            background-color: green;
+        }
+        .box{
+            width: 200px;
+            height: 100px;
+            background-color: blue;
+            margin: auto;
+            border-radius: 5px;
+        }
+        @media (max-width:600px){
+            .box{
+                background-color: purple;
+                width: 100px;
+                transform: rotate(180deg);
+                transition: all 0.5s ease;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Transiciones 
+     no usa @keyframes
+     mas sencillo que las animaciones
+     dos fotogramas (inicio y fin)
+     no tiene todas las propiedades
+     transition-property: indica los estilos a cambiar / all
+     transition-duration: (obligatoria) s, ms
+     transition-timing-function: steps(numerosaltos) | linear | ease | ease-in | ease-out | ease-in-out | cubic-bezier(n,n,n,n);
+     transition-delay: retraso desde que se desencadena la transicion
+     transition: todas las propiedades en una sola linea (propiedad duracion funcion retraso)
+
+     se desencadena por algo (hover, focus, active, checked, @media)
+    -->
+     <button class="btn">enviar</button>
+     <input type="text" id="texto" name="texto" placeholder="nombre">
+     <input type="checkbox" id="check">
+    <span class="caja"></span>   
+    <div class="box"></div>
+    
+    </body>
+</html>

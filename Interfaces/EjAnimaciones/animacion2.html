@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Órbita Sol</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: black;
+        overflow: hidden;
+      }
+      #click {
+        display: none;
+      }
+      .sol img {
+        width: 200px;
+        height: 200px;
+        animation: girar 20s linear infinite;
+        cursor: pointer;
+      }
+      @keyframes girar {
+        0% {
+          transform: rotateZ(0deg);
+        }
+        100% {
+          transform: rotateZ(360deg);
+        }
+      }
+      .orbita {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        transform-origin: 0 0;
+        animation: orbitar 5s linear infinite;
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+      #click:checked + label + .orbita {
+        opacity: 1;
+      }
+      .orbita img {
+        width: 100px;
+        height: 100px;
+        position: absolute;
+        left: 150px;
+        top: -50px;
+      }
+      @keyframes orbitar {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <input type="checkbox" id="click" />
+    <label for="click" class="sol">
+      <img src="sol.png" alt="sol" />
+    </label>
+
+    <div class="orbita">
+      <img src="tierra.png" alt="tierra" />
+    </div>
+  </body>
+</html>

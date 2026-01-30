@@ -1,0 +1,33 @@
+.montañismo {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.montañismo img {
+  width: 100%;
+  height: auto;            
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.textomont,
+.subtextomont {
+  position: absolute;
+  left: 10%;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.textomont {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: bold;
+}
+
+.subtextomont {
+  top: calc(50% + 3rem);
+  font-size: clamp(1rem, 2vw, 1.5rem);
+}

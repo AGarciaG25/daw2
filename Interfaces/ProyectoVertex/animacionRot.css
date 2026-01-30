@@ -1,0 +1,97 @@
+.barra_superior {
+  font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  min-height: 2rem;
+  background-color: #F77F2E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0 1rem;
+}
+
+/* TEXTO ROTATORIO */
+.rotador {
+  position: relative;
+  width: 60%;
+  max-width: 40rem;
+  height: 2rem;
+  overflow: hidden;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  line-height: 2rem;
+}
+
+.rotador div {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  animation: rotar 12s infinite;
+}
+
+/* ICONOS */
+.iconos {
+  position: absolute;
+  right: 1rem;
+  display: flex;
+  gap: 1rem;
+  font-size: 1.1rem;
+}
+
+.iconos a {
+  color: #000;
+}
+
+.iconos a:hover {
+  color: #f1f1f1;
+}
+
+/* ANIMACIÓN */
+@keyframes rotar {
+  0%   { opacity: 0; transform: translateY(100%); }
+  5%   { opacity: 1; transform: translateY(0); }
+  25%  { opacity: 1; transform: translateY(0); }
+  30%  { opacity: 0; transform: translateY(-100%); }
+  100% { opacity: 0; }
+}
+
+.rotador div:nth-child(1) { animation-delay: 0s; }
+.rotador div:nth-child(2) { animation-delay: 4s; }
+.rotador div:nth-child(3) { animation-delay: 8s; }
+
+/* ================= MEDIA QUERIES ================= */
+
+/* TABLET */
+@media (max-width: 992px) {
+  .rotador {
+    width: 70%;
+    font-size: 1rem;
+  }
+
+  .iconos {
+    font-size: 1rem;
+    gap: 0.8rem;
+  }
+}
+
+/* MÓVIL */
+@media (max-width: 600px) {
+  .barra_superior {
+    flex-direction: column;
+    padding: 0.4rem 1rem;
+  }
+
+  .rotador {
+    width: 100%;
+    font-size: 0.95rem;
+    line-height: 1.4rem;
+    height: 1.4rem;
+  }
+
+  .iconos {
+    position: static;
+    margin-top: 0.3rem;
+    justify-content: center;
+  }
+}

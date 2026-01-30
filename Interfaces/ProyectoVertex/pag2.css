@@ -1,0 +1,116 @@
+/* CONTENEDOR GENERAL */
+.container {
+    width: 100%;
+}
+
+/* CATEGORÍAS */
+.categories {
+    display: flex;
+    justify-content: space-around;
+    background: #1f2f28;
+    padding: 20px;
+    
+}
+
+.category {
+    text-align: center;
+    color: white;
+}
+
+.category img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+}
+
+.category span {
+    display: block;
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+/* CONTENIDO */
+.content {
+    display: flex;
+    gap: 20px;
+}
+
+/* FILTROS */
+.filters {
+    width: 20%;
+    background: #f2f2f2;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.filters h3 {
+    margin-top: 15px;
+}
+
+.filters label {
+    display: block;
+    margin: 5px 0;
+}
+
+.colors {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.negro { background: black; }
+.azul { background: blue; }
+.rojo { background: red; }
+.amarillo { background: yellow; }
+
+/* PRODUCTOS */
+.products {
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.product {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.product img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+}
+
+.product h4 {
+    margin: 10px 0;
+}
+
+.price {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: black;
+    color: white;
+    cursor: pointer;
+}
+
+.product button:hover {
+    background: #333;
+}

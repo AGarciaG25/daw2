@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .caja{
+            width: 100px;
+            height: 100px;
+            background-color: aqua;
+            animation: mover 4s linear infinite normal;
+            /*
+            animation-timing-function:steps(numerosaltos) | linear | ease | ease-in | ease-out | ease-in-out | cubic-bezier(n,n,n,n);
+            position: relative; 
+            */
+        }
+        /*transform::
+            traslateX
+            traslateY
+            traslate(x,y)
+            
+            (aumentar/disminuir tamaño)
+            scaleX
+            scaleY
+            scale(x,y)
+
+            (rotar)
+            rotate(-45deg)
+            rotateX
+            rotateY
+            rotateZ
+            */
+
+        @keyframes mover{
+            0%{
+                transform: translate(0px,0px);
+                /*
+                top:0;
+                left:0;
+                */
+            }
+            25%{
+                transform: translate(200px,0px);
+            }
+            50%{
+                transform: translate(200px,200px);
+            }
+            75%{
+                transform: translate(0px,200px);
+            }
+            100%{
+                transform: translate(0px,0px);
+            }
+        }
+        .caja2{
+            width: 100px;
+            height: 100px;
+            background-color: orange;
+            animation: escalar 4s linear infinite normal;
+        }
+        @keyframes escalar{
+            0%{
+                transform: scale(1,1);
+            }
+            50%{
+                transform: scale(2,0.5);
+            }
+            100%{
+                transform: scale(1,1);
+            }
+        }
+        .imgp{
+            width: 200px;
+            height: auto;
+            animation: girar 4s linear infinite normal;
+        }
+        @keyframes girar{
+            0%{
+                transform: rotateZ(0deg);
+            }
+            100%{
+                transform: rotateZ(360deg);
+            }
+        }
+        .imgp:hover{
+            animation-play-state: paused;
+        }
+
+        .caja3{
+            width: 100px;
+            height: 100px;
+            background-color: purple;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            animation: recortar 4s linear infinite normal;
+        }
+        @keyframes recortar{
+            0%{
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+            50%{
+                clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+            }
+            100%{
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+        }
+        .caja4{
+            width: auto;
+            height: 120px;
+            position: relative;
+           
+        }
+        .caja4 img{
+            width: 100px;
+            height: auto;
+            position: absolute;
+            opacity: 0;
+            animation: mostrarManzana 4s linear infinite;
+        }
+
+        .caja4 img:nth-child(1) { animation-delay: 0s; }
+        .caja4 img:nth-child(2) { animation-delay: 1s; }
+        .caja4 img:nth-child(3) { animation-delay: 2s; }
+        .caja4 img:nth-child(4) { animation-delay: 3s; }
+        .caja4 img:nth-child(5) { animation-delay: 4s; }
+        @keyframes mostrarManzana {
+            0%   { opacity: 1; }
+            100% { opacity: 1; }
+        }
+        .reloj{
+            width: 200px;
+            height: 200px;
+            border: 2px solid black;
+            border-radius: 50%;
+            position: relative;
+        }
+        .reloj .segundo{
+            width: 90%;
+            height: auto;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            position: absolute;
+            animation: girarReloj 60s linear infinite normal;
+            transform-origin: 50% 50%;
+        }
+        @keyframes girarReloj{
+            0%{
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100%{
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+        .reloj .minutos{
+            width: 90%;
+            height: auto;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            position: absolute;
+            animation: girarReloj2 3600s linear infinite normal;
+            transform-origin: 50% 50%;
+        }
+         @keyframes girarReloj2{
+            0%{
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            100%{
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+        .carrusel{
+            width: 100px;
+            height: 100px;
+            overflow: hidden;
+            margin: auto;
+            display: flex;
+            flex-direction: row;
+        }
+        .carrusel img{
+            width: 100px;
+            height: auto;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="caja"></div>
+    <div class="caja2"></div>
+    <img src="paisaje.png" alt="paisaje" class="imgp">
+    <div class="caja3"></div>
+    <div class="caja4">
+        <img src="manzana1.jpg" alt="manzana1">
+        <img src="manzana2.jpg" alt="manzana2">
+        <img src="manzana3.jpg" alt="manzana3">
+        <img src="manzana4.jpg" alt="manzana4">
+        <img src="manzana5.jpg" alt="manzana5">
+    </div>
+    <div class="reloj">
+        <img src="segundo.png" alt="segundo" class="segundo">
+        <img src="minutos.png" alt="minutos" class="minutos">
+
+    </div>
+    <div class="carrusel">
+        <img src="manzana1.jpg" alt="manzana1">
+        <img src="manzana2.jpg" alt="manzana2">
+        <img src="manzana3.jpg" alt="manzana3">
+        <img src="manzana4.jpg" alt="manzana4">
+        <img src="manzana5.jpg" alt="manzana5">
+    </div>
+</body>
+</html>
