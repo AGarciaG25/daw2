@@ -47,22 +47,22 @@
 
     <!-- CATEGORÍAS -->
     <section class="categories">
-        <div class="category">
-            <img src="img/hombre.jpg" alt="Hombre">
+        <a href="#" class="category">
+            <img src="hombre.png" alt="Hombre">
             <span>Hombre</span>
-        </div>
-        <div class="category">
-            <img src="img/mujer.jpg" alt="Mujer">
+        </a>
+        <a href="#" class="category">
+            <img src="mujer.png" alt="Mujer">
             <span>Mujer</span>
-        </div>
-        <div class="category">
-            <img src="img/ninos.jpg" alt="Niños">
+        </a>
+        <a href="#" class="category">
+            <img src="niños.jpeg" alt="Niños">
             <span>Niños</span>
-        </div>
-        <div class="category">
-            <img src="img/accesorios.jpg" alt="Accesorios">
+        </a>
+        <a href="#" class="category">
+            <img src="aquipo.png" alt="Accesorios">
             <span>Accesorios</span>
-        </div>
+        </a>
     </section>
 
     <div class="content">
@@ -71,51 +71,166 @@
         <aside class="filters">
             <h3>Precio</h3>
             <input type="range" min="0" max="1500">
-
-            <h3>Marcas</h3>
+            <div id="precios">
+                <input type="text" placeholder="0€">
+                <input type="text" placeholder="1500€">
+            </div>
+            
+            <div class="marcas">
+                <h3>Marcas</h3>
             <label><input type="checkbox"> La Sportiva</label>
+            <label><input type="checkbox"> Elephant</label>
             <label><input type="checkbox"> Boreal</label>
             <label><input type="checkbox"> Patagonia</label>
+            <label><input type="checkbox"> Scarpa</label>
+            </div>
+            
 
             <h3>Color</h3>
             <div class="colors">
-                <span class="color negro"></span>
-                <span class="color azul"></span>
-                <span class="color rojo"></span>
-                <span class="color amarillo"></span>
+                <button><div class="negro"></div> Negro</button>
+                <button><div class="azul"></div> Azul</button>
+                <button><div class="gris"></div> Gris</button>
+                <button><div class="rojo"></div> Rojo</button>
+                <button><div class="blanco"></div> Blanco</button>
+                <button><div class="amarillo"></div> Amarillo</button>
             </div>
 
-            <h3>Calzado</h3>
+            <div class="superior">
+                <h3>Superior</h3>
+            <label><input type="checkbox"> Camisetas</label>
+            <label><input type="checkbox"> Camisas</label>
+            <label><input type="checkbox"> Chaquetas</label>
+            <label><input type="checkbox"> Sudaderas</label>
+            <label><input type="checkbox"> Todos los productos</label>
+            </div>
+
+            <div class="Inferior">
+                <h3>Inferior</h3>
+            <label><input type="checkbox"> Pantalones</label>
+            <label><input type="checkbox"> Mallas</label>
+            <label><input type="checkbox"> Pantalones cortos</label>
+            <label><input type="checkbox"> Todos los productos</label>
+            </div>
+
+            <div class="calzado">
+                <h3>Calzado</h3>
             <label><input type="checkbox"> Pies de gato</label>
-            <label><input type="checkbox"> Botas montaña</label>
+            <label><input type="checkbox"> Botas de montaña</label>
+            <label><input type="checkbox"> Botas de esquí</label>
+            <label><input type="checkbox"> Sandalias</label>
+            <label><input type="checkbox"> Running</label>
+            <label><input type="checkbox"> Todos los productos</label>
+            </div>
         </aside>
 
         <!-- PRODUCTOS -->
         <section class="products">
 
             <article class="product">
-                <img src="img/scarpa.jpg" alt="">
+                <img src="pie de gato.png" alt="">
                 <h4>Scarpa Drago</h4>
                 <p class="price">170,40 €</p>
                 <button>Añadir al carrito</button>
             </article>
 
             <article class="product">
-                <img src="img/arnes.jpg" alt="">
+                <img src="pie de gato.png" alt="">
                 <h4>Arnés escalada niños Ara</h4>
                 <p class="price">75,35 €</p>
                 <button>Añadir al carrito</button>
             </article>
 
             <article class="product">
-                <img src="img/casco.jpg" alt="">
+                <img src="pie de gato.png" alt="">
                 <h4>Casco Singing Rock Penta 2</h4>
                 <p class="price">69,95 €</p>
                 <button>Añadir al carrito</button>
             </article>
 
             <article class="product">
-                <img src="img/chaqueta.jpg" alt="">
+                <img src="pie de gato.png" alt="">
+                <h4>Chaqueta Belvis - negro</h4>
+                <p class="price">99,99 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+            <article class="product">
+                <img src="pie de gato.png" alt="">
+                <h4>Scarpa Drago</h4>
+                <p class="price">170,40 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+
+            <article class="product">
+                <img src="pie de gato.png" alt="">
+                <h4>Arnés escalada niños Ara</h4>
+                <p class="price">75,35 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+
+            <article class="product">
+                <img src="pie de gato.png" alt="">
+                <h4>Casco Singing Rock Penta 2</h4>
+                <p class="price">69,95 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+
+            <article class="product">
+                <img src="pie de gato.png" alt="">
+                <h4>Chaqueta Belvis - negro</h4>
+                <p class="price">99,99 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+            <article class="product">
+                <img src="pie de gato.png" alt="">
+                <h4>Scarpa Drago</h4>
+                <p class="price">170,40 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+
+            <article class="product">
+                <img src="pie de gato.png" alt="">
+                <h4>Arnés escalada niños Ara</h4>
+                <p class="price">75,35 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+
+            <article class="product">
+                <img src="pie de gato.png" alt="">
+                <h4>Casco Singing Rock Penta 2</h4>
+                <p class="price">69,95 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+
+            <article class="product">
+                <img src="pie de gato.png" alt="">
+                <h4>Chaqueta Belvis - negro</h4>
+                <p class="price">99,99 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+            <article class="product">
+                <img src="pie de gato.png" alt="">
+                <h4>Scarpa Drago</h4>
+                <p class="price">170,40 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+
+            <article class="product">
+                <img src="pie de gato.png" alt="">
+                <h4>Arnés escalada niños Ara</h4>
+                <p class="price">75,35 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+
+            <article class="product">
+                <img src="pie de gato.png" alt="">
+                <h4>Casco Singing Rock Penta 2</h4>
+                <p class="price">69,95 €</p>
+                <button>Añadir al carrito</button>
+            </article>
+
+            <article class="product">
+                <img src="pie de gato.png" alt="">
                 <h4>Chaqueta Belvis - negro</h4>
                 <p class="price">99,99 €</p>
                 <button>Añadir al carrito</button>

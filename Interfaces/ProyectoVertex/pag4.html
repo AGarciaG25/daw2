@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="animacionRot.css">
-    <link rel="stylesheet" href="inicio.css">
+    <link rel="stylesheet" href="pag4.css">
 </head>
 <body>
     <header class="cabecera">
@@ -20,12 +20,12 @@
             <div class="iconos">
                 <a href="#"><i class="fa-solid fa-earth"></i></a>
                 <a href="#"><i class="fa-solid fa-user"></i></a>
-                <a href="pag4.html"><i class="fa-solid fa-cart-shopping"></i></a>
+                <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
             </div>
         </div>
         <div class="menu">
             <div class="logo">
-                <a href="#"><img src="vertex1.png" alt="Logo Vertex"></a>
+                <a href="inicioVertex.html"><img src="vertex1.png" alt="Logo Vertex"></a>
             </div>
 
             <div>
@@ -43,36 +43,66 @@
         </div>
     </header>
 
-    <main class="main">
-  <div class="carrusel-container">
-    <div class="carrusel">
-      <div class="slide" id="s1" style="background-image: url('montañosmo.jpeg');"></div>
-      <div class="slide" id="s2" style="background-image: url('montañosmo.jpeg');"></div>
-      <div class="slide" id="s3" style="background-image: url('montañosmo.jpeg');"></div>
-      <div class="slide" id="s4" style="background-image: url('montañosmo.jpeg');"></div>
-      <div class="slide" id="s5" style="background-image: url('aquipo.png');"></div>
-    </div>
-    <div class="controles">
-      <a href="#s1" class="flecha">❮</a>
-      <a href="#s5" class="flecha">❯</a>
-    </div>
-  </div>
+    <main class="container">
+        <div class="pagina-carrito">
 
-  <section class="grid-contenido">
-    <div class="contenido">
-      <div class="texto-overlay">
-        <h2>EXPLORE NEW HORIZONS</h2>
-        <p>Discover the best trails and knots</p>
+  <!-- LISTA DE PRODUCTOS -->
+  <section class="lista-productos">
+
+    <article class="producto">
+      <img src="pie de gato.png" alt="">
+      <div class="info-producto">
+        <h3>Scarpa Drago</h3>
+        <p>1 x Modelo 43 (ES)</p>
+        <span class="precio">170.40 €</span>
       </div>
-    </div>
-    <div class="contenido derecha">
-      <div class="texto-overlay">
-        <h2>EMBRACE THE JOURNEY</h2>
-        <p>Gear reviews and travel guides</p>
+      <button class="btn-eliminar">✕</button>
+    </article>
+
+    <article class="producto">
+      <img src="pie de gato.png" alt="">
+      <div class="info-producto">
+        <h3>Arnés de escalada para niños Ara</h3>
+        <p>1 x Modelo M (ES)</p>
+        <span class="precio">75.35 €</span>
       </div>
-    </div>
+      <button class="btn-eliminar">✕</button>
+    </article>
+
+    <article class="producto">
+      <img src="pie de gato.png" alt="">
+      <div class="info-producto">
+        <h3>Casco de escalada Singing Rock Penta 2</h3>
+        <p>1 x Modelo L (ES)</p>
+        <span class="precio">69.95 €</span>
+      </div>
+      <button class="btn-eliminar">✕</button>
+    </article>
+
+    <article class="producto">
+      <img src="pie de gato.png" alt="">
+      <div class="info-producto">
+        <h3>Chaqueta Belvis - negro</h3>
+        <p>1 x Modelo L (ES)</p>
+        <span class="precio">99.99 €</span>
+      </div>
+      <button class="btn-eliminar">✕</button>
+    </article>
+
   </section>
-</main>
+
+  <!-- RESUMEN -->
+  <aside class="resumen-carrito">
+    <p>Subtotal <span>415.69 €</span></p>
+    <p>Gastos de envío <span>3.95 €</span></p>
+    <hr>
+    <p class="total">Total <span>419.64 €</span></p>
+
+    <button class="btn-pagar">Finalizar compra</button>
+  </aside>
+
+</div>
+    </main>
 
     <footer class="footer">
         <div class="footer-top">

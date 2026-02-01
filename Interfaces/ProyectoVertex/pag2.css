@@ -1,12 +1,13 @@
 /* CONTENEDOR GENERAL */
 .container {
     width: 100%;
+    background-color: rgb(204, 204, 204);
 }
 
 /* CATEGORÍAS */
 .categories {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     background: #1f2f28;
     padding: 20px;
     
@@ -14,15 +15,15 @@
 
 .category {
     text-align: center;
-    color: white;
+    color: rgb(207, 204, 204);
+    text-decoration: none;
 }
 
 .category img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+    width: 150px; 
+    border-radius: 30%;
     object-fit: cover;
-    border: 3px solid white;
+    border: 6px solid rgba(255, 255, 255, 0.733);
 }
 
 .category span {
@@ -37,52 +38,126 @@
     gap: 20px;
 }
 
-/* FILTROS */
+/* CONTENEDOR GENERAL */
 .filters {
-    width: 20%;
-    background: #f2f2f2;
-    padding: 15px;
-    border-radius: 8px;
+  width: 280px;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background: #fff;
+  border-right: 1px solid #e0e0e0;
 }
 
+/* TÍTULOS */
 .filters h3 {
-    margin-top: 15px;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 20px 0 10px;
 }
+
+/* ---------- PRECIO ---------- */
+
+.filters input[type="range"] {
+  width: 100%;
+  margin: 10px 0;
+}
+
+#precios {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+#precios input {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 13px;
+}
+
+/* ---------- CHECKBOXES ---------- */
 
 .filters label {
-    display: block;
-    margin: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #555;
+  margin: 6px 0;
+  cursor: pointer;
 }
+
+.filters input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #ccc;
+}
+
+/* ---------- SECCIONES ---------- */
+
+.marcas,
+.superior,
+.Inferior,
+.calzado {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 10px;
+}
+
+/* ---------- COLORES ---------- */
 
 .colors {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
-.color {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    cursor: pointer;
+.colors button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
 }
 
-.negro { background: black; }
-.azul { background: blue; }
-.rojo { background: red; }
-.amarillo { background: yellow; }
+/* CÍRCULOS DE COLOR */
+.colors div {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1px solid #999;
+}
+
+.negro { background: #000; }
+.azul { background: #2f4fff; }
+.gris { background: #999; }
+.rojo { background: #e60000; }
+.blanco { background: #fff; }
+.amarillo { background: #ffd400; }
+
+/* ---------- HOVER ---------- */
+
+.colors button:hover {
+  border-color: #000;
+}
+
 
 /* PRODUCTOS */
 .products {
     width: 80%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin: 25px 0;
 }
 
 .product {
-    background: white;
-    padding: 15px;
+    background: rgb(255, 255, 255);
+    padding-top:15px;
     border-radius: 8px;
     text-align: center;
 }
@@ -105,6 +180,7 @@
 .product button {
     width: 100%;
     padding: 10px;
+    border-radius:0 0 5px 5px;
     border: none;
     background: black;
     color: white;

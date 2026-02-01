@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RestauranteCoruña</title>
+    <link rel="stylesheet" href="estilos.css" media="screen" type="text/css"> <!--no poner eso-->
+    <link href="https://fonts.googleapis.com/css2?family=Corinthia&family=Montserrat:wght@200&family=Raleway:ital,wght@0,100;0,200;1,100&display=swap" rel="stylesheet">
+    <style>
+        *{
+            box-sizing: border-box;
+            margin:0px;
+            padding:0px;
+        }
+        body{
+            font-family: 'Corinthia', cursive; 
+            color: white;
+        }
+        .header{
+            background-image: linear-gradient(to left,#BC0204,#FE5D02);
+            padding: 1%;
+            font-size: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+        }
+        .header .logo{
+            width: 100px;
+            height: 100px;
+        }
+        .header .logo img:hover{
+            transform: translate(2px,-4px);
+        }
+        .header .menu{
+            display: flex;
+            justify-content:center;
+        }
+        .header .menu > a{
+            text-decoration: none; 
+            text-align: center;
+            color:white;
+            padding: 5px 30px;
+        }
+        .menu a:hover{
+            background-color:  rgb(187, 2, 5,0.6);
+            border:1px solid rgb(187, 2, 5,0.6);
+        }
+        div.menu a#activo{ 
+            text-decoration:underline double white;
+        }
+        div.fila {
+            display: flex;
+            justify-content:center;
+     
+        }
+        .col2{
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #438A04;
+            border: 4px double #c2c99b; 
+            padding: 10px;
+            text-align: center;
+        }
+        .col1{
+            width: 70%;
+            text-align: left;
+            color: black;
+        }
+        .col1 h1{
+            font-size: 55px;
+        }
+        .col1 p{
+            font-size: 35px;
+        }
+        .col2 a{ 
+            font-size: 30px;
+            text-decoration: none;
+            color: lightgreen;
+        }
+        .col2 a:hover{
+            font-weight: bold; 
+            text-decoration: underline double lightgreen;
+        }
+        .footer{
+            display: flex; 
+            background-color: #BC0204;
+            font-size: 30px;
+            justify-content: space-evenly;
+            text-align: center;
+            padding: 15px;
+        }
+        .colPie{
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .colPie + a{ 
+            color:white;
+        }
+        .colPie a:hover{
+            text-decoration: underline dotted white;
+        }
+        .colPie a :hover{ 
+            border: 2px solid black;
+            border-radius: 15px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="restaurante.html"><img src="logorestaurante.png" alt="logo" width="100%" height="100%" title="Restaurante Coruña"></a>
+        </div>
+        <!--puse un id y llamé a una clase-->
+        <div class="menu">
+            <a href="restaurante.html" id="activo">Empresa</a>
+            <a href="carta.html">Carta</a>
+            <a href="ubicacion.html">Ubicación</a>
+            <a href="contacto.html">Contáctanos</a>
+        </div>  
+    </div>
+    <div class="cabecera">
+        <img src="cabecera.jpg" alt="ImagenesCabecera" width="100%" height="auto" title="Platos típicos">
+    </div>
+
+    <div class="fila">
+        <div class="col1">
+            <h1>Restaurante Coruña</h1><br>
+            <p><img src="restaurante.png" alt="Icono" width="40px" height="40px">Con los cinco sentidos sobre el Atlántico, la cocina del Restaurante Coruña nos propone un juego de sabores y sensaciones con el producto fresco y de temporada como protagonista.</p><br>
+            <p><img src="restaurante.png" alt="Icono" width="40px" height="40px">En la bodega de Restaurante Coruña tenemos 250 referencias que renovamos cada trimestre. Vinos poco habituales, tan sorprendentes como nuestros platos.</p><br>
+            <p><img src="restaurante.png" alt="Icono" width="40px" height="40px">Te ofrecemos, además, la posibilidad de encargar por adelantado cualquier otro producto con el que desees acompañar nuestro menú.</p>
+        </div>
+        <div class="col2">
+                <a href="carta.html">Aperitivos</a>
+                <a href="carta.html">Entrantes</a> 
+                <a href="carta.html">Pescados</a> 
+                <a href="carta.html">Carnes</a> 
+                <a href="carta.html">Postres</a> 
+                <a href="carta.html">Vinos</a> 
+        </div>
+    </div>
+    <div class="footer">
+        <div class="colPie" >
+            <h2>Establecimientos</h2>
+            <a href="#">Sevilla</a>
+            <a href="#">Barcelona</a>
+            <a href="#">Madrid</a>
+            <a href="#">Valencia</a>
+        </div>
+        <div class="colPie" >
+            <h2>Enlaces Interés</h2>
+            <a href="#">Política de privacidad</a>
+            <a href="#">Política de cookies</a>
+            <a href="#">Licencias</a>
+            <a href="#">Aviso legal</a>
+        </div>
+        <div class="colPie">
+            <a><img src="facebook.png" alt="facebook" width="50px" height="50px"></a>
+            <a><img src="gorjeo.png" alt="twitter" width="50px" height="50px"></a>
+            <a><img src="instagram.png" alt="instagram" width="50px" height="50px"></a>
+            <a><img src="pinterest.png" alt="pinterest" width="50px" height="50px"></a>
+        </div>
+    </div>
+</body>
+</html>

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="animacionRot.css">
-    <link rel="stylesheet" href="inicio.css">
+    <link rel="stylesheet" href="pag3.css">
 </head>
 <body>
     <header class="cabecera">
@@ -20,7 +20,7 @@
             <div class="iconos">
                 <a href="#"><i class="fa-solid fa-earth"></i></a>
                 <a href="#"><i class="fa-solid fa-user"></i></a>
-                <a href="pag4.html"><i class="fa-solid fa-cart-shopping"></i></a>
+                <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
             </div>
         </div>
         <div class="menu">
@@ -30,7 +30,7 @@
 
             <div>
                 <ul class="botones">
-                    <li class="activo"><a  href="pag2.html">Productos</a></li>
+                    <li class="activo"><a  href="#">Productos</a></li>
                     <li><a href="#">Noticias</a></li>
                     <li><a href="#">Actividades</a></li>
                 </ul>
@@ -43,36 +43,94 @@
         </div>
     </header>
 
-    <main class="main">
-  <div class="carrusel-container">
-    <div class="carrusel">
-      <div class="slide" id="s1" style="background-image: url('montañosmo.jpeg');"></div>
-      <div class="slide" id="s2" style="background-image: url('montañosmo.jpeg');"></div>
-      <div class="slide" id="s3" style="background-image: url('montañosmo.jpeg');"></div>
-      <div class="slide" id="s4" style="background-image: url('montañosmo.jpeg');"></div>
-      <div class="slide" id="s5" style="background-image: url('aquipo.png');"></div>
+    <main class="container">
+        <div class="pagina-producto">
+
+  <!-- GALERÍA -->
+  <div class="galeria">
+    <div class="imagen-principal">
+      <img src="pie de gato.png" alt="Producto">
     </div>
-    <div class="controles">
-      <a href="#s1" class="flecha">❮</a>
-      <a href="#s5" class="flecha">❯</a>
+
+    <div class="miniaturas">
+      <img src="pie de gato.png">
+      <img src="pie de gato.png">
+      <img src="pie de gato.png">
+      <img src="pie de gato.png">
     </div>
   </div>
 
-  <section class="grid-contenido">
-    <div class="contenido">
-      <div class="texto-overlay">
-        <h2>EXPLORE NEW HORIZONS</h2>
-        <p>Discover the best trails and knots</p>
-      </div>
+  <!-- INFO -->
+  <div class="info-producto">
+    <h1>Arnés de escalada<br>para niños Ara</h1>
+
+    <p class="precio">94.99€</p>
+
+    <div class="valoracion">
+      ★ ★ ★ ★ ☆
     </div>
-    <div class="contenido derecha">
-      <div class="texto-overlay">
-        <h2>EMBRACE THE JOURNEY</h2>
-        <p>Gear reviews and travel guides</p>
-      </div>
+
+    <select class="selector">
+      <option>Talla 42</option>
+    </select>
+
+    <select class="selector">
+      <option>Color Verde</option>
+    </select>
+
+    <select class="selector">
+      <option>Cantidad 1</option>
+    </select>
+
+    <div class="acciones">
+      <button class="btn-carrito">Añadir al carrito</button>
+      <button class="btn-favorito">♡</button>
     </div>
-  </section>
-</main>
+  </div>
+
+</div>
+
+<!-- TABS -->
+<div class="tabs-producto">
+
+  <input type="radio" name="tabs" id="tab-descripcion" checked>
+  <input type="radio" name="tabs" id="tab-especificaciones">
+  <input type="radio" name="tabs" id="tab-resenas">
+
+  <div class="tabs">
+    <label for="tab-descripcion" class="tab">Descripción</label>
+    <label for="tab-especificaciones" class="tab">Especificaciones</label>
+    <label for="tab-resenas" class="tab">Reseñas</label>
+  </div>
+
+  <div class="contenidos-tabs">
+
+    <div class="contenido-tab descripcion">
+      <p>
+        Un equipo esencial para los alpinistas. La Sportiva Tarantulace es un pie de gato ligero y cómodo,
+        ideal para interiores y rocódromos.
+      </p>
+    </div>
+
+    <div class="contenido-tab especificaciones">
+      <ul>
+        <li>Marca: La Sportiva</li>
+        <li>Material: Cuero sintético</li>
+        <li>Suela: FriXion RS</li>
+        <li>Cierre: Velcro</li>
+        <li>Peso: 430 g</li>
+      </ul>
+    </div>
+
+    <div class="contenido-tab resenas">
+      <p>⭐⭐⭐⭐☆</p>
+      <p>Muy cómodos y buen agarre. Perfectos para principiantes.</p>
+    </div>
+
+  </div>
+</div>
+
+    </main>
 
     <footer class="footer">
         <div class="footer-top">
