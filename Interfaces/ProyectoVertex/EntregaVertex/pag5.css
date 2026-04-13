@@ -1,0 +1,73 @@
+/* contenedor principal de las noticias */
+.noticias {
+  display: grid;
+  margin-top: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* enlace que envuelve cada tarjeta */
+.noticias a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* tarjeta de noticia */
+.card {
+  border-radius: 10px;
+  overflow: hidden;
+  display: block;
+  border: 4px solid transparent;
+}
+
+/* imagen de la noticia */
+.card img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* título de la noticia */
+.card h3 {
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 1.25;
+  padding: 12px 12px 6px;
+}
+
+/* texto descriptivo de la noticia */
+.card p {
+  font-size: 18px;
+  line-height: 1.4;
+  color: #000000;
+  padding: 0 12px 12px;
+}
+
+/* adaptación para tablets */
+@media (max-width: 992px) {
+  .noticias {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* adaptación para móviles */
+@media (max-width: 600px) {
+  .noticias {
+    grid-template-columns: 1fr;
+  }
+
+  .card h3 {
+    font-size: 16px;
+  }
+
+  .card p {
+    font-size: 14px;
+  }
+}
+
+/* efecto hover en la tarjeta */
+.card:hover {
+  border: 4px solid white;
+  background-color: white;
+}

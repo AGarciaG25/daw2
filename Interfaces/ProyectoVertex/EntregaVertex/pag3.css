@@ -1,0 +1,265 @@
+/* estructura general de la página de producto */
+.pagina-producto {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 30px;
+  background-color: #cfcfcf;
+  gap: 20px;
+}
+
+/* galería de imágenes del producto */
+.galeria {
+  width: 600px;
+}
+
+/* contenedor de la imagen principal */
+.contenedor-principal {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* imágenes grandes del producto */
+.contenedor-principal img {
+  display: none;
+  width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* fila de miniaturas */
+.miniaturas {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* imágenes miniatura */
+.miniaturas img {
+  width: 120px;
+  height: 120px;
+  padding: 5px;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ocultar radios usados para cambiar la imagen principal */
+input[name="galeria"] {
+  display: none;
+}
+
+/* mostrar la imagen correspondiente según el radio seleccionado */
+#img-1:checked ~ .galeria .foto-1,
+#img-2:checked ~ .galeria .foto-2,
+#img-3:checked ~ .galeria .foto-3,
+#img-4:checked ~ .galeria .foto-4 {
+  display: block;
+}
+
+/* resaltar la miniatura activa */
+#img-1:checked ~ .galeria label[for="img-1"] img,
+#img-2:checked ~ .galeria label[for="img-2"] img,
+#img-3:checked ~ .galeria label[for="img-3"] img,
+#img-4:checked ~ .galeria label[for="img-4"] img {
+  border: 2px solid #8c8c8c;
+  opacity: 0.7;
+}
+
+/* información del producto */
+.info-producto {
+  width: 500px;
+}
+
+/* título del producto */
+.info-producto h1 {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+/* precio y valoración */
+.precio,
+.valoracion {
+  font-size: 30px;
+}
+
+/* separación de la valoración */
+.valoracion {
+  margin: 5px 0 15px;
+}
+
+/* selector de opciones del producto */
+.selector {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: none;
+  background: #8c8c8c;
+  color: #fff;
+  font-size: 20px;
+  box-shadow: 2px 2px 2px 2px #292929;
+}
+
+/* contenedor de botones de acción */
+.acciones {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* botón añadir al carrito */
+.btn-carrito {
+  flex: 1;
+  padding: 12px;
+  background: #8c8c8c;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 2px 2px 2px 2px #292929;
+}
+
+/* hover del botón carrito */
+.btn-carrito:hover {
+  background-color: #6f6f6f;
+}
+
+/* botón de favorito */
+.btn-favorito {
+  width: 45px;
+  font-size: 30px;
+  background: #fff;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* hover del botón favorito */
+.btn-favorito:hover {
+  color: red;
+  border-color: red;
+}
+
+/* estado activo del botón favorito */
+.btn-favorito:focus {
+  color: red;
+}
+
+/* contenedor general de pestañas */
+.tabs-producto {
+  margin: 15px;
+  background-color: #eeecec;
+  border-radius: 15px;
+  border: 1px solid #bbb;
+}
+
+/* ocultar radios de las pestañas */
+.tabs-producto input[type="radio"] {
+  display: none;
+}
+
+/* fila de pestañas */
+.tabs {
+  display: flex;
+}
+
+/* pestaña individual */
+.tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #bbb;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* contenedor de los contenidos */
+.contenidos-tabs {
+  border: 1px 1px 1px solid #bbb;
+}
+
+/* contenido individual de cada pestaña */
+.contenido-tab {
+  display: none;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+/* pestaña activa */
+#tab-descripcion:checked ~ .tabs label[for="tab-descripcion"],
+#tab-especificaciones:checked ~ .tabs label[for="tab-especificaciones"],
+#tab-resenas:checked ~ .tabs label[for="tab-resenas"] {
+  background: #eeecec;
+  font-weight: bold;
+  border-bottom: none;
+}
+
+/* mostrar contenido según la pestaña seleccionada */
+#tab-descripcion:checked ~ .contenidos-tabs .descripcion,
+#tab-especificaciones:checked ~ .contenidos-tabs .especificaciones,
+#tab-resenas:checked ~ .contenidos-tabs .resenas {
+  display: block;
+}
+
+/* adaptación para tablets */
+@media (max-width: 992px) {
+  .pagina-producto {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .galeria,
+  .info-producto {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .info-producto {
+    margin-top: 30px;
+  }
+}
+
+/* adaptación para móviles */
+@media (max-width: 600px) {
+  .contenedor-principal {
+    height: 300px;
+  }
+
+  .miniaturas {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .miniaturas img {
+    width: 80px;
+    height: 80px;
+    padding: 3px;
+  }
+
+  .info-producto h1 {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .precio,
+  .valoracion {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .acciones {
+    flex-direction: column;
+  }
+
+  .btn-favorito {
+    width: 100%;
+    height: 45px;
+  }
+}

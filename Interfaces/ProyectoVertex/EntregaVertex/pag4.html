@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="animacionRot.css">
-    <link rel="stylesheet" href="pag3.css">
+    <link rel="stylesheet" href="pag4.css">
 </head>
 <body>
     <header class="cabecera">
@@ -25,13 +25,13 @@
         </div>
         <div class="menu">
             <div class="logo">
-                <a href="#"><img src="vertex1.png" alt="Logo Vertex"></a>
+                <a href="pag1"><img src="img/vertex1.png" alt="Logo Vertex"></a>
             </div>
 
             <div>
                 <ul class="botones">
-                    <li class="activo"><a  href="#">Productos</a></li>
-                    <li><a href="#">Noticias</a></li>
+                    <li><a  href="pag2.html">Productos</a></li>
+                    <li><a href="pag5.html">Noticias</a></li>
                     <li><a href="#">Actividades</a></li>
                 </ul>
             </div>
@@ -44,98 +44,69 @@
     </header>
 
     <main class="container">
-        <div class="pagina-producto">
+        <div class="pagina-carrito">
+            <!-- productos -->
+            <div class="lista-productos">
 
-  <!-- GALERÍA -->
-  <div class="galeria">
-    <div class="imagen-principal">
-      <img src="pie de gato.png" alt="Producto">
-    </div>
+                <div class="producto">
+                <img src="img/pie de gato.png" alt="">
+                <div class="info-producto">
+                    <h3>Scarpa Drago</h3>
+                    <p>1 x Modelo 43 (ES)</p>
+                    <span class="precio">170.40 €</span>
+                </div>
+                <button class="btn-eliminar">✕</button>
+                </div>
 
-    <div class="miniaturas">
-      <img src="pie de gato.png">
-      <img src="pie de gato.png">
-      <img src="pie de gato.png">
-      <img src="pie de gato.png">
-    </div>
-  </div>
+                <div class="producto">
+                <img src="https://esteller-prod.b-cdn.net/media/catalog/product/cache/e209efc67234e41ae70ac345053ee479/s/r/src5086lx01_1.jpg" alt="">
+                <div class="info-producto">
+                    <h3>Arnés de escalada para niños Ara</h3>
+                    <p>1 x Modelo M (ES)</p>
+                    <span class="precio">75.35 €</span>
+                </div>
+                <button class="btn-eliminar">✕</button>
+                </div>
 
-  <!-- INFO -->
-  <div class="info-producto">
-    <h1>Arnés de escalada<br>para niños Ara</h1>
+                <div class="producto">
+                <img src="https://esteller-prod.b-cdn.net/media/catalog/product/cache/e209efc67234e41ae70ac345053ee479/s/r/src0091gx02_1.jpg" alt="">
+                <div class="info-producto">
+                    <h3>Casco de escalada Singing Rock Penta 2</h3>
+                    <p>1 x Modelo L (ES)</p>
+                    <span class="precio">69.95 €</span>
+                </div>
+                <button class="btn-eliminar">✕</button>
+                </div>
 
-    <p class="precio">94.99€</p>
+                <div class="producto">
+                <img src="https://myspringfield.com/dw/image/v2/AAYL_PRD/on/demandware.static/-/Sites-gc-spf-master-catalog/default/dwd751326d/images/hi-res/P_486003701D4.jpg" alt="">
+                <div class="info-producto">
+                    <h3>Chaqueta Belvis - negro</h3>
+                    <p>1 x Modelo L (ES)</p>
+                    <span class="precio">99.99 €</span>
+                </div>
+                <button class="btn-eliminar">✕</button>
+                </div>
+                
+            </div>
 
-    <div class="valoracion">
-      ★ ★ ★ ★ ☆
-    </div>
+            <!-- total -->
+            <div class="resumen-carrito">
+                <p>Subtotal <span>415.69 €</span></p>
+                <p>Gastos de envío <span>3.95 €</span></p>
+                <hr>
+                <p class="total">Total <span>419.64 €</span></p>
 
-    <select class="selector">
-      <option>Talla 42</option>
-    </select>
+                <button class="btn-pagar">Finalizar compra</button>
+            </div>
 
-    <select class="selector">
-      <option>Color Verde</option>
-    </select>
-
-    <select class="selector">
-      <option>Cantidad 1</option>
-    </select>
-
-    <div class="acciones">
-      <button class="btn-carrito">Añadir al carrito</button>
-      <button class="btn-favorito">♡</button>
-    </div>
-  </div>
-
-</div>
-
-<!-- TABS -->
-<div class="tabs-producto">
-
-  <input type="radio" name="tabs" id="tab-descripcion" checked>
-  <input type="radio" name="tabs" id="tab-especificaciones">
-  <input type="radio" name="tabs" id="tab-resenas">
-
-  <div class="tabs">
-    <label for="tab-descripcion" class="tab">Descripción</label>
-    <label for="tab-especificaciones" class="tab">Especificaciones</label>
-    <label for="tab-resenas" class="tab">Reseñas</label>
-  </div>
-
-  <div class="contenidos-tabs">
-
-    <div class="contenido-tab descripcion">
-      <p>
-        Un equipo esencial para los alpinistas. La Sportiva Tarantulace es un pie de gato ligero y cómodo,
-        ideal para interiores y rocódromos.
-      </p>
-    </div>
-
-    <div class="contenido-tab especificaciones">
-      <ul>
-        <li>Marca: La Sportiva</li>
-        <li>Material: Cuero sintético</li>
-        <li>Suela: FriXion RS</li>
-        <li>Cierre: Velcro</li>
-        <li>Peso: 430 g</li>
-      </ul>
-    </div>
-
-    <div class="contenido-tab resenas">
-      <p>⭐⭐⭐⭐☆</p>
-      <p>Muy cómodos y buen agarre. Perfectos para principiantes.</p>
-    </div>
-
-  </div>
-</div>
-
+        </div>
     </main>
 
     <footer class="footer">
         <div class="footer-top">
             <div class="logo">
-                <a href="#"><img src="vertex1.png" alt="Logo Vertex"></a>
+                <a href="#"><img src="img/vertex1.png" alt="Logo Vertex"></a>
             </div>
 
             <div class="footer-menu">

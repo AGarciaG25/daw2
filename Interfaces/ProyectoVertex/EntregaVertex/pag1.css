@@ -1,0 +1,94 @@
+/* contenedor principal del carrusel y secciones */
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 2000px;
+  margin: 0 auto;
+}
+
+/* contenedor exterior del carrusel */
+.carrusel-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+}
+
+/* carrusel que se desplaza horizontalmente */
+.carrusel {
+  display: flex;
+  width: 500%;
+  height: 100%;
+  animation: autoSlide 20s infinite;
+}
+
+/* cada slide del carrusel */
+.slide {
+  flex: 0 0 20%;
+  height: 100%;
+  background-size: cover;
+}
+
+/* animación automática del carrusel */
+@keyframes autoSlide {
+  0%   { transform: translateX(0%); }
+  20%  { transform: translateX(0%); }
+  25%  { transform: translateX(-20%); }
+  40%  { transform: translateX(-20%); }
+  45%  { transform: translateX(-40%); }
+  60%  { transform: translateX(-40%); }
+  65%  { transform: translateX(-60%); }
+  80%  { transform: translateX(-60%); }
+  85%  { transform: translateX(-80%); }
+  100% { transform: translateX(-80%); }
+}
+
+/* sección de contenido debajo del carrusel */
+.contenido {
+  width: 100%;
+  aspect-ratio: 16 / 8;
+  background-size: cover;
+  margin-bottom: 15px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* fondo de la sección montañismo */
+.montañismo {
+  background-image: url('img/montañosmo.jpeg');
+}
+
+/* fondo de la sección escalada */
+.escalada {
+  background-image: url('https://www.oliunid.es/media/wysiwyg/FW25_Move-within-the-moment_Teo-Giovanni-Poggi_Wild-Country-176_4.jpg');
+  text-align: end;
+}
+
+/* fondo de la sección acampada */
+.acampada {
+  background-image: url('https://boxio.es/cdn/shop/articles/Wildcampen_Europa.jpg?v=1666190363&width=1500');
+  background-position: bottom;
+}
+
+/* fondo de la sección barranquismo */
+.barranquismo {
+  background-image: url('https://res.cloudinary.com/manawa/image/private/f_auto,c_limit,w_3840,q_auto/b0a26d7d7244b04b074de651f159af5d');
+}
+
+/* contenedor del texto superpuesto a las imágenes */
+.texto-contenido {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 30px;
+  color: white;
+}
+
+/* título del contenido */
+.texto-contenido h2 {
+  font-size: 3rem;
+  margin-bottom: 5px;
+}
