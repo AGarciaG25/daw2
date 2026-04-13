@@ -1,0 +1,309 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:rgb(49, 3, 85) ;
+    justify-content: center;
+    color: white;
+    width: 100%;
+    
+}
+
+.login {
+    height: 20px;
+    width: 40px;
+    margin: 10px;
+    margin-left: auto;
+    background-color: aliceblue;
+    border: 1px solid white;
+}
+
+#nav-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+#menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}
+
+#menu a{
+    text-decoration: none;
+    color: inherit;
+     border-radius: 5px;
+}
+
+.logo{
+    display: flex;
+    background-color: rgb(128, 187, 128);
+    padding: 10px;
+    border-radius: 5px;
+    gap: 10px;
+    overflow: hidden;
+}
+
+.logo i{
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    color: white;
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+.activo{
+    background-color: rgb(213, 86, 35);
+}
+
+
+/*footer*/
+#footer{
+    background-color: rgb(49, 3, 85) ;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 15px;
+}
+
+.redes {
+    width: 15px;
+    height: 25px;
+    background-color: white;
+}
+
+.politicas{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.politicas a {
+    text-decoration: none;
+    color: white;
+}
+
+/*main*/
+#main{
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: beige;
+    gap: 15px;
+    padding: 15px;
+    width: 100%;
+}
+.card{
+    height: 305px;
+    width: auto;
+    background-color: white;
+    margin: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    box-shadow:1px 1px 1px 1px rgb(87, 73, 73, 0.5);
+    border-radius: 5px;
+    overflow: hidden;
+}   
+
+.card i{
+    width: 45px;
+    height: 45px;
+    background-color: black;
+}
+
+.card h3, .card p{
+    color: rgb(31, 33, 162);
+}
+
+
+
+/*responsive*/
+
+@media (min-width:481px) and (max-width:700px){
+
+    #menu{
+        flex-direction: row;
+        gap: 20px;
+    
+    }
+
+    #footer{
+        flex-direction: column;
+    }
+
+    .politicas{
+        justify-content: space-between;
+    }
+
+    #main{
+        grid-template-columns: 1fr 1fr;
+    }
+
+
+}
+
+@media (min-width:701px){
+
+
+    #nav-wrapper{
+        flex-direction:row;
+        
+        padding-bottom: 10px;
+        
+    }
+    #menu{
+        flex-direction: row;
+        gap:15px
+    }
+
+    .politicas{
+        flex-direction: row;
+        gap: 15px;
+    }
+
+
+
+}
+
+@media (min-width:701px) and (max-width:900px){
+    #main{
+        grid-template-columns: 1fr 1fr 1fr ;
+    }
+}
+
+@media (min-width:901px) and (max-width:1100px){
+    #main{
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media (min-width:1101px){
+    #main{
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
+/*animaciones*/
+.fa-globe {
+    animation: rotacion 3s infinite linear;
+}
+
+@keyframes rotacion {
+    0% {
+        transform: rotateY(0deg);
+        background-color: white;
+    }
+    50%{
+        background-color: black;
+    }
+    100% {
+        transform: rotateY(360deg);
+        background-color: white;
+    }
+}
+
+.logo:hover > .fa-globe{
+    animation: animacionlogo 0.5s linear;
+}
+
+.logo:hover{
+    background-color: rgb(213, 86, 35);
+    cursor: text;
+}
+
+@keyframes animacionlogo{
+    0%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(40px);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}
+
+.card:hover > p {
+    animation: textcard 0.5s ease-out forwards;
+}
+
+.card:hover {
+    background-color: rgb(213, 86, 35);
+}
+
+@keyframes textcard{
+    0%{
+        transform: translateX(-100%);
+        color: white;
+    }
+    100%{
+        transform: translateX(0px);
+        color: white;
+    }
+}
+
+.card:hover > i {
+    animation: iconocardanim 0.5s ease-out forwards;
+}
+
+@keyframes iconocardanim{
+    0%{
+        transform: translateY(-200px);
+        color:rgb(213, 86, 35);
+    }
+    100%{
+        transform: translateY(0px);
+        color: rgb(213, 86, 35);
+    }
+}
+
+.card:hover > h3 {
+    animation: h3animacion 0.5s ease-out forwards;
+}
+
+@keyframes h3animacion{
+    0%{
+        transform: translateY(-150px);
+        opacity: 0;
+        color: black;
+    }
+    25%{
+        color: black;
+    }
+    100%{
+        transform: translateY(0px);
+        opacity: 1;
+        color: white;
+    }
+}
+
+
+/*hover */
+.redes a:hover{
+    color:rgb(213, 86, 35);
+}
+
+.politicas a:hover{
+    color: rgb(213, 86, 35);
+}
+
+#menu a:hover{
+    color: rgb(213, 86, 35);
+}
+
+.login a:hover{
+    color: rgb(213, 86, 35);
+}
