@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, generics, permissions
 
 from .models import Exercise, ExerciseVariation, MuscleGroup, WorkoutPlan
 from .serializers import (
@@ -6,6 +6,7 @@ from .serializers import (
     ExerciseVariationSerializer,
     MuscleGroupSerializer,
     WorkoutPlanSerializer,
+    UserRegistrationSerializer,
 )
 
 
@@ -79,3 +80,7 @@ class WorkoutPlanViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(difficulty=difficulty)
 
         return queryset
+
+class RegisterView(generics.CreateAPIView):
+    serializer_class = UserRegistrationSerializer
+    permission_classes = (permissions.AllowAny,)

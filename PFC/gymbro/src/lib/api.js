@@ -45,6 +45,11 @@ export async function apiFetch(path, options = {}) {
     ...(options.headers || {}),
   }
 
+  const token = localStorage.getItem('gymbro_token')
+  if (token) {
+    headers['Authorization'] = `Token ${token}`
+  }
+
   if (options.body && !headers['Content-Type']) {
     headers['Content-Type'] = 'application/json'
   }
@@ -71,4 +76,26 @@ export async function apiFetch(path, options = {}) {
   }
 
   return response.json()
+}
+
+export async function login(username, password) {
+  const data = await apiFetch('/api/login/', {
+    method: 'POST',
+    body: JSON.stringify({ username, password })
+  })
+  if (data.token) {
+    localStorage.setItem('gymbro_token', data.token)
+  }
+  return data
+}
+
+export async function register(username, email, password) {
+  return apiFetch('/api/register/', {
+    method: 'POST',
+    body: JSON.stringify({ username, email, password })
+  })
+}
+
+export function logout() {
+  localStorage.removeItem('gymbro_token')
 }

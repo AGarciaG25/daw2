@@ -1,10 +1,9 @@
-import { startTransition } from 'react'
+import { startTransition, useState } from 'react'
+import './ExerciseExplorer.css'
 
 import {
   bodyRegionLabels,
   difficultyLabels,
-  formatDate,
-  getBodyRegionCount,
   getMuscleTargetNames,
 } from '../lib/helpers'
 
@@ -18,6 +17,48 @@ const sortLabels = {
   name: 'Nombre',
   variations: 'Mas variaciones',
   updated: 'Mas recientes',
+}
+
+function getExerciseAccent(exercise) {
+  const primaryMuscle = exercise.muscle_targets.find((target) => target.emphasis === 'primary')
+  const region = primaryMuscle?.muscle_group_detail?.body_region
+
+  if (region === 'lower_body') {
+    return 'exercise-card--legs'
+  }
+
+  if (region === 'core') {
+    return 'exercise-card--core'
+  }
+
+  if (region === 'full_body') {
+    return 'exercise-card--full'
+  }
+
+  return 'exercise-card--upper'
+}
+
+function ExerciseIllustration({ exercise }) {
+  const initials = exercise.name
+    .split(' ')
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join('')
+
+  const muscles = getMuscleTargetNames(exercise, 'primary').slice(0, 2)
+
+  return (
+    <div className="exercise-illustration">
+      <div className="exercise-illustration__figure">
+        <span>{initials || 'EX'}</span>
+      </div>
+      <div className="exercise-illustration__targets">
+        {muscles.map((muscle) => (
+          <span key={muscle}>{muscle}</span>
+        ))}
+      </div>
+    </div>
+  )
 }
 
 function ExerciseExplorer({
@@ -44,307 +85,194 @@ function ExerciseExplorer({
   onSortChange,
   onClearMuscleFilter,
   onResetFilters,
+  refreshing,
+  onRefresh,
 }) {
+  const [showFilters, setShowFilters] = useState(false)
+
   return (
-    <section id="explorador-ejercicios" className="panel">
-      <div className="section-heading">
+    <section id="explorador-ejercicios" className="library-shell">
+      <header className="library-topbar">
         <div>
-          <p className="section-heading__eyebrow">Buscador</p>
-          <h2>Biblioteca de ejercicios</h2>
+          <p className="section-heading__eyebrow">Buscador de ejercicios</p>
+          <h1>Encuentra ejercicios con una estructura mas visual</h1>
         </div>
-        <span className="section-heading__badge">
-          {loading ? 'Cargando...' : `${visibleExercises.length} de ${totalExercises} ejercicios`}
-        </span>
+        <div className="library-stats">
+          <span>{muscleGroups.length} grupos</span>
+          <span>{visibleExercises.length} visibles</span>
+          <span>{activeFiltersCount} filtros</span>
+        </div>
+      </header>
+
+      <div className="library-searchbar">
+        <label className="library-searchbar__input">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z M16 16l5 5" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <input
+            type="search"
+            placeholder="Buscar ejercicios"
+            value={searchTerm}
+            onChange={(event) => onSearchTermChange(event.target.value)}
+          />
+        </label>
+
+        <button type="button" className="library-icon-button" onClick={() => setShowFilters((value) => !value)}>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 7h16 M7 12h10 M10 17h4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
+          <span>Filtros</span>
+        </button>
       </div>
 
-      <div className="catalog-layout">
-        <aside className="filters-panel">
-          <div className="stack">
-            <div className="stack__header">
-              <h3>Busqueda rapida</h3>
-              <button className="text-button" type="button" onClick={onResetFilters}>
-                Limpiar filtros
-              </button>
-            </div>
+      <div className="muscle-rail">
+        <button
+          type="button"
+          className={`muscle-pill ${selectedBodyRegion === 'all' && !selectedMuscleSlug ? 'muscle-pill--active' : ''}`}
+          onClick={() => onRegionChange('all')}
+        >
+          <strong>Todo</strong>
+          <small>{totalExercises}</small>
+        </button>
 
+        {visibleMuscleGroups.map((group) => (
+          <button
+            key={group.id}
+            type="button"
+            className={`muscle-pill ${selectedMuscleSlug === group.slug ? 'muscle-pill--active' : ''}`}
+            onClick={() => onMuscleToggle(group)}
+          >
+            <strong>{group.name}</strong>
+            <small>{group.exercise_count}</small>
+          </button>
+        ))}
+      </div>
+
+      {showFilters ? (
+        <section className="advanced-filters">
+          <div className="advanced-filters__grid">
             <label className="field">
-              <span>Buscar por nombre, material o variacion</span>
-              <input
-                type="search"
-                placeholder="Press banca, sentadilla, plancha..."
-                value={searchTerm}
-                onChange={(event) => onSearchTermChange(event.target.value)}
-              />
+              <span>Region</span>
+              <select value={selectedBodyRegion} onChange={(event) => onRegionChange(event.target.value)}>
+                {Object.entries(bodyRegionLabels).map(([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </select>
             </label>
 
-            <div className="filter-grid">
-              <label className="field">
-                <span>Dificultad</span>
-                <select
-                  value={selectedDifficulty}
-                  onChange={(event) => onDifficultyChange(event.target.value)}
-                >
-                  <option value="all">Todas</option>
-                  {Object.entries(difficultyLabels).map(([value, label]) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </select>
-              </label>
+            <label className="field">
+              <span>Dificultad</span>
+              <select value={selectedDifficulty} onChange={(event) => onDifficultyChange(event.target.value)}>
+                <option value="all">Todas</option>
+                {Object.entries(difficultyLabels).map(([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-              <label className="field">
-                <span>Tipo</span>
-                <select
-                  value={selectedExerciseType}
-                  onChange={(event) => onExerciseTypeChange(event.target.value)}
-                >
-                  {Object.entries(exerciseTypeLabels).map(([value, label]) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </select>
-              </label>
+            <label className="field">
+              <span>Tipo</span>
+              <select value={selectedExerciseType} onChange={(event) => onExerciseTypeChange(event.target.value)}>
+                {Object.entries(exerciseTypeLabels).map(([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-              <label className="field field--wide">
-                <span>Ordenar por</span>
-                <select value={sortBy} onChange={(event) => onSortChange(event.target.value)}>
-                  {Object.entries(sortLabels).map(([value, label]) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
+            <label className="field">
+              <span>Orden</span>
+              <select value={sortBy} onChange={(event) => onSortChange(event.target.value)}>
+                {Object.entries(sortLabels).map(([value, label]) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
 
-          <div className="stack">
-            <div className="stack__header">
-              <h3>Regiones corporales</h3>
-              <span className="filters-panel__meta">{activeFiltersCount} filtros activos</span>
-            </div>
-            <div className="chip-row">
-              {Object.entries(bodyRegionLabels).map(([value, label]) => (
-                <button
-                  key={value}
-                  type="button"
-                  className={`chip ${selectedBodyRegion === value ? 'chip--active' : ''}`}
-                  onClick={() => onRegionChange(value)}
-                >
-                  <span>{label}</span>
-                  {value !== 'all' ? (
-                    <small>{getBodyRegionCount(muscleGroups, value)}</small>
-                  ) : (
-                    <small>{muscleGroups.length}</small>
-                  )}
-                </button>
-              ))}
-            </div>
+          <div className="advanced-filters__actions">
+            <button type="button" className="button button--ghost" onClick={onClearMuscleFilter}>
+              Quitar zona muscular
+            </button>
+            <button type="button" className="button button--ghost" onClick={onResetFilters}>
+              Limpiar filtros
+            </button>
+            <button type="button" className="button button--primary" onClick={onRefresh} disabled={refreshing}>
+              {refreshing ? 'Actualizando...' : 'Recargar'}
+            </button>
           </div>
+        </section>
+      ) : null}
 
-          <div className="stack">
-            <div className="stack__header">
-              <h3>Zonas musculares</h3>
-              <button className="text-button" type="button" onClick={onClearMuscleFilter}>
-                Quitar zona
-              </button>
-            </div>
-
-            <div className="muscle-grid">
-              {visibleMuscleGroups.map((group) => (
-                <button
-                  key={group.id}
-                  type="button"
-                  className={`muscle-card ${
-                    selectedMuscleSlug === group.slug ? 'muscle-card--selected' : ''
-                  }`}
-                  onClick={() => onMuscleToggle(group)}
-                >
-                  <strong>{group.name}</strong>
-                  <span>{bodyRegionLabels[group.body_region]}</span>
-                  <small>{group.exercise_count} ejercicios</small>
-                </button>
-              ))}
-            </div>
+      {selectedExercise ? (
+        <section className="exercise-spotlight">
+          <div>
+            <p className="section-heading__eyebrow">Ejercicio seleccionado</p>
+            <h2>{selectedExercise.name}</h2>
+            <p>{selectedExercise.description}</p>
           </div>
-        </aside>
-
-        <div className="catalog-content">
-          <div className="results-column">
-            <div className="results-summary">
-              <p>
-                Usa los filtros para encontrar ejercicios concretos por musculo, dificultad o tipo.
-              </p>
-              <strong>{visibleExercises.length} resultados listos para explorar</strong>
-            </div>
-
-            <div className="exercise-grid">
-              {visibleExercises.map((exercise) => {
-                const primaryMuscles = getMuscleTargetNames(exercise, 'primary')
-
-                return (
-                  <button
-                    key={exercise.id}
-                    type="button"
-                    className={`exercise-card ${
-                      selectedExerciseId === exercise.id ? 'exercise-card--selected' : ''
-                    }`}
-                    onClick={() =>
-                      startTransition(() => {
-                        onExerciseSelect(exercise.id)
-                      })
-                    }
-                  >
-                    <div className="exercise-card__top">
-                      <span className="tag tag--muted">
-                        {difficultyLabels[exercise.difficulty] || exercise.difficulty}
-                      </span>
-                      {exercise.is_compound ? (
-                        <span className="tag tag--accent">Compuesto</span>
-                      ) : (
-                        <span className="tag tag--soft">Aislado</span>
-                      )}
-                    </div>
-                    <h3>{exercise.name}</h3>
-                    <p>{exercise.description}</p>
-                    <div className="pill-row">
-                      {primaryMuscles.map((muscleName) => (
-                        <span key={muscleName} className="pill">
-                          {muscleName}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="exercise-card__meta">
-                      <span>{exercise.equipment || 'Sin material especifico'}</span>
-                      <strong>{exercise.variations.length} variaciones</strong>
-                    </div>
-                  </button>
-                )
-              })}
-
-              {!loading && !visibleExercises.length ? (
-                <div className="empty-state">
-                  <h3>No hay ejercicios con esos filtros</h3>
-                  <p>Prueba otra combinacion de region, dificultad, busqueda o tipo.</p>
-                </div>
-              ) : null}
-            </div>
+          <div className="exercise-spotlight__meta">
+            <span>{difficultyLabels[selectedExercise.difficulty] || selectedExercise.difficulty}</span>
+            <span>{selectedExercise.equipment || 'Sin material especificado'}</span>
+            <span>{selectedExercise.variations.length} variaciones</span>
           </div>
+        </section>
+      ) : null}
 
-          <aside className="detail-panel">
-            {selectedExercise ? (
-              <>
-                <div className="detail-panel__header">
-                  <div>
-                    <p className="section-heading__eyebrow">Ficha del ejercicio</p>
-                    <h3>{selectedExercise.name}</h3>
-                  </div>
-                  <span className="detail-panel__date">
-                    Alta {formatDate(selectedExercise.created_at)}
+      <section className="exercise-library-grid">
+        {visibleExercises.map((exercise) => {
+          const primaryMuscles = getMuscleTargetNames(exercise, 'primary').slice(0, 2)
+
+          return (
+            <button
+              key={exercise.id}
+              type="button"
+              className={`exercise-card exercise-card--visual ${getExerciseAccent(exercise)} ${
+                selectedExerciseId === exercise.id ? 'exercise-card--selected' : ''
+              }`}
+              onClick={() =>
+                startTransition(() => {
+                  onExerciseSelect(exercise.id)
+                })
+              }
+            >
+              <div className="exercise-card__icons">
+                <span className="exercise-card__bookmark">+</span>
+                <span className="exercise-card__hint">?</span>
+              </div>
+
+              <ExerciseIllustration exercise={exercise} />
+
+              <div className="exercise-card__content">
+                <h3>{exercise.name}</h3>
+                <p>{primaryMuscles.join(', ') || 'Trabajo general'}</p>
+                <div className="exercise-card__footer">
+                  <span className="tag tag--muted">
+                    {exercise.is_compound ? 'Compuesto' : 'Aislado'}
+                  </span>
+                  <span className="tag tag--soft">
+                    {difficultyLabels[exercise.difficulty] || exercise.difficulty}
                   </span>
                 </div>
-
-                <p className="detail-panel__description">{selectedExercise.description}</p>
-
-                <div className="detail-stat-grid">
-                  <div className="detail-stat">
-                    <span>Dificultad</span>
-                    <strong>
-                      {difficultyLabels[selectedExercise.difficulty] || selectedExercise.difficulty}
-                    </strong>
-                  </div>
-                  <div className="detail-stat">
-                    <span>Material</span>
-                    <strong>{selectedExercise.equipment || 'No indicado'}</strong>
-                  </div>
-                </div>
-
-                <div className="stack">
-                  <div className="stack__header">
-                    <h4>Musculos que trabaja</h4>
-                  </div>
-                  <div className="target-stack">
-                    {['primary', 'secondary', 'stabilizer'].map((emphasis) => {
-                      const labelMap = {
-                        primary: 'Principal',
-                        secondary: 'Secundario',
-                        stabilizer: 'Estabilizador',
-                      }
-                      const muscles = selectedExercise.muscle_targets.filter(
-                        (target) => target.emphasis === emphasis
-                      )
-
-                      if (!muscles.length) {
-                        return null
-                      }
-
-                      return (
-                        <div key={emphasis} className="target-group">
-                          <span>{labelMap[emphasis]}</span>
-                          <div className="pill-row">
-                            {muscles.map((target) => (
-                              <button
-                                key={target.id}
-                                type="button"
-                                className="pill pill--interactive"
-                                onClick={() => onMuscleToggle(target.muscle_group_detail)}
-                              >
-                                {target.muscle_group_detail.name}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </div>
-
-                <div className="stack">
-                  <div className="stack__header">
-                    <h4>Como ejecutarlo</h4>
-                  </div>
-                  <p className="detail-panel__instructions">
-                    {selectedExercise.instructions || 'Este ejercicio no tiene instrucciones aun.'}
-                  </p>
-                </div>
-
-                <div className="stack">
-                  <div className="stack__header">
-                    <h4>Variaciones disponibles</h4>
-                  </div>
-                  <div className="variation-list">
-                    {selectedExercise.variations.length ? (
-                      selectedExercise.variations.map((variation) => (
-                        <article key={variation.id} className="variation-card">
-                          <div className="variation-card__head">
-                            <strong>{variation.name}</strong>
-                            <span>{variation.equipment_override || selectedExercise.equipment}</span>
-                          </div>
-                          <p>{variation.description}</p>
-                          {variation.instructions_override ? (
-                            <small>{variation.instructions_override}</small>
-                          ) : null}
-                        </article>
-                      ))
-                    ) : (
-                      <p className="detail-panel__description">
-                        Este ejercicio base todavia no tiene variaciones registradas.
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </>
-            ) : (
-              <div className="empty-state">
-                <h3>Selecciona un ejercicio</h3>
-                <p>Haz clic en una tarjeta para ver sus musculos, instrucciones y variaciones.</p>
               </div>
-            )}
-          </aside>
-        </div>
-      </div>
+            </button>
+          )
+        })}
+
+        {!loading && !visibleExercises.length ? (
+          <div className="empty-state">
+            <h3>No hay ejercicios con esos filtros</h3>
+            <p>Prueba otra combinacion de busqueda, region o dificultad.</p>
+          </div>
+        ) : null}
+      </section>
     </section>
   )
 }
