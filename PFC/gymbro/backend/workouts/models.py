@@ -62,9 +62,13 @@ class Exercise(TimeStampedModel):
 
     name = models.CharField(max_length=140, unique=True)
     slug = models.SlugField(max_length=160, unique=True, blank=True)
+    external_id = models.CharField(max_length=128, unique=True, blank=True, null=True)
     description = models.TextField()
     instructions = models.TextField(blank=True)
     equipment = models.CharField(max_length=140, blank=True)
+    body_part = models.CharField(max_length=80, blank=True)
+    demo_gif_path = models.CharField(max_length=255, blank=True)
+    demo_frame_paths = models.JSONField(default=list, blank=True)
     difficulty = models.CharField(
         max_length=20,
         choices=Difficulty.choices,
@@ -83,6 +87,8 @@ class Exercise(TimeStampedModel):
         verbose_name_plural = 'Ejercicios'
 
     def save(self, *args, **kwargs):
+        if self.external_id == '':
+            self.external_id = None
         if not self.slug:
             self.slug = build_unique_slug(self, self.name)
         super().save(*args, **kwargs)

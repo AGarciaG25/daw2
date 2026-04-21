@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.templatetags.static import static
 from django.db import transaction
 from rest_framework import serializers
 
@@ -71,6 +72,8 @@ class ExerciseVariationSerializer(serializers.ModelSerializer):
 class ExerciseSerializer(serializers.ModelSerializer):
     muscle_targets = ExerciseMuscleTargetSerializer(many=True, required=False)
     variations = ExerciseVariationSerializer(many=True, read_only=True)
+    demo_gif_url = serializers.SerializerMethodField()
+    demo_frame_urls = serializers.SerializerMethodField()
 
     class Meta:
         model = Exercise
@@ -78,9 +81,15 @@ class ExerciseSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'slug',
+            'external_id',
             'description',
             'instructions',
             'equipment',
+            'body_part',
+            'demo_gif_path',
+            'demo_frame_paths',
+            'demo_gif_url',
+            'demo_frame_urls',
             'difficulty',
             'is_compound',
             'muscle_targets',
@@ -116,6 +125,15 @@ class ExerciseSerializer(serializers.ModelSerializer):
         ExerciseMuscleTarget.objects.bulk_create(
             [ExerciseMuscleTarget(exercise=exercise, **target) for target in muscle_targets]
         )
+
+    def get_demo_gif_url(self, obj):
+        if not obj.demo_gif_path:
+            return ''
+
+        return static(obj.demo_gif_path)
+
+    def get_demo_frame_urls(self, obj):
+        return [static(path) for path in (obj.demo_frame_paths or []) if path]
 
 
 class WorkoutPlanItemSerializer(serializers.ModelSerializer):

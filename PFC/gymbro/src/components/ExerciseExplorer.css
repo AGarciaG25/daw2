@@ -143,6 +143,13 @@
   gap: 10px;
 }
 
+.exercise-spotlight__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 360px);
+  gap: 20px;
+  align-items: center;
+}
+
 .exercise-spotlight h2 {
   margin: 0;
   color: var(--text-strong);
@@ -226,6 +233,72 @@
   opacity: 0.85;
 }
 
+.exercise-illustration__media {
+  display: grid;
+  place-items: center;
+  min-height: 210px;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.1), transparent 24%),
+    linear-gradient(180deg, #1b2637, #121926);
+  overflow: hidden;
+}
+
+.exercise-illustration__media--large {
+  min-height: 280px;
+}
+
+.exercise-illustration__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.exercise-illustration__sequence {
+  position: relative;
+  min-height: 210px;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.1), transparent 24%),
+    linear-gradient(180deg, #1b2637, #121926);
+  overflow: hidden;
+}
+
+.exercise-illustration__sequence--large {
+  min-height: 280px;
+}
+
+.exercise-illustration__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.exercise-illustration__frame--base {
+  opacity: 1;
+}
+
+.exercise-illustration__frame--alt {
+  opacity: 0;
+  animation: exercise-frame-toggle 1.8s ease-in-out infinite;
+}
+
+@keyframes exercise-frame-toggle {
+  0%,
+  45% {
+    opacity: 0;
+  }
+
+  55%,
+  100% {
+    opacity: 1;
+  }
+}
+
 .exercise-illustration__figure span {
   position: relative;
   z-index: 1;
@@ -299,6 +372,10 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .exercise-spotlight__layout {
+    grid-template-columns: 1fr;
+  }
+
   .library-topbar,
   .library-searchbar {
     flex-direction: column;
@@ -312,7 +389,17 @@
     grid-template-columns: 1fr;
   }
 
+  .exercise-spotlight__layout {
+    grid-template-columns: 1fr;
+  }
+
   .muscle-rail {
     grid-auto-columns: minmax(120px, 160px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exercise-illustration__frame--alt {
+    animation: none;
   }
 }

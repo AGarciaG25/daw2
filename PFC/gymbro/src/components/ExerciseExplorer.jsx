@@ -1,5 +1,6 @@
 import { startTransition, useState } from 'react'
 import './ExerciseExplorer.css'
+import MuscleBodyMap from './MuscleBodyMap'
 
 import {
   bodyRegionLabels,
@@ -38,7 +39,7 @@ function getExerciseAccent(exercise) {
   return 'exercise-card--upper'
 }
 
-function ExerciseIllustration({ exercise }) {
+function ExerciseIllustration({ exercise, large = false }) {
   const initials = exercise.name
     .split(' ')
     .slice(0, 2)
@@ -46,12 +47,44 @@ function ExerciseIllustration({ exercise }) {
     .join('')
 
   const muscles = getMuscleTargetNames(exercise, 'primary').slice(0, 2)
+  const frameUrls = exercise.demo_frame_urls || []
 
   return (
     <div className="exercise-illustration">
-      <div className="exercise-illustration__figure">
-        <span>{initials || 'EX'}</span>
-      </div>
+      {exercise.demo_gif_url ? (
+        <div className={`exercise-illustration__media ${large ? 'exercise-illustration__media--large' : ''}`}>
+          <img
+            src={exercise.demo_gif_url}
+            alt={`Demostracion de ${exercise.name}`}
+            loading="lazy"
+          />
+        </div>
+      ) : frameUrls.length ? (
+        <div
+          className={`exercise-illustration__sequence ${
+            large ? 'exercise-illustration__sequence--large' : ''
+          }`}
+        >
+          <img
+            src={frameUrls[0]}
+            alt={`Demostracion inicial de ${exercise.name}`}
+            className="exercise-illustration__frame exercise-illustration__frame--base"
+            loading="lazy"
+          />
+          {frameUrls[1] ? (
+            <img
+              src={frameUrls[1]}
+              alt={`Demostracion final de ${exercise.name}`}
+              className="exercise-illustration__frame exercise-illustration__frame--alt"
+              loading="lazy"
+            />
+          ) : null}
+        </div>
+      ) : (
+        <div className="exercise-illustration__figure">
+          <span>{initials || 'EX'}</span>
+        </div>
+      )}
       <div className="exercise-illustration__targets">
         {muscles.map((muscle) => (
           <span key={muscle}>{muscle}</span>
@@ -124,6 +157,13 @@ function ExerciseExplorer({
           <span>Filtros</span>
         </button>
       </div>
+
+      <MuscleBodyMap
+        muscleGroups={muscleGroups}
+        selectedMuscleSlug={selectedMuscleSlug}
+        onMuscleToggle={onMuscleToggle}
+        onClear={onClearMuscleFilter}
+      />
 
       <div className="muscle-rail">
         <button
@@ -213,15 +253,19 @@ function ExerciseExplorer({
 
       {selectedExercise ? (
         <section className="exercise-spotlight">
-          <div>
-            <p className="section-heading__eyebrow">Ejercicio seleccionado</p>
-            <h2>{selectedExercise.name}</h2>
-            <p>{selectedExercise.description}</p>
-          </div>
-          <div className="exercise-spotlight__meta">
-            <span>{difficultyLabels[selectedExercise.difficulty] || selectedExercise.difficulty}</span>
-            <span>{selectedExercise.equipment || 'Sin material especificado'}</span>
-            <span>{selectedExercise.variations.length} variaciones</span>
+          <div className="exercise-spotlight__layout">
+            <div>
+              <p className="section-heading__eyebrow">Ejercicio seleccionado</p>
+              <h2>{selectedExercise.name}</h2>
+              <p>{selectedExercise.description}</p>
+              <div className="exercise-spotlight__meta">
+                <span>{difficultyLabels[selectedExercise.difficulty] || selectedExercise.difficulty}</span>
+                <span>{selectedExercise.equipment || 'Sin material especificado'}</span>
+                <span>{selectedExercise.variations.length} variaciones</span>
+              </div>
+            </div>
+
+            <ExerciseIllustration exercise={selectedExercise} large />
           </div>
         </section>
       ) : null}

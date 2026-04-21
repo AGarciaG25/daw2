@@ -29,9 +29,9 @@ class MuscleGroupAdmin(admin.ModelAdmin):
 
 @admin.register(Exercise)
 class ExerciseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'difficulty', 'equipment', 'is_compound')
-    list_filter = ('difficulty', 'is_compound')
-    search_fields = ('name', 'description', 'equipment')
+    list_display = ('name', 'external_id', 'body_part', 'difficulty', 'equipment', 'is_compound')
+    list_filter = ('difficulty', 'is_compound', 'body_part')
+    search_fields = ('name', 'external_id', 'description', 'equipment', 'body_part')
     prepopulated_fields = {'slug': ('name',)}
     inlines = [ExerciseMuscleTargetInline, ExerciseVariationInline]
 

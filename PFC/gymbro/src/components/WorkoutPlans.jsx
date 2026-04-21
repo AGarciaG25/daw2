@@ -12,10 +12,10 @@ function WorkoutPlans({
       <div className="section-heading">
         <div>
           <p className="section-heading__eyebrow">Rutinas</p>
-          <h2>Tablas de ejercicios guardadas</h2>
+          <h2>Rutinas guardadas</h2>
         </div>
         <span className="section-heading__badge">
-          {workoutPlans.length} {workoutPlans.length === 1 ? 'tabla' : 'tablas'}
+          {workoutPlans.length} {workoutPlans.length === 1 ? 'rutina' : 'rutinas'}
         </span>
       </div>
 
@@ -49,7 +49,7 @@ function WorkoutPlans({
             <>
               <div className="detail-panel__header">
                 <div>
-                  <p className="section-heading__eyebrow">Detalle de la tabla</p>
+                  <p className="section-heading__eyebrow">Detalle de la rutina</p>
                   <h3>{selectedWorkoutPlan.name}</h3>
                 </div>
                 <span className="detail-panel__date">
@@ -106,7 +106,7 @@ function WorkoutPlans({
           ) : (
             <div className="empty-state">
               <h3>Todavia no hay rutinas</h3>
-              <p>Crea la primera tabla desde el formulario inferior.</p>
+              <p>Crea la primera rutina desde el editor superior.</p>
             </div>
           )}
         </aside>

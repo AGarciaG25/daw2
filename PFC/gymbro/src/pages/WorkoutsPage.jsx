@@ -3,36 +3,88 @@ import WorkoutPlans from '../components/WorkoutPlans'
 import WorkoutCreator from '../components/WorkoutCreator'
 import { apiFetch } from '../lib/api'
 
-export default function WorkoutsPage() {
-  const [workoutPlans, setWorkoutPlans] = useState([])
-  const [exercises, setExercises] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-  
-  const [selectedWorkoutPlanId, setSelectedWorkoutPlanId] = useState(null)
+function createSetEntry(overrides = {}) {
+  return {
+    id: crypto.randomUUID(),
+    weight: '',
+    reps: '10',
+    rir: '',
+    ...overrides,
+  }
+}
 
-  // Empty initial form details for the creator
-  const initialForm = {
-    name: '',
+function createWorkoutItem(overrides = {}) {
+  return {
+    id: crypto.randomUUID(),
+    dayLabel: 'Dia 1',
+    exercise: '',
+    variation: '',
+    restSeconds: 90,
+    notes: '',
+    setEntries: [createSetEntry(), createSetEntry(), createSetEntry()],
+    ...overrides,
+  }
+}
+
+function createWorkoutForm() {
+  return {
+    name: `Mi rutina ${new Intl.DateTimeFormat('es-ES').format(new Date())}`,
     goal: '',
     description: '',
     difficulty: 'beginner',
     daysPerWeek: 3,
     estimatedDuration: 45,
-    items: [
-      {
-        id: crypto.randomUUID(),
-        dayLabel: 'Dia 1',
-        exercise: '',
-        variation: '',
-        sets: 3,
-        reps: '10',
-        restSeconds: 60,
-        notes: '',
-      },
-    ],
+    items: [],
   }
-  const [workoutForm, setWorkoutForm] = useState(initialForm)
+}
+
+function buildRepsSummary(setEntries) {
+  const reps = setEntries.map((entry) => String(entry.reps || '').trim()).filter(Boolean)
+
+  if (!reps.length) {
+    return '10'
+  }
+
+  if (reps.every((value) => value === reps[0])) {
+    return reps[0]
+  }
+
+  return reps.join('/').slice(0, 40)
+}
+
+function buildItemNotes(item) {
+  const setDetails = item.setEntries
+    .map((entry, index) => {
+      const details = []
+
+      if (String(entry.weight || '').trim()) {
+        details.push(`peso ${String(entry.weight).trim()}`)
+      }
+
+      if (String(entry.rir || '').trim()) {
+        details.push(`RIR ${String(entry.rir).trim()}`)
+      }
+
+      if (!details.length) {
+        return ''
+      }
+
+      return `S${index + 1}: ${details.join(', ')}`
+    })
+    .filter(Boolean)
+
+  return [String(item.notes || '').trim(), setDetails.length ? `Detalle series: ${setDetails.join(' | ')}` : '']
+    .filter(Boolean)
+    .join('\n')
+}
+
+export default function WorkoutsPage() {
+  const [workoutPlans, setWorkoutPlans] = useState([])
+  const [exercises, setExercises] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [selectedWorkoutPlanId, setSelectedWorkoutPlanId] = useState(null)
+  const [workoutForm, setWorkoutForm] = useState(() => createWorkoutForm())
   const [formError, setFormError] = useState('')
   const [formSuccess, setFormSuccess] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -64,64 +116,118 @@ export default function WorkoutsPage() {
     return () => controller.abort()
   }, [])
 
-  const selectedWorkoutPlan = workoutPlans.find(plan => plan.id === selectedWorkoutPlanId)
+  const selectedWorkoutPlan = workoutPlans.find((plan) => plan.id === selectedWorkoutPlanId)
 
-  // Handlers for WorkoutCreator
   function handleFormChange(field, value) {
-    setWorkoutForm({ ...workoutForm, [field]: value })
+    setWorkoutForm((currentValue) => ({ ...currentValue, [field]: value }))
   }
 
   function handleItemChange(itemId, field, value) {
-    setWorkoutForm({
-      ...workoutForm,
-      items: workoutForm.items.map((item) =>
+    setWorkoutForm((currentValue) => ({
+      ...currentValue,
+      items: currentValue.items.map((item) =>
         item.id === itemId ? { ...item, [field]: value } : item
       ),
-    })
+    }))
   }
 
-  function handleAddItem() {
-    setWorkoutForm({
-      ...workoutForm,
+  function handleAssignExercise(itemId, exerciseId) {
+    setWorkoutForm((currentValue) => ({
+      ...currentValue,
+      items: currentValue.items.map((item) =>
+        item.id === itemId ? { ...item, exercise: exerciseId, variation: '' } : item
+      ),
+    }))
+  }
+
+  function handleAddItem(exerciseId = '') {
+    setWorkoutForm((currentValue) => ({
+      ...currentValue,
       items: [
-        ...workoutForm.items,
-        {
-          id: crypto.randomUUID(),
-          dayLabel: 'Dia X',
-          exercise: '',
-          variation: '',
-          sets: 3,
-          reps: '10',
-          restSeconds: 60,
-          notes: '',
-        },
+        ...currentValue.items,
+        createWorkoutItem({
+          dayLabel: currentValue.items.at(-1)?.dayLabel || 'Dia 1',
+          exercise: exerciseId ? String(exerciseId) : '',
+        }),
       ],
-    })
+    }))
   }
 
   function handleRemoveItem(itemId) {
-    if (workoutForm.items.length <= 1) return
-    setWorkoutForm({
-      ...workoutForm,
-      items: workoutForm.items.filter((item) => item.id !== itemId),
-    })
+    setWorkoutForm((currentValue) => ({
+      ...currentValue,
+      items: currentValue.items.filter((item) => item.id !== itemId),
+    }))
+  }
+
+  function handleAddSet(itemId) {
+    setWorkoutForm((currentValue) => ({
+      ...currentValue,
+      items: currentValue.items.map((item) =>
+        item.id === itemId
+          ? {
+              ...item,
+              setEntries: [...item.setEntries, createSetEntry()],
+            }
+          : item
+      ),
+    }))
+  }
+
+  function handleSetChange(itemId, setId, field, value) {
+    setWorkoutForm((currentValue) => ({
+      ...currentValue,
+      items: currentValue.items.map((item) =>
+        item.id === itemId
+          ? {
+              ...item,
+              setEntries: item.setEntries.map((entry) =>
+                entry.id === setId ? { ...entry, [field]: value } : entry
+              ),
+            }
+          : item
+      ),
+    }))
+  }
+
+  function handleRemoveSet(itemId, setId) {
+    setWorkoutForm((currentValue) => ({
+      ...currentValue,
+      items: currentValue.items.map((item) => {
+        if (item.id !== itemId || item.setEntries.length === 1) {
+          return item
+        }
+
+        return {
+          ...item,
+          setEntries: item.setEntries.filter((entry) => entry.id !== setId),
+        }
+      }),
+    }))
   }
 
   function handleReset() {
-    setWorkoutForm(initialForm)
+    setWorkoutForm(createWorkoutForm())
     setFormError('')
     setFormSuccess('')
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault()
+  async function handleSubmit(event) {
+    event.preventDefault()
     setSubmitting(true)
     setFormError('')
     setFormSuccess('')
 
     try {
-      // Map the form correctly to backend specification if needed. 
-      // Using generic mapping for item block
+      if (!workoutForm.items.length) {
+        throw new Error('Agrega al menos un ejercicio antes de guardar la rutina.')
+      }
+
+      const invalidItem = workoutForm.items.find((item) => !item.exercise)
+      if (invalidItem) {
+        throw new Error('Todos los bloques deben tener un ejercicio seleccionado.')
+      }
+
       const payload = {
         name: workoutForm.name,
         goal: workoutForm.goal,
@@ -129,15 +235,15 @@ export default function WorkoutsPage() {
         difficulty: workoutForm.difficulty,
         days_per_week: Number(workoutForm.daysPerWeek),
         estimated_duration_minutes: Number(workoutForm.estimatedDuration),
-        items: workoutForm.items.map((item, idx) => ({
-          order: idx + 1,
+        items: workoutForm.items.map((item, index) => ({
+          order: index + 1,
           day_label: item.dayLabel,
           exercise: Number(item.exercise),
           variation: item.variation ? Number(item.variation) : null,
-          sets: Number(item.sets),
-          reps: item.reps,
+          sets: item.setEntries.length,
+          reps: buildRepsSummary(item.setEntries),
           rest_seconds: Number(item.restSeconds),
-          notes: item.notes,
+          notes: buildItemNotes(item),
         })),
       }
 
@@ -146,10 +252,10 @@ export default function WorkoutsPage() {
         body: JSON.stringify(payload),
       })
 
-      setWorkoutPlans([response, ...workoutPlans])
+      setWorkoutPlans((currentValue) => [response, ...currentValue])
       setSelectedWorkoutPlanId(response.id)
-      setFormSuccess('¡Rutina creada con éxito!')
-      setWorkoutForm(initialForm)
+      setFormSuccess('Rutina creada con exito.')
+      setWorkoutForm(createWorkoutForm())
     } catch (err) {
       setFormError(err.message || 'Hubo un error al guardar.')
     } finally {
@@ -158,21 +264,18 @@ export default function WorkoutsPage() {
   }
 
   if (loading) {
-    return <div className="app-shell" style={{ padding: '2rem' }}><h3>Cargando tablas...</h3></div>
+    return (
+      <div className="app-shell" style={{ padding: '2rem' }}>
+        <h3>Cargando tablas...</h3>
+      </div>
+    )
   }
 
   return (
     <div className="app-shell">
-      {error && <div className="feedback feedback--error">{error}</div>}
-      <WorkoutPlans 
-        workoutPlans={workoutPlans}
-        selectedWorkoutPlanId={selectedWorkoutPlanId}
-        selectedWorkoutPlan={selectedWorkoutPlan}
-        onWorkoutPlanSelect={setSelectedWorkoutPlanId}
-        onExerciseSelect={(exerciseId) => console.log('Seleccionado ejercicio para detalles', exerciseId)} 
-      />
-      
-      <WorkoutCreator 
+      {error ? <div className="feedback feedback--error">{error}</div> : null}
+
+      <WorkoutCreator
         exercises={exercises}
         workoutForm={workoutForm}
         formError={formError}
@@ -181,9 +284,21 @@ export default function WorkoutsPage() {
         onSubmit={handleSubmit}
         onFormChange={handleFormChange}
         onItemChange={handleItemChange}
+        onAssignExercise={handleAssignExercise}
         onAddItem={handleAddItem}
         onRemoveItem={handleRemoveItem}
+        onAddSet={handleAddSet}
+        onSetChange={handleSetChange}
+        onRemoveSet={handleRemoveSet}
         onReset={handleReset}
+      />
+
+      <WorkoutPlans
+        workoutPlans={workoutPlans}
+        selectedWorkoutPlanId={selectedWorkoutPlanId}
+        selectedWorkoutPlan={selectedWorkoutPlan}
+        onWorkoutPlanSelect={setSelectedWorkoutPlanId}
+        onExerciseSelect={(exerciseId) => console.log('Seleccionado ejercicio para detalles', exerciseId)}
       />
     </div>
   )
