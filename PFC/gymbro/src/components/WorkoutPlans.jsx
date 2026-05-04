@@ -32,7 +32,7 @@ function WorkoutPlans({
                 <span className="tag tag--accent">
                   {difficultyLabels[plan.difficulty] || plan.difficulty}
                 </span>
-                <small>{plan.days_per_week} dias/semana</small>
+                <small>{plan.days_per_week} días/semana</small>
               </div>
               <h3>{plan.name}</h3>
               <p>{plan.goal}</p>
@@ -62,11 +62,11 @@ function WorkoutPlans({
 
               <div className="detail-stat-grid">
                 <div className="detail-stat">
-                  <span>Dias por semana</span>
+                  <span>Días por semana</span>
                   <strong>{selectedWorkoutPlan.days_per_week}</strong>
                 </div>
                 <div className="detail-stat">
-                  <span>Duracion estimada</span>
+                  <span>Duración estimada</span>
                   <strong>{selectedWorkoutPlan.estimated_duration_minutes} min</strong>
                 </div>
               </div>
@@ -92,7 +92,7 @@ function WorkoutPlans({
                               {item.order}. {item.exercise_detail.name}
                             </strong>
                             <p>
-                              {item.variation_detail?.name || 'Version base'} - {item.sets} x {item.reps}
+                              {item.variation_detail?.name || 'Versión base'} - {item.sets} x {item.reps}
                             </p>
                           </div>
                           <small>{item.rest_seconds}s descanso</small>
@@ -105,7 +105,7 @@ function WorkoutPlans({
             </>
           ) : (
             <div className="empty-state">
-              <h3>Todavia no hay rutinas</h3>
+              <h3>Todavía no hay rutinas</h3>
               <p>Crea la primera rutina desde el editor superior.</p>
             </div>
           )}

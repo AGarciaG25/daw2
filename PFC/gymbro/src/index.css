@@ -2,8 +2,8 @@
   font-family: "Arial Nova", "Segoe UI", sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #2b2f37;
-  background: #f7f7f8;
+  color: #294954;
+  background: #e7f3ed;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -52,10 +52,10 @@ input,
 select,
 textarea {
   width: 100%;
-  border: 1px solid rgba(15, 23, 42, 0.09);
-  border-radius: 16px;
-  background: #fff;
-  color: #17181c;
+  border: 1px solid rgba(40, 91, 65, 0.17);
+  border-radius: 12px;
+  background: #fbfefb;
+  color: #15313a;
   padding: 0.9rem 1rem;
   outline: none;
 }
@@ -63,8 +63,8 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: rgba(37, 99, 235, 0.32);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  border-color: rgba(15, 139, 141, 0.38);
+  box-shadow: 0 0 0 4px rgba(15, 139, 141, 0.12);
 }
 
 textarea {

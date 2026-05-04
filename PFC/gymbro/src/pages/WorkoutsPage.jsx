@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import WorkoutPlans from '../components/WorkoutPlans'
 import WorkoutCreator from '../components/WorkoutCreator'
 import { apiFetch } from '../lib/api'
 
@@ -16,7 +15,7 @@ function createSetEntry(overrides = {}) {
 function createWorkoutItem(overrides = {}) {
   return {
     id: crypto.randomUUID(),
-    dayLabel: 'Dia 1',
+    dayLabel: 'Día 1',
     exercise: '',
     variation: '',
     restSeconds: 90,
@@ -31,7 +30,7 @@ function createWorkoutForm() {
     name: `Mi rutina ${new Intl.DateTimeFormat('es-ES').format(new Date())}`,
     goal: '',
     description: '',
-    difficulty: 'beginner',
+    difficulty: 'principiante',
     daysPerWeek: 3,
     estimatedDuration: 45,
     items: [],
@@ -79,11 +78,9 @@ function buildItemNotes(item) {
 }
 
 export default function WorkoutsPage() {
-  const [workoutPlans, setWorkoutPlans] = useState([])
   const [exercises, setExercises] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [selectedWorkoutPlanId, setSelectedWorkoutPlanId] = useState(null)
   const [workoutForm, setWorkoutForm] = useState(() => createWorkoutForm())
   const [formError, setFormError] = useState('')
   const [formSuccess, setFormSuccess] = useState('')
@@ -94,18 +91,11 @@ export default function WorkoutsPage() {
 
     async function fetchData() {
       try {
-        const [fetchedPlans, fetchedExercises] = await Promise.all([
-          apiFetch('/api/workout-plans/', { signal: controller.signal }),
-          apiFetch('/api/exercises/', { signal: controller.signal }),
-        ])
-        setWorkoutPlans(fetchedPlans)
+        const fetchedExercises = await apiFetch('/api/exercises/', { signal: controller.signal })
         setExercises(fetchedExercises)
-        if (fetchedPlans.length > 0 && !selectedWorkoutPlanId) {
-          setSelectedWorkoutPlanId(fetchedPlans[0].id)
-        }
       } catch (err) {
         if (err.name !== 'AbortError') {
-          setError(err.message || 'Error al cargar rutinas.')
+          setError(err.message || 'Error al cargar ejercicios.')
         }
       } finally {
         setLoading(false)
@@ -115,8 +105,6 @@ export default function WorkoutsPage() {
     fetchData()
     return () => controller.abort()
   }, [])
-
-  const selectedWorkoutPlan = workoutPlans.find((plan) => plan.id === selectedWorkoutPlanId)
 
   function handleFormChange(field, value) {
     setWorkoutForm((currentValue) => ({ ...currentValue, [field]: value }))
@@ -146,7 +134,7 @@ export default function WorkoutsPage() {
       items: [
         ...currentValue.items,
         createWorkoutItem({
-          dayLabel: currentValue.items.at(-1)?.dayLabel || 'Dia 1',
+          dayLabel: currentValue.items.at(-1)?.dayLabel || 'Día 1',
           exercise: exerciseId ? String(exerciseId) : '',
         }),
       ],
@@ -247,14 +235,12 @@ export default function WorkoutsPage() {
         })),
       }
 
-      const response = await apiFetch('/api/workout-plans/', {
+      await apiFetch('/api/workout-plans/', {
         method: 'POST',
         body: JSON.stringify(payload),
       })
 
-      setWorkoutPlans((currentValue) => [response, ...currentValue])
-      setSelectedWorkoutPlanId(response.id)
-      setFormSuccess('Rutina creada con exito.')
+      setFormSuccess('Rutina creada con éxito.')
       setWorkoutForm(createWorkoutForm())
     } catch (err) {
       setFormError(err.message || 'Hubo un error al guardar.')
@@ -291,14 +277,6 @@ export default function WorkoutsPage() {
         onSetChange={handleSetChange}
         onRemoveSet={handleRemoveSet}
         onReset={handleReset}
-      />
-
-      <WorkoutPlans
-        workoutPlans={workoutPlans}
-        selectedWorkoutPlanId={selectedWorkoutPlanId}
-        selectedWorkoutPlan={selectedWorkoutPlan}
-        onWorkoutPlanSelect={setSelectedWorkoutPlanId}
-        onExerciseSelect={(exerciseId) => console.log('Seleccionado ejercicio para detalles', exerciseId)}
       />
     </div>
   )

@@ -78,13 +78,6 @@ export default function ExercisesPage() {
     }
   }
 
-  const visibleMuscleGroups = muscleGroups.filter((group) => {
-    if (selectedBodyRegion !== 'all' && group.body_region !== selectedBodyRegion) {
-      return false
-    }
-    return true
-  })
-
   const normalizedSearch = deferredSearchTerm.trim().toLowerCase()
   const filteredExercises = exercises.filter((exercise) => {
     if (selectedBodyRegion !== 'all') {
@@ -169,6 +162,7 @@ export default function ExercisesPage() {
     startTransition(() => {
       setSelectedBodyRegion(region)
       if (region === 'all') {
+        setSelectedMuscleSlug('')
         return
       }
       const selectedMuscle = muscleGroups.find((group) => group.slug === selectedMuscleSlug)
@@ -180,11 +174,15 @@ export default function ExercisesPage() {
 
   function handleMuscleToggle(muscleGroup) {
     startTransition(() => {
-      setSelectedBodyRegion(muscleGroup.body_region)
-      setSelectedMuscleSlug((currentValue) =>
-        currentValue === muscleGroup.slug ? '' : muscleGroup.slug
-      )
+      const isSelected = selectedMuscleSlug === muscleGroup.slug
+      setSelectedMuscleSlug(isSelected ? '' : muscleGroup.slug)
+      setSelectedBodyRegion(isSelected ? 'all' : muscleGroup.body_region)
     })
+  }
+
+  function clearMuscleFilter() {
+    setSelectedBodyRegion('all')
+    setSelectedMuscleSlug('')
   }
 
   function resetFilters() {
@@ -207,7 +205,6 @@ export default function ExercisesPage() {
       <ExerciseExplorer
         loading={loading}
         muscleGroups={muscleGroups}
-        visibleMuscleGroups={visibleMuscleGroups}
         visibleExercises={visibleExercises}
         selectedBodyRegion={selectedBodyRegion}
         selectedMuscleSlug={selectedMuscleSlug}
@@ -226,7 +223,7 @@ export default function ExercisesPage() {
         onDifficultyChange={setSelectedDifficulty}
         onExerciseTypeChange={setSelectedExerciseType}
         onSortChange={setSortBy}
-        onClearMuscleFilter={() => setSelectedMuscleSlug('')}
+        onClearMuscleFilter={clearMuscleFilter}
         onResetFilters={resetFilters}
         refreshing={refreshing}
         onRefresh={refreshDashboard}

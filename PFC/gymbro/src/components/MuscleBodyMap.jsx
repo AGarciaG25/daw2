@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import './MuscleBodyMap.css'
 
 const BODY_VIEWS = {
@@ -168,12 +168,40 @@ const ATLAS_ROWS = [
   },
 ]
 
+const MUSCLE_ZONE_IMAGES = {
+  'front-neck': '/muscle-zones/trapecios-superiores.png',
+  'front-traps': '/muscle-zones/trapecios-superiores.png',
+  shoulders: '/muscle-zones/hombros.png',
+  chest: '/muscle-zones/pecho.png',
+  biceps: '/muscle-zones/biceps.png',
+  'front-triceps': '/muscle-zones/triceps-brazo-lateral.png',
+  core: '/muscle-zones/abdominales.png',
+  serratus: '/muscle-zones/serratos-oblicuos.png',
+  'hip-flexors': '/muscle-zones/core-completo.png',
+  quadriceps: '/muscle-zones/cuadriceps.png',
+  'inner-thigh': '/muscle-zones/aductores-laterales.png',
+  calves: '/muscle-zones/gemelos-frontal.png',
+  'back-neck': '/muscle-zones/trapecios-superiores.png',
+  traps: '/muscle-zones/espalda-alta.png',
+  'rear-shoulders': '/muscle-zones/deltoides-posteriores.png',
+  back: '/muscle-zones/dorsales.png',
+  triceps: '/muscle-zones/triceps-posterior.png',
+  'back-forearms': '/muscle-zones/triceps-antebrazo-lateral.png',
+  lumbar: '/muscle-zones/lumbar.png',
+  glutes: '/muscle-zones/gluteos.png',
+  'back-adductors': '/muscle-zones/aductores-laterales.png',
+  hamstrings: '/muscle-zones/isquiotibiales.png',
+  'back-calves': '/muscle-zones/gemelos-posterior.png',
+}
+
 function renderSvgPart(part, className, key) {
   return <path key={key} className={className} d={part} />
 }
 
 function getAvailableGroups(zone, muscleGroups) {
-  return zone.slugs.map((slug) => muscleGroups.find((group) => group.slug === slug)).filter(Boolean)
+  return zone.slugs
+    .map((slug) => muscleGroups.find((group) => group.slug === slug))
+    .filter((group) => group && group.exercise_count > 0)
 }
 
 function getZoneForSlug(slug) {
@@ -244,6 +272,19 @@ function BodySvg({ view, muscleGroups, selectedMuscleSlug, onZoneSelect, hovered
 
 function MuscleAtlasFigure({ view, zone, isActive }) {
   const definition = BODY_VIEWS[view]
+  const imageSrc = MUSCLE_ZONE_IMAGES[zone.id]
+
+  if (imageSrc) {
+    return (
+      <img
+        src={imageSrc}
+        alt=""
+        className={`body-map__atlas-image ${isActive ? 'body-map__atlas-image--active' : ''}`}
+        loading="lazy"
+      />
+    )
+  }
+
   return (
     <svg viewBox={definition.viewBox} className="body-map__atlas-figure" aria-hidden="true">
       {getBaseParts(definition).map((part, index) => renderSvgPart(part, 'body-map__base', `atlas-${view}-base-${index}`))}
@@ -256,27 +297,13 @@ function MuscleAtlasFigure({ view, zone, isActive }) {
 
 function MuscleBodyMap({ muscleGroups, selectedMuscleSlug, onMuscleToggle, onClear }) {
   const [hoveredZoneKey, setHoveredZoneKey] = useState('')
-
-  const selectedGroup = selectedMuscleSlug
-    ? muscleGroups.find((group) => group.slug === selectedMuscleSlug) || null
-    : null
-  const highlightedZoneEntry = useMemo(() => {
-    if (!hoveredZoneKey) {
-      return null
-    }
-
-    const [hoveredView, zoneId] = hoveredZoneKey.split(':')
-    const zone = BODY_VIEWS[hoveredView]?.zones.find((candidate) => candidate.id === zoneId) || null
-
-    if (!zone) {
-      return null
-    }
-
-    return {
-      view: hoveredView,
-      zone,
-    }
-  }, [hoveredZoneKey])
+  const atlasGridRef = useRef(null)
+  const atlasDragRef = useRef({
+    active: false,
+    moved: false,
+    startX: 0,
+    scrollLeft: 0,
+  })
 
   const availableCount = useMemo(
     () =>
@@ -287,15 +314,31 @@ function MuscleBodyMap({ muscleGroups, selectedMuscleSlug, onMuscleToggle, onCle
   )
 
   const atlasRows = useMemo(
-    () => ATLAS_ROWS.map((row) => ({
-      ...row,
-      cards: row.items.map((zoneId) => {
-        const zone = getZoneDefinition(row.view, zoneId)
-        const availableGroups = zone ? getAvailableGroups(zone, muscleGroups) : []
-        const exerciseCount = availableGroups.reduce((total, group) => total + group.exercise_count, 0)
-        return { atlasView: row.view, zone, availableGroups, exerciseCount }
-      }).filter((item) => item.zone),
-    })),
+    () => {
+      const seenGroupSlugs = new Set()
+
+      return ATLAS_ROWS.map((row) => ({
+        ...row,
+        cards: row.items.map((zoneId) => {
+          const zone = getZoneDefinition(row.view, zoneId)
+          const availableGroups = zone ? getAvailableGroups(zone, muscleGroups) : []
+          const preferredGroup = availableGroups[0] || null
+          const exerciseCount = availableGroups.reduce((total, group) => total + group.exercise_count, 0)
+          return { atlasView: row.view, zone, availableGroups, preferredGroup, exerciseCount }
+        }).filter((item) => {
+          if (!item.zone || !item.preferredGroup) {
+            return false
+          }
+
+          if (seenGroupSlugs.has(item.preferredGroup.slug)) {
+            return false
+          }
+
+          seenGroupSlugs.add(item.preferredGroup.slug)
+          return true
+        }),
+      }))
+    },
     [muscleGroups]
   )
 
@@ -306,15 +349,51 @@ function MuscleBodyMap({ muscleGroups, selectedMuscleSlug, onMuscleToggle, onCle
     onMuscleToggle(availableGroup)
   }
 
+  function handleAtlasPointerDown(event) {
+    if (event.button !== 0) return
+    const grid = atlasGridRef.current
+    if (!grid || grid.scrollWidth <= grid.clientWidth) return
+
+    atlasDragRef.current = {
+      active: true,
+      moved: false,
+      startX: event.clientX,
+      scrollLeft: grid.scrollLeft,
+    }
+    grid.classList.add('body-map__atlas-grid--dragging')
+    grid.setPointerCapture?.(event.pointerId)
+  }
+
+  function handleAtlasPointerMove(event) {
+    const drag = atlasDragRef.current
+    const grid = atlasGridRef.current
+    if (!drag.active || !grid) return
+
+    const distance = event.clientX - drag.startX
+    if (Math.abs(distance) > 4) {
+      drag.moved = true
+    }
+    grid.scrollLeft = drag.scrollLeft - distance
+  }
+
+  function stopAtlasDrag(event) {
+    const grid = atlasGridRef.current
+    if (grid) {
+      grid.classList.remove('body-map__atlas-grid--dragging')
+      grid.releasePointerCapture?.(event.pointerId)
+    }
+    atlasDragRef.current.active = false
+  }
+
+  function handleAtlasClickCapture(event) {
+    if (!atlasDragRef.current.moved) return
+    event.preventDefault()
+    event.stopPropagation()
+    atlasDragRef.current.moved = false
+  }
+
   return (
     <section className="body-map">
-      <div className="body-map__copy">
-        <div>
-          <p className="section-heading__eyebrow">Mapa muscular</p>
-          <h2>Busca ejercicios tocando frente y espalda</h2>
-        </div>
-      </div>
-
       <div className="body-map__panel">
         <div className="body-map__figures">
           {Object.entries(BODY_VIEWS).map(([value, definition]) => (
@@ -342,18 +421,6 @@ function MuscleBodyMap({ muscleGroups, selectedMuscleSlug, onMuscleToggle, onCle
             <small>{availableCount} zonas disponibles en total</small>
           </div>
 
-          <div className="body-map__legend-card">
-            <span className="body-map__legend-label">Zona</span>
-            <strong>{highlightedZoneEntry?.zone.label || selectedGroup?.name || 'Selecciona una zona'}</strong>
-            <small>
-              {highlightedZoneEntry
-                ? `${BODY_VIEWS[highlightedZoneEntry.view].label} · ${getAvailableGroups(highlightedZoneEntry.zone, muscleGroups).reduce((total, group) => total + group.exercise_count, 0)} ejercicios`
-                : selectedMuscleSlug
-                ? `Filtro activo: ${selectedGroup?.name || selectedMuscleSlug}`
-                : 'Pulsa una zona roja para filtrar ejercicios'}
-            </small>
-          </div>
-
           <div className="body-map__legend-scale">
             <span><i className="body-map__dot body-map__dot--active" /> Seleccionada</span>
             <span><i className="body-map__dot body-map__dot--available" /> Disponible</span>
@@ -366,34 +433,36 @@ function MuscleBodyMap({ muscleGroups, selectedMuscleSlug, onMuscleToggle, onCle
         </div>
       </div>
 
-      <div className="body-map__atlas">
-        {atlasRows.map((row) => (
-          <section key={row.label} className="body-map__atlas-row">
-            <header className="body-map__atlas-row-header">
-              <span className="body-map__legend-label">{row.label}</span>
-            </header>
-            <div className="body-map__atlas-grid">
-              {row.cards.map(({ atlasView, zone, availableGroups, exerciseCount }) => {
-                const isActive = zone.slugs.includes(selectedMuscleSlug)
-                return (
-                  <button
-                    key={`${atlasView}-${zone.id}`}
-                    type="button"
-                    className={`body-map__atlas-card ${isActive ? 'body-map__atlas-card--active' : ''}`}
-                    onClick={() => availableGroups.length && handleZoneSelect(zone)}
-                    disabled={!availableGroups.length}
-                  >
-                    <MuscleAtlasFigure view={atlasView} zone={zone} isActive={isActive} />
-                    <div className="body-map__atlas-copy">
-                      <strong>{zone.label}</strong>
-                      <span>{exerciseCount} ejercicios</span>
-                    </div>
-                  </button>
-                )
-              })}
-            </div>
-          </section>
-        ))}
+      <div
+        className="body-map__atlas-grid"
+        ref={atlasGridRef}
+        onClickCapture={handleAtlasClickCapture}
+        onPointerDown={handleAtlasPointerDown}
+        onPointerMove={handleAtlasPointerMove}
+        onPointerUp={stopAtlasDrag}
+        onPointerCancel={stopAtlasDrag}
+        onPointerLeave={stopAtlasDrag}
+      >
+        {atlasRows.flatMap((row) =>
+          row.cards.map(({ atlasView, zone, availableGroups, exerciseCount }) => {
+            const isActive = zone.slugs.includes(selectedMuscleSlug)
+            return (
+              <button
+                key={`${atlasView}-${zone.id}`}
+                type="button"
+                className={`body-map__atlas-card ${isActive ? 'body-map__atlas-card--active' : ''}`}
+                onClick={() => availableGroups.length && handleZoneSelect(zone)}
+                disabled={!availableGroups.length}
+              >
+                <MuscleAtlasFigure view={atlasView} zone={zone} isActive={isActive} />
+                <div className="body-map__atlas-copy">
+                  <strong>{zone.label}</strong>
+                  <span>{exerciseCount} ejercicios</span>
+                </div>
+              </button>
+            )
+          })
+        )}
       </div>
     </section>
   )

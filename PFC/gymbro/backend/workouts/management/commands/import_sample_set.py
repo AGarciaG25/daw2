@@ -8,6 +8,8 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
 from workouts.models import Exercise, ExerciseMuscleTarget, MuscleGroup
+from workouts.translations import prettify_spanish, translate_exercise_name
+from workouts.translations import build_spanish_description, build_spanish_instructions
 
 
 BODY_REGION_MAP = {
@@ -33,38 +35,8 @@ BODY_REGION_MAP = {
     'waist': MuscleGroup.BodyRegion.CORE,
 }
 
-NAME_MAP = {
-    'abs': 'Abdominales',
-    'back': 'Espalda',
-    'barbell': 'Barra',
-    'body weight': 'Peso corporal',
-    'biceps': 'Biceps',
-    'calves': 'Gemelos',
-    'cardiovascular system': 'Sistema cardiovascular',
-    'cardio': 'Cardio',
-    'chest': 'Pecho',
-    'delts': 'Deltoides',
-    'dumbbell': 'Mancuernas',
-    'forearms': 'Antebrazos',
-    'glutes': 'Gluteos',
-    'hamstrings': 'Isquiotibiales',
-    'hip flexors': 'Flexores de cadera',
-    'lower arms': 'Antebrazos',
-    'pectorals': 'Pectorales',
-    'quadriceps': 'Cuadriceps',
-    'shoulders': 'Hombros',
-    'triceps': 'Triceps',
-    'upper arms': 'Brazos',
-    'upper back': 'Espalda alta',
-    'waist': 'Core',
-}
-
-
 def prettify_name(value):
-    cleaned = ' '.join(str(value).replace('_', ' ').replace('-', ' ').split()).strip()
-    if not cleaned:
-        return ''
-    return NAME_MAP.get(cleaned.lower(), cleaned.title())
+    return prettify_spanish(value)
 
 
 def guess_body_region(*values):
@@ -97,9 +69,7 @@ def infer_difficulty(record, is_compound):
 
 def build_description(record, primary_target, body_part):
     equipment = prettify_name(record.get('equipment', ''))
-    equipment_fragment = f' con {equipment.lower()}' if equipment else ''
-    body_fragment = f' centrado en {body_part.lower()}' if body_part else ''
-    return f'Ejercicio para trabajar {primary_target.lower()}{equipment_fragment}{body_fragment}.'
+    return build_spanish_description(record.get('name', 'ejercicio'), equipment, primary_target or body_part)
 
 
 class Command(BaseCommand):
@@ -196,7 +166,7 @@ class Command(BaseCommand):
         if not external_id:
             raise CommandError('Todos los ejercicios del dataset deben incluir un campo "id".')
 
-        name = prettify_name(record.get('name', ''))
+        name = translate_exercise_name(prettify_name(record.get('name', '')))
         if not name:
             raise CommandError(f'El ejercicio con id {external_id} no tiene nombre valido.')
 
@@ -214,9 +184,7 @@ class Command(BaseCommand):
         defaults = {
             'name': name,
             'description': build_description(record, primary_target_name, body_part_name),
-            'instructions': '\n'.join(
-                f'{index}. {step}' for index, step in enumerate(record.get('instructions') or [], start=1)
-            ),
+            'instructions': build_spanish_instructions(name),
             'equipment': equipment_name,
             'body_part': body_part_name,
             'demo_gif_path': gif_path,

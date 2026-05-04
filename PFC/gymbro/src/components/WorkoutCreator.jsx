@@ -14,11 +14,6 @@ function getExercisePreview(exercise) {
   return exercise.demo_gif_url || exercise.demo_frame_urls?.[0] || ''
 }
 
-function getExerciseAccent(exercise) {
-  const primaryTarget = exercise?.muscle_targets?.find((target) => target.emphasis === 'primary')
-  return primaryTarget?.muscle_group_detail?.name || exercise?.body_part || 'Trabajo general'
-}
-
 function ExerciseThumb({ exercise, alt }) {
   const previewUrl = getExercisePreview(exercise)
   const initials = exercise?.name
@@ -97,7 +92,7 @@ function WorkoutCreator({
   return (
     <section id="creador-tabla" className="routine-workspace">
       <div className="routine-workspace__breadcrumbs">
-        <span>Library</span>
+        <span>Biblioteca</span>
         <span>/</span>
         <span>Rutinas</span>
         <span>/</span>
@@ -184,7 +179,7 @@ function WorkoutCreator({
               </label>
 
               <label className="routine-field">
-                <span>Dias</span>
+                <span>Días</span>
                 <input
                   type="number"
                   min="1"
@@ -195,7 +190,7 @@ function WorkoutCreator({
               </label>
 
               <label className="routine-field">
-                <span>Duracion</span>
+                <span>Duración</span>
                 <input
                   type="number"
                   min="15"
@@ -224,10 +219,10 @@ function WorkoutCreator({
           <div className="routine-blocklist__header">
             <div>
               <p className="section-heading__eyebrow">Editor</p>
-              <h3>Construye tu sesion ejercicio a ejercicio</h3>
+              <h3>Construye tu sesión ejercicio a ejercicio</h3>
             </div>
             <button className="routine-action" type="button" onClick={() => onAddItem()}>
-              + Bloque vacio
+              + Bloque vacío
             </button>
           </div>
 
@@ -237,9 +232,8 @@ function WorkoutCreator({
                 const selectedExercise = exercises.find(
                   (exercise) => String(exercise.id) === String(item.exercise)
                 )
-                const variationOptions = selectedExercise?.variations || []
                 const primaryMuscles = selectedExercise
-                  ? getMuscleTargetNames(selectedExercise, 'primary').slice(0, 2)
+                  ? getMuscleTargetNames(selectedExercise, 'principal').slice(0, 2)
                   : []
 
                 return (
@@ -264,60 +258,37 @@ function WorkoutCreator({
                       </button>
                     </header>
 
-                    <div className="routine-block__grid">
-                      <label className="routine-field">
-                        <span>Dia</span>
-                        <input
-                          type="text"
-                          value={item.dayLabel}
-                          onChange={(event) => onItemChange(item.id, 'dayLabel', event.target.value)}
-                        />
-                      </label>
-
-                      <label className="routine-field routine-field--wide">
-                        <span>Ejercicio</span>
-                        <select
-                          value={item.exercise}
-                          onChange={(event) => onAssignExercise(item.id, event.target.value)}
-                          required
-                        >
-                          <option value="">Selecciona un ejercicio</option>
-                          {exercises.map((exercise) => (
-                            <option key={exercise.id} value={exercise.id}>
-                              {exercise.name}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-
-                      <label className="routine-field routine-field--wide">
-                        <span>Variacion</span>
-                        <select
-                          value={item.variation}
-                          onChange={(event) => onItemChange(item.id, 'variation', event.target.value)}
-                          disabled={!selectedExercise}
-                        >
-                          <option value="">Version base</option>
-                          {variationOptions.map((variation) => (
-                            <option key={variation.id} value={variation.id}>
-                              {variation.name}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
-                    </div>
+                    {!selectedExercise ? (
+                      <div className="routine-block__grid">
+                        <label className="routine-field routine-field--wide">
+                          <span>Ejercicio</span>
+                          <select
+                            value={item.exercise}
+                            onChange={(event) => onAssignExercise(item.id, event.target.value)}
+                            required
+                          >
+                            <option value="">Selecciona un ejercicio</option>
+                            {exercises.map((exercise) => (
+                              <option key={exercise.id} value={exercise.id}>
+                                {exercise.name}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                      </div>
+                    ) : null}
 
                     <label className="routine-field routine-field--description">
                       <textarea
                         rows="2"
-                        placeholder="Add note..."
+                        placeholder="Añadir nota..."
                         value={item.notes}
                         onChange={(event) => onItemChange(item.id, 'notes', event.target.value)}
                       />
                     </label>
 
                     <div className="routine-rest">
-                      <span>Rest:</span>
+                      <span>Descanso:</span>
                       <select
                         value={item.restSeconds}
                         onChange={(event) => onItemChange(item.id, 'restSeconds', event.target.value)}
@@ -332,9 +303,9 @@ function WorkoutCreator({
 
                     <div className="routine-set-table">
                       <div className="routine-set-table__header">
-                        <span>Set</span>
-                        <span>Weight</span>
-                        <span>Repetitions</span>
+                        <span>Serie</span>
+                        <span>Peso</span>
+                        <span>Repeticiones</span>
                         <span>RIR</span>
                         <span />
                       </div>
@@ -344,7 +315,7 @@ function WorkoutCreator({
                           <span className="routine-set-table__index">{setIndex + 1}</span>
                           <input
                             type="text"
-                            placeholder="Weight"
+                            placeholder="Peso"
                             value={entry.weight}
                             onChange={(event) => onSetChange(item.id, entry.id, 'weight', event.target.value)}
                           />
@@ -376,13 +347,12 @@ function WorkoutCreator({
                       ))}
 
                       <button className="routine-add-set" type="button" onClick={() => onAddSet(item.id)}>
-                        + Add set
+                        + Añadir serie
                       </button>
                     </div>
 
                     <div className="routine-block__footer">
                       <span>{item.setEntries.length} series</span>
-                      <span>{getExerciseAccent(selectedExercise)}</span>
                     </div>
                   </article>
                 )
@@ -390,8 +360,8 @@ function WorkoutCreator({
             </div>
           ) : (
             <div className="routine-empty">
-              <h3>Tu rutina esta vacia</h3>
-              <p>Usa la biblioteca de la derecha para ir agregando ejercicios y montar la sesion.</p>
+              <h3>Tu rutina está vacía</h3>
+              <p>Usa la biblioteca de la derecha para ir agregando ejercicios y montar la sesión.</p>
             </div>
           )}
         </section>
@@ -426,7 +396,7 @@ function WorkoutCreator({
 
           <div className="routine-library__list">
             {visibleExercises.map((exercise) => {
-              const primaryMuscles = getMuscleTargetNames(exercise, 'primary').slice(0, 2)
+              const primaryMuscles = getMuscleTargetNames(exercise, 'principal').slice(0, 2)
               const usageCount = exerciseUsage[String(exercise.id)] || 0
 
               return (

@@ -56,7 +56,7 @@ class WorkoutApiTests(APITestCase):
             'name': 'Torso basico',
             'goal': 'Ganar masa muscular en tren superior',
             'description': 'Rutina simple de ejemplo',
-            'difficulty': 'beginner',
+            'difficulty': 'principiante',
             'days_per_week': 3,
             'estimated_duration_minutes': 60,
             'items': [
@@ -91,7 +91,7 @@ class WorkoutApiTests(APITestCase):
             'name': 'Rutina invalida',
             'goal': 'No deberia guardarse',
             'description': '',
-            'difficulty': 'beginner',
+            'difficulty': 'principiante',
             'days_per_week': 2,
             'estimated_duration_minutes': 45,
             'items': [
@@ -140,7 +140,7 @@ class WorkoutApiTests(APITestCase):
                 temp_root.rmdir()
 
         exercise = Exercise.objects.get(external_id='2001')
-        self.assertEqual(exercise.name, 'Barbell Incline Press')
+        self.assertEqual(exercise.name, 'Press inclinado con barra')
         self.assertEqual(exercise.body_part, 'Pecho')
         self.assertEqual(exercise.equipment, 'Barra')
         self.assertEqual(exercise.difficulty, Exercise.Difficulty.INTERMEDIATE)

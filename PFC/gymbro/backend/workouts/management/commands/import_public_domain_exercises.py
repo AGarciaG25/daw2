@@ -9,6 +9,8 @@ from django.db import transaction
 from django.utils.text import slugify
 
 from workouts.models import Exercise, ExerciseMuscleTarget, MuscleGroup
+from workouts.translations import prettify_spanish, translate_exercise_name
+from workouts.translations import build_spanish_description, build_spanish_instructions
 
 
 CURATED_EXERCISE_IDS = [
@@ -50,34 +52,6 @@ CURATED_EXERCISE_IDS = [
     'Thigh_Adductor',
 ]
 
-DISPLAY_NAME_MAP = {
-    'abdominals': 'Abdominales',
-    'abductors': 'Abductores',
-    'adductors': 'Aductores',
-    'bands': 'Bandas',
-    'barbell': 'Barra',
-    'biceps': 'Biceps',
-    'body only': 'Peso corporal',
-    'cable': 'Cable',
-    'calves': 'Gemelos',
-    'chest': 'Pecho',
-    'dumbbell': 'Mancuernas',
-    'exercise ball': 'Fitball',
-    'forearms': 'Antebrazos',
-    'glutes': 'Gluteos',
-    'hamstrings': 'Isquiotibiales',
-    'kettlebells': 'Kettlebells',
-    'lats': 'Dorsales',
-    'lower back': 'Lumbar',
-    'machine': 'Maquina',
-    'middle back': 'Espalda media',
-    'other': 'Accesorio',
-    'quadriceps': 'Cuadriceps',
-    'shoulders': 'Hombros',
-    'traps': 'Trapecios',
-    'triceps': 'Triceps',
-}
-
 BODY_REGION_MAP = {
     'abdominals': MuscleGroup.BodyRegion.CORE,
     'abductors': MuscleGroup.BodyRegion.LOWER_BODY,
@@ -101,25 +75,22 @@ DIFFICULTY_MAP = {
     'beginner': Exercise.Difficulty.BEGINNER,
     'intermediate': Exercise.Difficulty.INTERMEDIATE,
     'expert': Exercise.Difficulty.ADVANCED,
+    'advanced': Exercise.Difficulty.ADVANCED,
 }
 
 
 def prettify(value):
-    normalized = ' '.join(str(value or '').replace('_', ' ').replace('-', ' ').split()).strip()
-    if not normalized:
-        return ''
-    return DISPLAY_NAME_MAP.get(normalized.lower(), normalized.title())
+    return prettify_spanish(value)
 
 
 def guess_body_region(muscle_name):
     return BODY_REGION_MAP.get(str(muscle_name or '').strip().lower(), MuscleGroup.BodyRegion.FULL_BODY)
 
 
-def build_description(record):
+def build_description(record, name=''):
     primary = prettify((record.get('primaryMuscles') or [''])[0]) or 'varios grupos musculares'
     equipment = prettify(record.get('equipment', ''))
-    equipment_fragment = f' con {equipment.lower()}' if equipment else ''
-    return f'Ejercicio importado para trabajar {primary.lower()}{equipment_fragment}.'
+    return build_spanish_description(name or 'ejercicio', equipment, primary)
 
 
 class Command(BaseCommand):
@@ -182,16 +153,16 @@ class Command(BaseCommand):
         frame_paths = self._download_frames(record, asset_root, image_base_url)
 
         exercise = Exercise.objects.filter(external_id=external_id).first()
+        translated_name = translate_exercise_name(record['name'])
+
         if exercise is None:
-            exercise = Exercise.objects.filter(name=record['name']).first()
+            exercise = Exercise.objects.filter(name__in=[record['name'], translated_name]).first()
 
         defaults = {
-            'name': record['name'],
+            'name': translated_name,
             'external_id': external_id,
-            'description': build_description(record),
-            'instructions': '\n'.join(
-                f'{index}. {step}' for index, step in enumerate(record.get('instructions') or [], start=1)
-            ),
+            'description': build_description(record, translated_name),
+            'instructions': build_spanish_instructions(translated_name),
             'equipment': prettify(record.get('equipment', '')),
             'body_part': prettify((record.get('primaryMuscles') or [''])[0]),
             'demo_gif_path': '',

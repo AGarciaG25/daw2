@@ -22,7 +22,7 @@ export default function ProfilePage() {
 
         <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div className="empty-state">
-            <div style={{ padding: '2rem', background: 'var(--surface-hover)', borderRadius: '8px', marginBottom: '1rem' }}>
+            <div style={{ padding: '2rem', background: 'var(--surface-soft)', borderRadius: '8px', marginBottom: '1rem' }}>
               <h3>{isLoggedIn ? 'Bienvenido a GymBro' : 'Estas navegando como invitado'}</h3>
               <p>
                 {isLoggedIn
@@ -35,7 +35,7 @@ export default function ProfilePage() {
               <button
                 className="button button--ghost"
                 type="button"
-                style={{ color: '#ef4444', borderColor: '#ef4444', width: '100%', justifyContent: 'center' }}
+                style={{ color: 'var(--danger)', borderColor: 'var(--danger)', width: '100%', justifyContent: 'center' }}
                 onClick={handleLogout}
               >
                 Cerrar sesion

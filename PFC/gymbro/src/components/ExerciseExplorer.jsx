@@ -1,30 +1,17 @@
-import { startTransition, useState } from 'react'
+import { startTransition, useEffect, useState } from 'react'
 import './ExerciseExplorer.css'
 import MuscleBodyMap from './MuscleBodyMap'
 
 import {
-  bodyRegionLabels,
   difficultyLabels,
   getMuscleTargetNames,
 } from '../lib/helpers'
 
-const exerciseTypeLabels = {
-  all: 'Todos',
-  compound: 'Compuestos',
-  isolation: 'Aislados',
-}
-
-const sortLabels = {
-  name: 'Nombre',
-  variations: 'Mas variaciones',
-  updated: 'Mas recientes',
-}
-
 function getExerciseAccent(exercise) {
-  const primaryMuscle = exercise.muscle_targets.find((target) => target.emphasis === 'primary')
+  const primaryMuscle = exercise.muscle_targets.find((target) => target.emphasis === 'principal')
   const region = primaryMuscle?.muscle_group_detail?.body_region
 
-  if (region === 'lower_body') {
+  if (region === 'tren_inferior') {
     return 'exercise-card--legs'
   }
 
@@ -32,7 +19,7 @@ function getExerciseAccent(exercise) {
     return 'exercise-card--core'
   }
 
-  if (region === 'full_body') {
+  if (region === 'cuerpo_completo') {
     return 'exercise-card--full'
   }
 
@@ -46,7 +33,7 @@ function ExerciseIllustration({ exercise, large = false }) {
     .map((part) => part[0]?.toUpperCase())
     .join('')
 
-  const muscles = getMuscleTargetNames(exercise, 'primary').slice(0, 2)
+  const muscles = getMuscleTargetNames(exercise, 'principal').slice(0, 2)
   const frameUrls = exercise.demo_frame_urls || []
 
   return (
@@ -94,49 +81,169 @@ function ExerciseIllustration({ exercise, large = false }) {
   )
 }
 
+function getTargetsByEmphasis(exercise, emphasis) {
+  return exercise.muscle_targets.filter((target) => target.emphasis === emphasis)
+}
+
+function getTargetSlugs(exercise, emphasis) {
+  return new Set(
+    getTargetsByEmphasis(exercise, emphasis).map((target) => target.muscle_group_detail.slug)
+  )
+}
+
+function hasAnySlug(slugs, values) {
+  return values.some((value) => slugs.has(value))
+}
+
+function getZoneClass(primarySlugs, secondarySlugs, values) {
+  if (hasAnySlug(primarySlugs, values)) {
+    return 'exercise-body-diagram__zone exercise-body-diagram__zone--primary'
+  }
+
+  if (hasAnySlug(secondarySlugs, values)) {
+    return 'exercise-body-diagram__zone exercise-body-diagram__zone--secondary'
+  }
+
+  return 'exercise-body-diagram__zone'
+}
+
+function ExerciseBodyDiagram({ exercise }) {
+  const primarySlugs = getTargetSlugs(exercise, 'principal')
+  const secondarySlugs = getTargetSlugs(exercise, 'secundario')
+
+  return (
+    <div className="exercise-body-diagram" aria-label="Zonas musculares trabajadas">
+      <svg viewBox="0 0 180 360" role="img" aria-label="Vista frontal">
+        <title>Vista frontal</title>
+        <circle className="exercise-body-diagram__base" cx="90" cy="34" r="21" />
+        <rect className={getZoneClass(primarySlugs, secondarySlugs, ['trapecios'])} x="68" y="58" width="44" height="18" rx="9" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['hombros', 'deltoides'])} d="M45 78c8-18 24-22 39-14v34H54c-10 0-15-10-9-20zM135 78c-8-18-24-22-39-14v34h30c10 0 15-10 9-20z" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['pecho', 'pectorales'])} d="M62 86h56l8 58H54z" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['abdominales', 'core', 'flexores-de-cadera'])} d="M58 148h64l-9 72H67z" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['biceps'])} d="M42 105c16 0 24 12 20 28l-13 55c-2 9-16 7-15-2zM138 105c-16 0-24 12-20 28l13 55c2 9 16 7 15-2z" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['antebrazos'])} d="M34 188c10 1 16 6 14 17l-7 52c-1 8-14 7-15-1zM146 188c-10 1-16 6-14 17l7 52c1 8 14 7 15-1z" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['cuadriceps'])} d="M66 220h22l-4 95c0 11-18 11-20 0l-9-80c-1-8 3-14 11-15zM92 220h22c8 1 12 7 11 15l-9 80c-2 11-20 11-20 0z" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['aductores', 'abductores'])} d="M80 224h20l-3 78H83z" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['gemelos'])} d="M62 300h24l-4 45c-1 8-14 8-16 0zM94 300h24l-4 45c-2 8-15 8-16 0z" />
+      </svg>
+
+      <svg viewBox="0 0 180 360" role="img" aria-label="Vista posterior">
+        <title>Vista posterior</title>
+        <circle className="exercise-body-diagram__base" cx="90" cy="34" r="21" />
+        <rect className={getZoneClass(primarySlugs, secondarySlugs, ['trapecios'])} x="65" y="58" width="50" height="24" rx="12" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['dorsales', 'espalda-media', 'espalda'])} d="M55 82h70l-12 92H67z" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['lumbar'])} d="M67 176h46l7 38H60z" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['gluteos'])} d="M58 214h64l-8 44H66z" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['triceps'])} d="M42 105c16 0 24 12 20 28l-13 55c-2 9-16 7-15-2zM138 105c-16 0-24 12-20 28l13 55c2 9 16 7 15-2z" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['antebrazos'])} d="M34 188c10 1 16 6 14 17l-7 52c-1 8-14 7-15-1zM146 188c-10 1-16 6-14 17l7 52c1 8 14 7 15-1z" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['isquiotibiales'])} d="M64 258h24l-4 58c-1 10-17 10-19 0zM92 258h24l-1 58c-2 10-18 10-19 0z" />
+        <path className={getZoneClass(primarySlugs, secondarySlugs, ['gemelos'])} d="M62 306h24l-4 39c-1 8-14 8-16 0zM94 306h24l-4 39c-2 8-15 8-16 0z" />
+      </svg>
+    </div>
+  )
+}
+
+function ExerciseTargetList({ title, targets, emptyText }) {
+  return (
+    <div className="exercise-modal__target-group">
+      <h3>{title}</h3>
+      {targets.length ? (
+        <ul>
+          {targets.map((target) => (
+            <li key={target.id}>{target.muscle_group_detail.name}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>{emptyText}</p>
+      )}
+    </div>
+  )
+}
+
+function ExerciseDetailModal({ exercise, onClose }) {
+  const primaryTargets = getTargetsByEmphasis(exercise, 'principal')
+  const secondaryTargets = getTargetsByEmphasis(exercise, 'secundario')
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [onClose])
+
+  return (
+    <div className="exercise-modal" role="dialog" aria-modal="true" aria-labelledby="exercise-modal-title">
+      <button type="button" className="exercise-modal__backdrop" aria-label="Cerrar detalle" onClick={onClose} />
+      <article className="exercise-modal__panel">
+        <header className="exercise-modal__header">
+          <div>
+            <p className="section-heading__eyebrow">Detalle del ejercicio</p>
+            <h2 id="exercise-modal-title">{exercise.name}</h2>
+          </div>
+          <button type="button" className="exercise-modal__close" aria-label="Cerrar" onClick={onClose}>
+            <span aria-hidden="true">x</span>
+          </button>
+        </header>
+
+        <div className="exercise-modal__grid">
+          <section className="exercise-modal__video" aria-label="Video del ejercicio">
+            <ExerciseIllustration exercise={exercise} large />
+          </section>
+
+          <section className="exercise-modal__body" aria-label="Zonas del cuerpo trabajadas">
+            <ExerciseBodyDiagram exercise={exercise} />
+            <div className="exercise-modal__legend">
+              <span><i className="exercise-modal__dot exercise-modal__dot--primary" /> Principal</span>
+              <span><i className="exercise-modal__dot exercise-modal__dot--secondary" /> Secundaria</span>
+            </div>
+          </section>
+
+          <section className="exercise-modal__details">
+            <p>{exercise.description}</p>
+            <div className="exercise-modal__meta">
+              <span>{difficultyLabels[exercise.difficulty] || exercise.difficulty}</span>
+              <span>{exercise.equipment || 'Sin material'}</span>
+              <span>{exercise.is_compound ? 'Compuesto' : 'Aislado'}</span>
+            </div>
+            <div className="exercise-modal__targets">
+              <ExerciseTargetList
+                title="Partes principales"
+                targets={primaryTargets}
+                emptyText="No hay zona principal registrada."
+              />
+              <ExerciseTargetList
+                title="Partes secundarias"
+                targets={secondaryTargets}
+                emptyText="No hay zonas secundarias registradas."
+              />
+            </div>
+          </section>
+        </div>
+      </article>
+    </div>
+  )
+}
+
 function ExerciseExplorer({
   loading,
   muscleGroups,
-  visibleMuscleGroups,
   visibleExercises,
-  selectedBodyRegion,
   selectedMuscleSlug,
-  selectedDifficulty,
-  selectedExerciseType,
-  sortBy,
-  selectedExercise,
   selectedExerciseId,
   searchTerm,
-  totalExercises,
-  activeFiltersCount,
   onSearchTermChange,
-  onRegionChange,
   onMuscleToggle,
   onExerciseSelect,
-  onDifficultyChange,
-  onExerciseTypeChange,
-  onSortChange,
   onClearMuscleFilter,
-  onResetFilters,
-  refreshing,
-  onRefresh,
 }) {
-  const [showFilters, setShowFilters] = useState(false)
+  const [modalExercise, setModalExercise] = useState(null)
 
   return (
     <section id="explorador-ejercicios" className="library-shell">
-      <header className="library-topbar">
-        <div>
-          <p className="section-heading__eyebrow">Buscador de ejercicios</p>
-          <h1>Encuentra ejercicios con una estructura mas visual</h1>
-        </div>
-        <div className="library-stats">
-          <span>{muscleGroups.length} grupos</span>
-          <span>{visibleExercises.length} visibles</span>
-          <span>{activeFiltersCount} filtros</span>
-        </div>
-      </header>
-
       <div className="library-searchbar">
         <label className="library-searchbar__input">
           <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -149,13 +256,6 @@ function ExerciseExplorer({
             onChange={(event) => onSearchTermChange(event.target.value)}
           />
         </label>
-
-        <button type="button" className="library-icon-button" onClick={() => setShowFilters((value) => !value)}>
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 7h16 M7 12h10 M10 17h4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-          </svg>
-          <span>Filtros</span>
-        </button>
       </div>
 
       <MuscleBodyMap
@@ -165,114 +265,9 @@ function ExerciseExplorer({
         onClear={onClearMuscleFilter}
       />
 
-      <div className="muscle-rail">
-        <button
-          type="button"
-          className={`muscle-pill ${selectedBodyRegion === 'all' && !selectedMuscleSlug ? 'muscle-pill--active' : ''}`}
-          onClick={() => onRegionChange('all')}
-        >
-          <strong>Todo</strong>
-          <small>{totalExercises}</small>
-        </button>
-
-        {visibleMuscleGroups.map((group) => (
-          <button
-            key={group.id}
-            type="button"
-            className={`muscle-pill ${selectedMuscleSlug === group.slug ? 'muscle-pill--active' : ''}`}
-            onClick={() => onMuscleToggle(group)}
-          >
-            <strong>{group.name}</strong>
-            <small>{group.exercise_count}</small>
-          </button>
-        ))}
-      </div>
-
-      {showFilters ? (
-        <section className="advanced-filters">
-          <div className="advanced-filters__grid">
-            <label className="field">
-              <span>Region</span>
-              <select value={selectedBodyRegion} onChange={(event) => onRegionChange(event.target.value)}>
-                {Object.entries(bodyRegionLabels).map(([value, label]) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label className="field">
-              <span>Dificultad</span>
-              <select value={selectedDifficulty} onChange={(event) => onDifficultyChange(event.target.value)}>
-                <option value="all">Todas</option>
-                {Object.entries(difficultyLabels).map(([value, label]) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label className="field">
-              <span>Tipo</span>
-              <select value={selectedExerciseType} onChange={(event) => onExerciseTypeChange(event.target.value)}>
-                {Object.entries(exerciseTypeLabels).map(([value, label]) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-            </label>
-
-            <label className="field">
-              <span>Orden</span>
-              <select value={sortBy} onChange={(event) => onSortChange(event.target.value)}>
-                {Object.entries(sortLabels).map(([value, label]) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-
-          <div className="advanced-filters__actions">
-            <button type="button" className="button button--ghost" onClick={onClearMuscleFilter}>
-              Quitar zona muscular
-            </button>
-            <button type="button" className="button button--ghost" onClick={onResetFilters}>
-              Limpiar filtros
-            </button>
-            <button type="button" className="button button--primary" onClick={onRefresh} disabled={refreshing}>
-              {refreshing ? 'Actualizando...' : 'Recargar'}
-            </button>
-          </div>
-        </section>
-      ) : null}
-
-      {selectedExercise ? (
-        <section className="exercise-spotlight">
-          <div className="exercise-spotlight__layout">
-            <div>
-              <p className="section-heading__eyebrow">Ejercicio seleccionado</p>
-              <h2>{selectedExercise.name}</h2>
-              <p>{selectedExercise.description}</p>
-              <div className="exercise-spotlight__meta">
-                <span>{difficultyLabels[selectedExercise.difficulty] || selectedExercise.difficulty}</span>
-                <span>{selectedExercise.equipment || 'Sin material especificado'}</span>
-                <span>{selectedExercise.variations.length} variaciones</span>
-              </div>
-            </div>
-
-            <ExerciseIllustration exercise={selectedExercise} large />
-          </div>
-        </section>
-      ) : null}
-
       <section className="exercise-library-grid">
         {visibleExercises.map((exercise) => {
-          const primaryMuscles = getMuscleTargetNames(exercise, 'primary').slice(0, 2)
+          const primaryMuscles = getMuscleTargetNames(exercise, 'principal').slice(0, 2)
 
           return (
             <button
@@ -284,6 +279,7 @@ function ExerciseExplorer({
               onClick={() =>
                 startTransition(() => {
                   onExerciseSelect(exercise.id)
+                  setModalExercise(exercise)
                 })
               }
             >
@@ -317,6 +313,10 @@ function ExerciseExplorer({
           </div>
         ) : null}
       </section>
+
+      {modalExercise ? (
+        <ExerciseDetailModal exercise={modalExercise} onClose={() => setModalExercise(null)} />
+      ) : null}
     </section>
   )
 }

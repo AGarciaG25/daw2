@@ -1,15 +1,15 @@
 export const difficultyLabels = {
-  beginner: 'Principiante',
-  intermediate: 'Intermedio',
-  advanced: 'Avanzado',
+  principiante: 'Principiante',
+  intermedio: 'Intermedio',
+  avanzado: 'Avanzado',
 }
 
 export const bodyRegionLabels = {
   all: 'Todo el cuerpo',
-  upper_body: 'Tren superior',
-  lower_body: 'Tren inferior',
+  tren_superior: 'Tren superior',
+  tren_inferior: 'Tren inferior',
   core: 'Core',
-  full_body: 'Cuerpo completo',
+  cuerpo_completo: 'Cuerpo completo',
 }
 
 export function createWorkoutItem() {
@@ -30,7 +30,7 @@ export function createInitialWorkoutForm() {
     name: '',
     goal: '',
     description: '',
-    difficulty: 'beginner',
+    difficulty: 'principiante',
     daysPerWeek: '3',
     estimatedDuration: '60',
     items: [createWorkoutItem()],

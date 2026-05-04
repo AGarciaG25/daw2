@@ -26,10 +26,10 @@ class TimeStampedModel(models.Model):
 
 class MuscleGroup(TimeStampedModel):
     class BodyRegion(models.TextChoices):
-        UPPER_BODY = 'upper_body', 'Tren superior'
-        LOWER_BODY = 'lower_body', 'Tren inferior'
+        UPPER_BODY = 'tren_superior', 'Tren superior'
+        LOWER_BODY = 'tren_inferior', 'Tren inferior'
         CORE = 'core', 'Core'
-        FULL_BODY = 'full_body', 'Cuerpo completo'
+        FULL_BODY = 'cuerpo_completo', 'Cuerpo completo'
 
     name = models.CharField(max_length=120, unique=True)
     slug = models.SlugField(max_length=140, unique=True, blank=True)
@@ -56,9 +56,9 @@ class MuscleGroup(TimeStampedModel):
 
 class Exercise(TimeStampedModel):
     class Difficulty(models.TextChoices):
-        BEGINNER = 'beginner', 'Principiante'
-        INTERMEDIATE = 'intermediate', 'Intermedio'
-        ADVANCED = 'advanced', 'Avanzado'
+        BEGINNER = 'principiante', 'Principiante'
+        INTERMEDIATE = 'intermedio', 'Intermedio'
+        ADVANCED = 'avanzado', 'Avanzado'
 
     name = models.CharField(max_length=140, unique=True)
     slug = models.SlugField(max_length=160, unique=True, blank=True)
@@ -99,9 +99,9 @@ class Exercise(TimeStampedModel):
 
 class ExerciseMuscleTarget(models.Model):
     class Emphasis(models.TextChoices):
-        PRIMARY = 'primary', 'Principal'
-        SECONDARY = 'secondary', 'Secundario'
-        STABILIZER = 'stabilizer', 'Estabilizador'
+        PRIMARY = 'principal', 'Principal'
+        SECONDARY = 'secundario', 'Secundario'
+        STABILIZER = 'estabilizador', 'Estabilizador'
 
     exercise = models.ForeignKey(
         Exercise,
@@ -168,9 +168,9 @@ class ExerciseVariation(TimeStampedModel):
 
 class WorkoutPlan(TimeStampedModel):
     class Difficulty(models.TextChoices):
-        BEGINNER = 'beginner', 'Principiante'
-        INTERMEDIATE = 'intermediate', 'Intermedio'
-        ADVANCED = 'advanced', 'Avanzado'
+        BEGINNER = 'principiante', 'Principiante'
+        INTERMEDIATE = 'intermedio', 'Intermedio'
+        ADVANCED = 'avanzado', 'Avanzado'
 
     name = models.CharField(max_length=140, unique=True)
     slug = models.SlugField(max_length=160, unique=True, blank=True)
