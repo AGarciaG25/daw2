@@ -1,12 +1,66 @@
+import { useEffect, useState } from 'react'
+import WorkoutSessionPanel from './WorkoutSessionPanel'
 import { difficultyLabels, formatDate, groupWorkoutItems } from '../lib/helpers'
+
+function WorkoutItemModal({ workoutItem, onClose }) {
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [onClose])
+
+  if (!workoutItem) {
+    return null
+  }
+
+  return (
+    <div className="session-modal" role="dialog" aria-modal="true" aria-labelledby="session-modal-title">
+      <button type="button" className="session-modal__backdrop" aria-label="Cerrar seguimiento" onClick={onClose} />
+      <article className="session-modal__panel">
+        <header className="session-modal__header">
+          <div>
+            <h2 id="session-modal-title">{workoutItem.exercise_detail.name}</h2>
+          </div>
+          <button type="button" className="session-modal__close" aria-label="Cerrar" onClick={onClose}>
+            <span aria-hidden="true">x</span>
+          </button>
+        </header>
+
+        <WorkoutSessionPanel workoutItem={workoutItem} />
+      </article>
+    </div>
+  )
+}
 
 function WorkoutPlans({
   workoutPlans,
   selectedWorkoutPlanId,
   selectedWorkoutPlan,
   onWorkoutPlanSelect,
-  onExerciseSelect,
 }) {
+  const [selectedWorkoutItemId, setSelectedWorkoutItemId] = useState(null)
+
+  const selectedWorkoutItem =
+    selectedWorkoutPlan?.items.find((item) => item.id === selectedWorkoutItemId) || null
+
+  function handlePlanSelect(planId) {
+    setSelectedWorkoutItemId(null)
+    onWorkoutPlanSelect(planId)
+  }
+
+  function handleWorkoutItemOpen(item) {
+    setSelectedWorkoutItemId(item.id)
+  }
+
+  function handleWorkoutItemClose() {
+    setSelectedWorkoutItemId(null)
+  }
+
   return (
     <section className="panel">
       <div className="section-heading">
@@ -19,98 +73,110 @@ function WorkoutPlans({
         </span>
       </div>
 
-      <div className="plans-layout">
-        <div className="plans-list">
-          {workoutPlans.map((plan) => (
-            <button
-              key={plan.id}
-              type="button"
-              className={`plan-card ${selectedWorkoutPlanId === plan.id ? 'plan-card--selected' : ''}`}
-              onClick={() => onWorkoutPlanSelect(plan.id)}
-            >
-              <div className="plan-card__top">
-                <span className="tag tag--accent">
-                  {difficultyLabels[plan.difficulty] || plan.difficulty}
-                </span>
-                <small>{plan.days_per_week} días/semana</small>
-              </div>
-              <h3>{plan.name}</h3>
-              <p>{plan.goal}</p>
-              <div className="plan-card__meta">
-                <span>{plan.items.length} ejercicios</span>
-                <span>{plan.estimated_duration_minutes} min</span>
-              </div>
-            </button>
-          ))}
-        </div>
+      {!selectedWorkoutPlan ? (
+        <>
+          <p className="plans-layout__hint">
+            Selecciona una rutina para ver toda la informacion completa.
+          </p>
 
-        <aside className="plan-detail">
-          {selectedWorkoutPlan ? (
-            <>
-              <div className="detail-panel__header">
-                <div>
-                  <p className="section-heading__eyebrow">Detalle de la rutina</p>
-                  <h3>{selectedWorkoutPlan.name}</h3>
+          <div className="plans-list">
+            {workoutPlans.map((plan) => (
+              <button
+                key={plan.id}
+                type="button"
+                className={`plan-card ${selectedWorkoutPlanId === plan.id ? 'plan-card--selected' : ''}`}
+                onClick={() => handlePlanSelect(plan.id)}
+              >
+                <div className="plan-card__top">
+                  <span className="tag tag--accent">
+                    {difficultyLabels[plan.difficulty] || plan.difficulty}
+                  </span>
+                  <small>{plan.days_per_week} dias/semana</small>
                 </div>
-                <span className="detail-panel__date">
-                  Creada {formatDate(selectedWorkoutPlan.created_at)}
-                </span>
-              </div>
 
-              <p className="detail-panel__description">{selectedWorkoutPlan.goal}</p>
-              <p className="detail-panel__instructions">{selectedWorkoutPlan.description}</p>
-
-              <div className="detail-stat-grid">
-                <div className="detail-stat">
-                  <span>Días por semana</span>
-                  <strong>{selectedWorkoutPlan.days_per_week}</strong>
+                <div className="plan-card__body">
+                  <h3>{plan.name}</h3>
+                  <div className="plan-card__meta">
+                    <span>{plan.items.length} ejercicios</span>
+                    <span>{plan.estimated_duration_minutes} min</span>
+                  </div>
                 </div>
-                <div className="detail-stat">
-                  <span>Duración estimada</span>
-                  <strong>{selectedWorkoutPlan.estimated_duration_minutes} min</strong>
-                </div>
-              </div>
 
-              <div className="day-stack">
-                {groupWorkoutItems(selectedWorkoutPlan.items).map(([dayLabel, items]) => (
-                  <section key={dayLabel} className="day-card">
-                    <header className="day-card__header">
-                      <h4>{dayLabel}</h4>
-                      <span>{items.length} bloques</span>
-                    </header>
-
-                    <div className="day-card__items">
-                      {items.map((item) => (
-                        <button
-                          key={item.id}
-                          type="button"
-                          className="plan-item"
-                          onClick={() => onExerciseSelect(item.exercise)}
-                        >
-                          <div>
-                            <strong>
-                              {item.order}. {item.exercise_detail.name}
-                            </strong>
-                            <p>
-                              {item.variation_detail?.name || 'Versión base'} - {item.sets} x {item.reps}
-                            </p>
-                          </div>
-                          <small>{item.rest_seconds}s descanso</small>
-                        </button>
-                      ))}
-                    </div>
-                  </section>
-                ))}
-              </div>
-            </>
-          ) : (
-            <div className="empty-state">
-              <h3>Todavía no hay rutinas</h3>
-              <p>Crea la primera rutina desde el editor superior.</p>
+                <small className="plan-card__hint">Pulsa para ver detalle</small>
+              </button>
+            ))}
+          </div>
+        </>
+      ) : (
+        <div className="plan-detail plan-detail--expanded">
+          <div className="detail-panel__header detail-panel__header--expanded">
+            <div>
+              <h3>{selectedWorkoutPlan.name}</h3>
             </div>
-          )}
-        </aside>
-      </div>
+            <div className="detail-panel__actions">
+              <span className="detail-panel__date">
+                Creada {formatDate(selectedWorkoutPlan.created_at)}
+              </span>
+              <button
+                type="button"
+                className="detail-panel__minimize"
+                aria-label="Minimizar rutina"
+                onClick={() => handlePlanSelect(selectedWorkoutPlan.id)}
+              >
+                <span aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+
+          <div className="detail-stat-grid">
+            <div className="detail-stat">
+              <span>Dias por semana</span>
+              <strong>{selectedWorkoutPlan.days_per_week}</strong>
+            </div>
+            <div className="detail-stat">
+              <span>Duracion estimada</span>
+              <strong>{selectedWorkoutPlan.estimated_duration_minutes} min</strong>
+            </div>
+          </div>
+
+          <div className="day-stack">
+            {groupWorkoutItems(selectedWorkoutPlan.items).map(([dayLabel, items]) => (
+              <section key={dayLabel} className="day-card">
+                <header className="day-card__header">
+                  <h4>{dayLabel}</h4>
+                  <span>{items.length} bloques</span>
+                </header>
+
+                <div className="day-card__items">
+                  {items.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className="plan-item"
+                      onClick={() => handleWorkoutItemOpen(item)}
+                    >
+                      <div>
+                        <strong>
+                          {item.order}. {item.exercise_detail.name}
+                        </strong>
+                        <p>
+                          {item.variation_detail?.name || 'Version base'} - {item.sets} x {item.reps}
+                        </p>
+                      </div>
+                      <div className="plan-item__meta">
+                        <small>{item.rest_seconds}s descanso</small>
+                        <small className="plan-item__hint">Abrir popup de seguimiento</small>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <WorkoutItemModal workoutItem={selectedWorkoutItem} onClose={handleWorkoutItemClose} />
     </section>
   )
 }

@@ -5,6 +5,8 @@ from .models import (
     ExerciseMuscleTarget,
     ExerciseVariation,
     MuscleGroup,
+    WorkoutExerciseSession,
+    WorkoutExerciseSetLog,
     WorkoutPlan,
     WorkoutPlanItem,
 )
@@ -41,6 +43,11 @@ class WorkoutPlanItemInline(admin.TabularInline):
     extra = 1
 
 
+class WorkoutExerciseSetLogInline(admin.TabularInline):
+    model = WorkoutExerciseSetLog
+    extra = 1
+
+
 @admin.register(WorkoutPlan)
 class WorkoutPlanAdmin(admin.ModelAdmin):
     list_display = ('name', 'difficulty', 'days_per_week', 'estimated_duration_minutes')
@@ -48,3 +55,11 @@ class WorkoutPlanAdmin(admin.ModelAdmin):
     search_fields = ('name', 'goal', 'description')
     prepopulated_fields = {'slug': ('name',)}
     inlines = [WorkoutPlanItemInline]
+
+
+@admin.register(WorkoutExerciseSession)
+class WorkoutExerciseSessionAdmin(admin.ModelAdmin):
+    list_display = ('workout_item', 'session_date', 'created_at')
+    list_filter = ('session_date', 'workout_item__workout_plan')
+    search_fields = ('workout_item__exercise__name', 'workout_item__workout_plan__name', 'notes')
+    inlines = [WorkoutExerciseSetLogInline]

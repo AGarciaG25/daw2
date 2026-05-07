@@ -1,10 +1,17 @@
 from rest_framework import viewsets, generics, permissions
 
-from .models import Exercise, ExerciseVariation, MuscleGroup, WorkoutPlan
+from .models import (
+    Exercise,
+    ExerciseVariation,
+    MuscleGroup,
+    WorkoutExerciseSession,
+    WorkoutPlan,
+)
 from .serializers import (
     ExerciseSerializer,
     ExerciseVariationSerializer,
     MuscleGroupSerializer,
+    WorkoutExerciseSessionSerializer,
     WorkoutPlanSerializer,
     UserRegistrationSerializer,
 )
@@ -78,6 +85,35 @@ class WorkoutPlanViewSet(viewsets.ModelViewSet):
 
         if difficulty:
             queryset = queryset.filter(difficulty=difficulty)
+
+        return queryset
+
+
+class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
+    serializer_class = WorkoutExerciseSessionSerializer
+
+    def get_queryset(self):
+        queryset = (
+            WorkoutExerciseSession.objects.all()
+            .select_related(
+                'workout_item__exercise',
+                'workout_item__variation',
+                'workout_item__workout_plan',
+            )
+            .prefetch_related('set_logs')
+        )
+        workout_item = self.request.query_params.get('workout_item')
+        workout_plan = self.request.query_params.get('workout_plan')
+        session_date = self.request.query_params.get('session_date')
+
+        if workout_item:
+            queryset = queryset.filter(workout_item_id=workout_item)
+
+        if workout_plan:
+            queryset = queryset.filter(workout_item__workout_plan_id=workout_plan)
+
+        if session_date:
+            queryset = queryset.filter(session_date=session_date)
 
         return queryset
 

@@ -6,6 +6,7 @@ from .views import (
     ExerciseVariationViewSet,
     ExerciseViewSet,
     MuscleGroupViewSet,
+    WorkoutExerciseSessionViewSet,
     WorkoutPlanViewSet,
     RegisterView,
 )
@@ -15,6 +16,7 @@ router.register('muscle-groups', MuscleGroupViewSet, basename='muscle-group')
 router.register('exercises', ExerciseViewSet, basename='exercise')
 router.register('variations', ExerciseVariationViewSet, basename='variation')
 router.register('workout-plans', WorkoutPlanViewSet, basename='workout-plan')
+router.register('workout-sessions', WorkoutExerciseSessionViewSet, basename='workout-session')
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),

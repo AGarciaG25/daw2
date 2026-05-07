@@ -204,10 +204,6 @@ function getAvailableGroups(zone, muscleGroups) {
     .filter((group) => group && group.exercise_count > 0)
 }
 
-function getZoneForSlug(slug) {
-  return Object.values(BODY_VIEWS).flatMap((view) => view.zones).find((zone) => zone.slugs.includes(slug))
-}
-
 function getPreferredGroup(zone, muscleGroups) {
   return getAvailableGroups(zone, muscleGroups)[0] || null
 }
@@ -227,45 +223,49 @@ function BodySvg({ view, muscleGroups, selectedMuscleSlug, onZoneSelect, hovered
     <svg
       viewBox={definition.viewBox}
       className={`body-map__figure body-map__figure--${view} ${className}`.trim()}
+      preserveAspectRatio="xMidYMid meet"
+      shapeRendering="geometricPrecision"
       role="img"
       aria-label={`Mapa muscular ${definition.label.toLowerCase()}`}
     >
-      {getBaseParts(definition).map((part, index) => renderSvgPart(part, 'body-map__base', `${view}-base-${index}`))}
+      <g className={`body-map__artwork body-map__artwork--${view}`}>
+        {getBaseParts(definition).map((part, index) => renderSvgPart(part, 'body-map__base', `${view}-base-${index}`))}
 
-      {definition.zones.map((zone) => {
-        const availableGroup = getPreferredGroup(zone, muscleGroups)
-        const isActive = zone.slugs.includes(selectedMuscleSlug)
-        const zoneClassName = [
-          'body-map__zone',
-          availableGroup ? 'body-map__zone--available' : 'body-map__zone--disabled',
-          isActive ? 'body-map__zone--active' : '',
-          hoveredZoneKey === `${view}:${zone.id}` ? 'body-map__zone--hovered' : '',
-        ].filter(Boolean).join(' ')
+        {definition.zones.map((zone) => {
+          const availableGroup = getPreferredGroup(zone, muscleGroups)
+          const isActive = zone.slugs.includes(selectedMuscleSlug)
+          const zoneClassName = [
+            'body-map__zone',
+            availableGroup ? 'body-map__zone--available' : 'body-map__zone--disabled',
+            isActive ? 'body-map__zone--active' : '',
+            hoveredZoneKey === `${view}:${zone.id}` ? 'body-map__zone--hovered' : '',
+          ].filter(Boolean).join(' ')
 
-        return (
-          <g
-            key={`${view}-${zone.id}`}
-            tabIndex={availableGroup ? 0 : -1}
-            role={availableGroup ? 'button' : 'img'}
-            aria-label={availableGroup ? `Filtrar por ${zone.label}` : `${zone.label} sin ejercicios`}
-            onClick={() => availableGroup && onZoneSelect(zone)}
-            onKeyDown={(event) => {
-              if (!availableGroup) return
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault()
-                onZoneSelect(zone)
-              }
-            }}
-            onMouseEnter={() => onZoneHover(`${view}:${zone.id}`)}
-            onMouseLeave={() => onZoneHover('')}
-            onFocus={() => onZoneHover(`${view}:${zone.id}`)}
-            onBlur={() => onZoneHover('')}
-          >
-            <title>{availableGroup ? `${zone.label} - ${availableGroup.exercise_count} ejercicios` : zone.label}</title>
-            {zone.parts.map((part, index) => renderSvgPart(part, zoneClassName, `${view}-${zone.id}-${index}`))}
-          </g>
-        )
-      })}
+          return (
+            <g
+              key={`${view}-${zone.id}`}
+              tabIndex={availableGroup ? 0 : -1}
+              role={availableGroup ? 'button' : 'img'}
+              aria-label={availableGroup ? `Filtrar por ${zone.label}` : `${zone.label} sin ejercicios`}
+              onClick={() => availableGroup && onZoneSelect(zone)}
+              onKeyDown={(event) => {
+                if (!availableGroup) return
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault()
+                  onZoneSelect(zone)
+                }
+              }}
+              onMouseEnter={() => onZoneHover(`${view}:${zone.id}`)}
+              onMouseLeave={() => onZoneHover('')}
+              onFocus={() => onZoneHover(`${view}:${zone.id}`)}
+              onBlur={() => onZoneHover('')}
+            >
+              <title>{availableGroup ? `${zone.label} - ${availableGroup.exercise_count} ejercicios` : zone.label}</title>
+              {zone.parts.map((part, index) => renderSvgPart(part, zoneClassName, `${view}-${zone.id}-${index}`))}
+            </g>
+          )
+        })}
+      </g>
     </svg>
   )
 }

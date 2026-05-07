@@ -8,6 +8,8 @@ from .models import (
     ExerciseMuscleTarget,
     ExerciseVariation,
     MuscleGroup,
+    WorkoutExerciseSession,
+    WorkoutExerciseSetLog,
     WorkoutPlan,
     WorkoutPlanItem,
 )
@@ -186,6 +188,94 @@ class WorkoutPlanItemSerializer(serializers.ModelSerializer):
             'id': obj.variation_id,
             'name': obj.variation.name,
             'slug': obj.variation.slug,
+        }
+
+
+class WorkoutExerciseSetLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkoutExerciseSetLog
+        fields = (
+            'id',
+            'order',
+            'reps',
+            'weight',
+            'rir',
+            'notes',
+        )
+
+
+class WorkoutExerciseSessionSerializer(serializers.ModelSerializer):
+    set_logs = WorkoutExerciseSetLogSerializer(many=True, required=False)
+    workout_item_detail = serializers.SerializerMethodField()
+
+    class Meta:
+        model = WorkoutExerciseSession
+        fields = (
+            'id',
+            'workout_item',
+            'workout_item_detail',
+            'session_date',
+            'notes',
+            'set_logs',
+            'created_at',
+            'updated_at',
+        )
+        read_only_fields = ('created_at', 'updated_at')
+
+    @transaction.atomic
+    def create(self, validated_data):
+        set_logs = validated_data.pop('set_logs', [])
+        session = WorkoutExerciseSession.objects.create(**validated_data)
+        self._save_set_logs(session, set_logs)
+        return session
+
+    @transaction.atomic
+    def update(self, instance, validated_data):
+        set_logs = validated_data.pop('set_logs', None)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        if set_logs is not None:
+            instance.set_logs.all().delete()
+            self._save_set_logs(instance, set_logs)
+
+        return instance
+
+    def validate(self, attrs):
+        set_logs = attrs.get('set_logs')
+
+        if set_logs:
+            seen_orders = set()
+            for set_log in set_logs:
+                order = set_log.get('order')
+                if order in seen_orders:
+                    raise serializers.ValidationError(
+                        {'set_logs': 'No puede haber dos series con el mismo orden.'}
+                    )
+                seen_orders.add(order)
+
+        return attrs
+
+    @staticmethod
+    def _save_set_logs(session, set_logs):
+        logs = []
+
+        for set_log in set_logs:
+            logs.append(WorkoutExerciseSetLog(session=session, **set_log))
+
+        WorkoutExerciseSetLog.objects.bulk_create(logs)
+
+    def get_workout_item_detail(self, obj):
+        return {
+            'id': obj.workout_item_id,
+            'day_label': obj.workout_item.day_label,
+            'exercise_name': obj.workout_item.exercise.name,
+            'variation_name': obj.workout_item.variation.name if obj.workout_item.variation else '',
+            'planned_sets': obj.workout_item.sets,
+            'planned_reps': obj.workout_item.reps,
+            'planned_rest_seconds': obj.workout_item.rest_seconds,
         }
 
 

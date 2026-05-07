@@ -190,38 +190,62 @@ function ExerciseDetailModal({ exercise, onClose }) {
         </header>
 
         <div className="exercise-modal__grid">
-          <section className="exercise-modal__video" aria-label="Video del ejercicio">
-            <ExerciseIllustration exercise={exercise} large />
-          </section>
+          <div className="exercise-modal__visual-column">
+            <section className="exercise-modal__card exercise-modal__video" aria-label="Demostracion del ejercicio">
+              <div className="exercise-modal__section-heading">
+                <p className="exercise-modal__section-label">Demostracion</p>
+              </div>
+              <ExerciseIllustration exercise={exercise} large />
+            </section>
 
-          <section className="exercise-modal__body" aria-label="Zonas del cuerpo trabajadas">
-            <ExerciseBodyDiagram exercise={exercise} />
-            <div className="exercise-modal__legend">
-              <span><i className="exercise-modal__dot exercise-modal__dot--primary" /> Principal</span>
-              <span><i className="exercise-modal__dot exercise-modal__dot--secondary" /> Secundaria</span>
-            </div>
-          </section>
+            <section className="exercise-modal__card exercise-modal__summary" aria-label="Resumen del ejercicio">
+              <div className="exercise-modal__section-heading">
+                <p className="exercise-modal__section-label">Resumen</p>
+                <h3>Informacion clave</h3>
+              </div>
+              <p>{exercise.description}</p>
+              <div className="exercise-modal__meta">
+                <span>{difficultyLabels[exercise.difficulty] || exercise.difficulty}</span>
+                <span>{exercise.equipment || 'Sin material'}</span>
+                <span>{exercise.is_compound ? 'Compuesto' : 'Aislado'}</span>
+              </div>
+            </section>
+          </div>
 
-          <section className="exercise-modal__details">
-            <p>{exercise.description}</p>
-            <div className="exercise-modal__meta">
-              <span>{difficultyLabels[exercise.difficulty] || exercise.difficulty}</span>
-              <span>{exercise.equipment || 'Sin material'}</span>
-              <span>{exercise.is_compound ? 'Compuesto' : 'Aislado'}</span>
-            </div>
-            <div className="exercise-modal__targets">
-              <ExerciseTargetList
-                title="Partes principales"
-                targets={primaryTargets}
-                emptyText="No hay zona principal registrada."
-              />
-              <ExerciseTargetList
-                title="Partes secundarias"
-                targets={secondaryTargets}
-                emptyText="No hay zonas secundarias registradas."
-              />
-            </div>
-          </section>
+          <div className="exercise-modal__info-column">
+            <section className="exercise-modal__card exercise-modal__body" aria-label="Zonas del cuerpo trabajadas">
+              <div className="exercise-modal__section-heading exercise-modal__section-heading--split">
+                <div>
+                  <p className="exercise-modal__section-label">Activacion</p>
+                  <h3>Musculatura implicada</h3>
+                </div>
+                <div className="exercise-modal__legend">
+                  <span><i className="exercise-modal__dot exercise-modal__dot--primary" /> Principal</span>
+                  <span><i className="exercise-modal__dot exercise-modal__dot--secondary" /> Secundaria</span>
+                </div>
+              </div>
+              <ExerciseBodyDiagram exercise={exercise} />
+            </section>
+
+            <section className="exercise-modal__card exercise-modal__targets-card" aria-label="Detalle de zonas trabajadas">
+              <div className="exercise-modal__section-heading">
+                <p className="exercise-modal__section-label">Detalle</p>
+                <h3>Zonas trabajadas</h3>
+              </div>
+              <div className="exercise-modal__targets">
+                <ExerciseTargetList
+                  title="Partes principales"
+                  targets={primaryTargets}
+                  emptyText="No hay zona principal registrada."
+                />
+                <ExerciseTargetList
+                  title="Partes secundarias"
+                  targets={secondaryTargets}
+                  emptyText="No hay zonas secundarias registradas."
+                />
+              </div>
+            </section>
+          </div>
         </div>
       </article>
     </div>

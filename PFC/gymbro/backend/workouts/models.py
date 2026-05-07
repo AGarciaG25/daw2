@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 
 
@@ -242,3 +243,48 @@ class WorkoutPlanItem(models.Model):
 
     def __str__(self):
         return f'{self.workout_plan} - {self.day_label or "General"} - {self.exercise}'
+
+
+class WorkoutExerciseSession(TimeStampedModel):
+    workout_item = models.ForeignKey(
+        WorkoutPlanItem,
+        on_delete=models.CASCADE,
+        related_name='sessions',
+    )
+    session_date = models.DateField(default=timezone.localdate)
+    notes = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ('-session_date', '-created_at', '-id')
+        verbose_name = 'Sesion de ejercicio'
+        verbose_name_plural = 'Sesiones de ejercicio'
+
+    def __str__(self):
+        return f'{self.workout_item} - {self.session_date}'
+
+
+class WorkoutExerciseSetLog(models.Model):
+    session = models.ForeignKey(
+        WorkoutExerciseSession,
+        on_delete=models.CASCADE,
+        related_name='set_logs',
+    )
+    order = models.PositiveSmallIntegerField(default=1)
+    reps = models.CharField(max_length=20, blank=True)
+    weight = models.CharField(max_length=20, blank=True)
+    rir = models.CharField(max_length=20, blank=True)
+    notes = models.CharField(max_length=160, blank=True)
+
+    class Meta:
+        ordering = ('order', 'id')
+        verbose_name = 'Serie realizada'
+        verbose_name_plural = 'Series realizadas'
+        constraints = [
+            models.UniqueConstraint(
+                fields=('session', 'order'),
+                name='unique_session_set_order',
+            ),
+        ]
+
+    def __str__(self):
+        return f'{self.session} - serie {self.order}'

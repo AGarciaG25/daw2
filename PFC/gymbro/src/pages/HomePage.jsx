@@ -30,7 +30,9 @@ export default function HomePage() {
       try {
         const fetchedPlans = await apiFetch('/api/workout-plans/', { signal: controller.signal })
         setWorkoutPlans(fetchedPlans)
-        setSelectedWorkoutPlanId((currentValue) => currentValue || fetchedPlans[0]?.id || null)
+        setSelectedWorkoutPlanId((currentValue) =>
+          fetchedPlans.some((plan) => plan.id === currentValue) ? currentValue : null
+        )
       } catch (err) {
         if (err.name !== 'AbortError') {
           setError(err.message || 'Error al cargar rutinas.')
@@ -45,6 +47,10 @@ export default function HomePage() {
   }, [])
 
   const selectedWorkoutPlan = workoutPlans.find((plan) => plan.id === selectedWorkoutPlanId)
+
+  function handleWorkoutPlanSelect(planId) {
+    setSelectedWorkoutPlanId((currentValue) => (currentValue === planId ? null : planId))
+  }
 
   if (loading) {
     return (
@@ -62,8 +68,7 @@ export default function HomePage() {
           workoutPlans={workoutPlans}
           selectedWorkoutPlanId={selectedWorkoutPlanId}
           selectedWorkoutPlan={selectedWorkoutPlan}
-          onWorkoutPlanSelect={setSelectedWorkoutPlanId}
-          onExerciseSelect={(exerciseId) => console.log('Seleccionado ejercicio para detalles', exerciseId)}
+          onWorkoutPlanSelect={handleWorkoutPlanSelect}
         />
       ) : (
         <EmptyWorkoutPlans />

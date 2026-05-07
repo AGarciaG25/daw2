@@ -48,10 +48,13 @@
 .detail-panel,
 .plan-detail,
 .creator-side,
-.builder-item,
 .day-card,
+.builder-item,
 .plan-card,
-.plan-item {
+.plan-item,
+.session-card,
+.session-set,
+.session-log {
   border: 1px solid var(--line);
   border-radius: var(--radius-xl);
   background: var(--panel-bg);
@@ -178,7 +181,7 @@
 }
 
 .plans-layout {
-  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+  grid-template-columns: 1fr;
 }
 
 .creator-layout {
@@ -209,6 +212,496 @@
   width: 100%;
   padding: 18px;
   text-align: left;
+}
+
+.plans-layout__hint {
+  margin: 0 0 18px;
+  color: var(--text-soft);
+}
+
+.plan-card {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.plan-card__body {
+  display: grid;
+  gap: 10px;
+}
+
+.plan-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.plan-item__meta {
+  display: grid;
+  gap: 6px;
+  justify-items: end;
+  flex: 0 0 auto;
+}
+
+.plan-item__hint {
+  color: var(--accent-strong);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.plan-item--selected {
+  border-color: rgba(15, 139, 141, 0.35);
+  background: var(--surface);
+}
+
+.plan-detail--expanded {
+  display: grid;
+  gap: 22px;
+  border: 0;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(239, 248, 243, 0.92));
+  box-shadow: 0 24px 54px rgba(21, 49, 58, 0.1);
+}
+
+.detail-panel__header--expanded {
+  position: relative;
+  align-items: start;
+  padding-right: 44px;
+}
+
+.detail-panel__actions {
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+}
+
+.detail-panel__minimize {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(21, 49, 58, 0.68);
+}
+
+.detail-panel__minimize span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.detail-panel__minimize:hover {
+  color: var(--text-strong);
+}
+
+.plan-detail--expanded .detail-stat {
+  background: linear-gradient(180deg, rgba(221, 241, 232, 0.92), rgba(234, 247, 239, 0.7));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+
+.plan-detail--expanded .day-stack {
+  gap: 14px;
+}
+
+.plan-detail--expanded .day-card {
+  padding: 14px;
+  border: 0;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(248, 252, 249, 0.38));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.plan-detail--expanded .day-card__items {
+  display: grid;
+  gap: 12px;
+}
+
+.plan-detail--expanded .plan-item {
+  padding: 18px 22px;
+  border: 0;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 10px 22px rgba(21, 49, 58, 0.06);
+}
+
+.plan-detail--expanded .plan-item:hover {
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 16px 30px rgba(21, 49, 58, 0.08);
+}
+
+.plan-detail--expanded .plan-item__hint {
+  color: var(--accent);
+}
+
+.plan-card__hint {
+  color: var(--accent-strong);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.plan-card small {
+  color: var(--text-soft);
+}
+
+.plan-card--selected {
+  border-color: rgba(15, 139, 141, 0.35);
+  background: var(--surface);
+  box-shadow: 0 22px 46px rgba(15, 139, 141, 0.14);
+}
+
+.session-workspace,
+.session-summary,
+.session-sets,
+.session-sets__list,
+.session-day-detail,
+.session-log-list {
+  display: grid;
+  gap: 12px;
+}
+
+.session-workspace {
+  margin-top: 4px;
+}
+
+.session-workspace__status {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.session-workspace .section-heading h2 {
+  font-size: clamp(1.18rem, 1.5vw, 1.55rem);
+}
+
+.session-workspace__empty {
+  padding: 22px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface-soft);
+}
+
+.session-workspace__empty h3,
+.session-card h3 {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 1.12rem;
+  line-height: 1.2;
+}
+
+.session-workspace__empty p:last-child,
+.session-log p,
+.session-day-detail__empty {
+  margin: 0;
+  color: var(--text-soft);
+}
+
+.session-summary {
+  grid-template-columns: repeat(auto-fit, minmax(120px, max-content));
+  gap: 8px;
+}
+
+.session-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+}
+
+.session-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(20, 43, 50, 0.72);
+  cursor: pointer;
+}
+
+.session-modal__panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 12px;
+  width: min(980px, 100%);
+  max-height: calc(100vh - 24px);
+  overflow: auto;
+  padding: 16px;
+  border: 0;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fbfefb, #f0f8f3);
+  box-shadow: 0 30px 84px rgba(25, 56, 63, 0.24);
+}
+
+.session-modal__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.session-modal__header h2 {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 1.28rem;
+  line-height: 1.1;
+}
+
+.session-modal__close {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(220, 238, 229, 0.9);
+  color: var(--text);
+  font-size: 0.94rem;
+  font-weight: 800;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.session-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.9fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.session-card {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 0;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.session-card__header,
+.session-sets__header,
+.session-day-detail__header,
+.session-log__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.session-card__header--calendar {
+  align-items: start;
+}
+
+.session-card__header .button,
+.session-card__header--calendar .button {
+  min-height: 38px;
+  padding: 0 14px;
+}
+
+.session-log__meta-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.session-form__grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.session-workspace input,
+.session-workspace textarea {
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 9px;
+  border: 0;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.92rem;
+  box-sizing: border-box;
+  box-shadow: inset 0 0 0 1px rgba(40, 91, 65, 0.12);
+}
+
+.session-workspace textarea {
+  min-height: 68px;
+  resize: vertical;
+}
+
+.session-set {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 0;
+  background: rgba(238, 246, 242, 0.82);
+  box-shadow: none;
+}
+
+.session-set__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.session-set__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.session-set__label strong {
+  font-size: 0.95rem;
+}
+
+.session-set .text-button {
+  font-size: 0.9rem;
+}
+
+.session-set .field {
+  gap: 5px;
+}
+
+.session-set .field span {
+  font-size: 0.8rem;
+}
+
+.session-set .field--wide {
+  grid-column: span 2;
+}
+
+.session-calendar {
+  display: grid;
+  gap: 8px;
+}
+
+.session-calendar__controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.session-calendar__nav {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(220, 238, 229, 0.72);
+  color: var(--text-strong);
+  font-size: 1.28rem;
+  line-height: 1;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.session-calendar__nav:hover {
+  background: rgba(220, 238, 229, 0.92);
+}
+
+.session-calendar__month {
+  color: var(--text-strong);
+  font-weight: 700;
+  font-size: 0.96rem;
+  text-transform: capitalize;
+}
+
+.session-calendar__weekdays,
+.session-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.session-calendar__weekdays span {
+  text-align: center;
+  color: var(--text-soft);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.session-calendar__day {
+  display: grid;
+  align-content: space-between;
+  justify-items: start;
+  min-height: 58px;
+  padding: 8px 7px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.74);
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px rgba(40, 91, 65, 0.08);
+}
+
+.session-calendar__day span {
+  font-size: 0.92rem;
+}
+
+.session-calendar__day small {
+  color: var(--text-soft);
+  font-size: 0.7rem;
+}
+
+.session-calendar__day--muted {
+  opacity: 0.45;
+}
+
+.session-calendar__day--today {
+  box-shadow:
+    inset 0 0 0 1px rgba(40, 91, 65, 0.08),
+    inset 0 0 0 2px rgba(15, 139, 141, 0.22);
+}
+
+.session-calendar__day--selected {
+  background: rgba(15, 139, 141, 0.12);
+  box-shadow:
+    inset 0 0 0 1px rgba(40, 91, 65, 0.08),
+    inset 0 0 0 2px rgba(15, 139, 141, 0.34);
+}
+
+.session-calendar__day--has-sessions {
+  box-shadow:
+    inset 0 0 0 1px rgba(40, 91, 65, 0.08),
+    inset 0 -10px 16px rgba(15, 139, 141, 0.05);
+}
+
+.session-log__sets {
+  display: grid;
+  gap: 6px;
+}
+
+.session-log__set {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.68);
+  color: var(--text);
+  font-size: 0.8rem;
+}
+
+.session-log {
+  border: 0;
+  background: rgba(237, 245, 241, 0.78);
+  box-shadow: none;
+}
+
+.session-workspace .section-heading__badge,
+.session-workspace .pill {
+  min-height: 30px;
+  padding: 0 10px;
+  font-size: 0.78rem;
 }
 
 .plan-card h3,
@@ -376,6 +869,7 @@ code {
 
 @media (max-width: 1080px) {
   .plans-layout,
+  .session-layout,
   .creator-layout {
     grid-template-columns: 1fr;
   }
@@ -391,7 +885,10 @@ code {
   }
 
   .form-grid,
-  .detail-stat-grid {
+  .detail-stat-grid,
+  .session-form__grid,
+  .session-set__grid,
+  .session-log__set {
     grid-template-columns: 1fr;
   }
 
@@ -404,13 +901,37 @@ code {
   .form-actions,
   .stack__header,
   .detail-panel__header,
+  .detail-panel__actions,
   .variation-card__head,
   .plan-card__top,
   .plan-card__meta,
+  .session-modal__header,
+  .session-card__header,
+  .session-sets__header,
+  .session-day-detail__header,
+  .session-log__meta,
   .day-card__header,
   .builder-item__header,
   .results-summary {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .plan-item {
+    flex-direction: column;
+  }
+
+  .plan-item__meta {
+    justify-items: start;
+  }
+
+  .session-modal {
+    padding: 12px;
+  }
+
+  .session-modal__panel {
+    max-height: calc(100vh - 24px);
+    padding: 16px;
+    border-radius: 14px;
   }
 }
