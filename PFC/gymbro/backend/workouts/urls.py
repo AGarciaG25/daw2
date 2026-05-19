@@ -12,11 +12,15 @@ from .views import (
 )
 
 router = DefaultRouter()
-router.register('muscle-groups', MuscleGroupViewSet, basename='muscle-group')
-router.register('exercises', ExerciseViewSet, basename='exercise')
-router.register('variations', ExerciseVariationViewSet, basename='variation')
-router.register('workout-plans', WorkoutPlanViewSet, basename='workout-plan')
-router.register('workout-sessions', WorkoutExerciseSessionViewSet, basename='workout-session')
+
+for prefix, viewset, basename in (
+    ('muscle-groups', MuscleGroupViewSet, 'muscle-group'),
+    ('exercises', ExerciseViewSet, 'exercise'),
+    ('variations', ExerciseVariationViewSet, 'variation'),
+    ('workout-plans', WorkoutPlanViewSet, 'workout-plan'),
+    ('workout-sessions', WorkoutExerciseSessionViewSet, 'workout-session'),
+):
+    router.register(prefix, viewset, basename=basename)
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),

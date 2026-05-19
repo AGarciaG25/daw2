@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { login } from '../../lib/api'
+import AuthForm from './AuthForm'
 import './Auth.css'
 
 export default function Login() {
@@ -10,8 +11,8 @@ export default function Login() {
   const [error, setError] = useState('')
   const navigate = useNavigate()
 
-  async function handleSubmit(e) {
-    e.preventDefault()
+  async function handleSubmit(event) {
+    event.preventDefault()
     setError('')
     setLoading(true)
 
@@ -26,50 +27,34 @@ export default function Login() {
   }
 
   return (
-    <div className="auth-layout">
-      <div className="auth-card">
-        <div className="auth-header">
-          <h1>GymBro</h1>
-          <p>Inicia sesion para continuar</p>
-        </div>
-
-        {error && <div className="auth-error">{error}</div>}
-
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="username">Usuario</label>
-            <input
-              id="username"
-              type="text"
-              className="form-input"
-              placeholder="Tu nombre de usuario"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Contrasena</label>
-            <input
-              id="password"
-              type="password"
-              className="form-input"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" className="auth-button" disabled={loading}>
-            {loading ? 'Iniciando sesion...' : 'Entrar'}
-          </button>
-        </form>
-
-        <div className="auth-footer">
-          ¿No tienes cuenta?{' '}
-          <Link to="/register">Regístrate aqui</Link>
-        </div>
-      </div>
-    </div>
+    <AuthForm
+      title="GymBro"
+      subtitle="Inicia sesion para continuar"
+      loading={loading}
+      error={error}
+      submitLabel="Entrar"
+      loadingLabel="Iniciando sesion..."
+      footerText="No tienes cuenta?"
+      footerLink={{ to: '/register', label: 'Registrate aqui' }}
+      onSubmit={handleSubmit}
+      fields={[
+        {
+          id: 'username',
+          label: 'Usuario',
+          type: 'text',
+          placeholder: 'Tu nombre de usuario',
+          value: username,
+          onChange: (event) => setUsername(event.target.value),
+        },
+        {
+          id: 'password',
+          label: 'Contrasena',
+          type: 'password',
+          placeholder: '********',
+          value: password,
+          onChange: (event) => setPassword(event.target.value),
+        },
+      ]}
+    />
   )
 }

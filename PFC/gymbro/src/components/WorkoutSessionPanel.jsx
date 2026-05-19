@@ -4,6 +4,10 @@ import { formatDate } from '../lib/helpers'
 
 const weekDayLabels = ['L', 'M', 'X', 'J', 'V', 'S', 'D']
 
+function cx(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
 function getTodayIso() {
   const now = new Date()
   const adjusted = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
@@ -198,9 +202,15 @@ export default function WorkoutSessionPanel({ workoutItem }) {
   const calendarDays = useMemo(() => buildCalendarDays(monthCursor), [monthCursor])
   const selectedDateSessions = sessionsByDate.get(selectedDate) || []
 
-  function handleSetLogChange(setLogId, field, value) {
+  function updateSessionForm(updater) {
     setSessionForm((currentValue) => ({
       ...currentValue,
+      ...(typeof updater === 'function' ? updater(currentValue) : updater),
+    }))
+  }
+
+  function handleSetLogChange(setLogId, field, value) {
+    updateSessionForm((currentValue) => ({
       setLogs: currentValue.setLogs.map((setLog) =>
         setLog.id === setLogId ? { ...setLog, [field]: value } : setLog
       ),
@@ -208,8 +218,7 @@ export default function WorkoutSessionPanel({ workoutItem }) {
   }
 
   function handleAddSetLog() {
-    setSessionForm((currentValue) => ({
-      ...currentValue,
+    updateSessionForm((currentValue) => ({
       setLogs: [...currentValue.setLogs, createSetLog(currentValue.setLogs.length + 1)],
     }))
   }
@@ -343,12 +352,7 @@ export default function WorkoutSessionPanel({ workoutItem }) {
               <input
                 type="date"
                 value={sessionForm.sessionDate}
-                onChange={(event) =>
-                  setSessionForm((currentValue) => ({
-                    ...currentValue,
-                    sessionDate: event.target.value,
-                  }))
-                }
+                onChange={(event) => updateSessionForm({ sessionDate: event.target.value })}
               />
             </label>
 
@@ -357,12 +361,7 @@ export default function WorkoutSessionPanel({ workoutItem }) {
               <textarea
                 rows="3"
                 value={sessionForm.notes}
-                onChange={(event) =>
-                  setSessionForm((currentValue) => ({
-                    ...currentValue,
-                    notes: event.target.value,
-                  }))
-                }
+                onChange={(event) => updateSessionForm({ notes: event.target.value })}
                 placeholder="Sensaciones, tecnica, molestias o progresos."
               />
             </label>
@@ -499,29 +498,18 @@ export default function WorkoutSessionPanel({ workoutItem }) {
             <div className="session-calendar__grid">
               {calendarDays.map((day) => {
                 const daySessions = sessionsByDate.get(day.iso) || []
-                const classNames = ['session-calendar__day']
-
-                if (!day.isCurrentMonth) {
-                  classNames.push('session-calendar__day--muted')
-                }
-
-                if (day.isToday) {
-                  classNames.push('session-calendar__day--today')
-                }
-
-                if (selectedDate === day.iso) {
-                  classNames.push('session-calendar__day--selected')
-                }
-
-                if (daySessions.length) {
-                  classNames.push('session-calendar__day--has-sessions')
-                }
 
                 return (
                   <button
                     key={day.iso}
                     type="button"
-                    className={classNames.join(' ')}
+                    className={cx(
+                      'session-calendar__day',
+                      !day.isCurrentMonth && 'session-calendar__day--muted',
+                      day.isToday && 'session-calendar__day--today',
+                      selectedDate === day.iso && 'session-calendar__day--selected',
+                      daySessions.length && 'session-calendar__day--has-sessions'
+                    )}
                     onClick={() => setSelectedDate(day.iso)}
                   >
                     <span>{day.label}</span>

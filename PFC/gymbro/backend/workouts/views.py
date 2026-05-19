@@ -17,6 +17,14 @@ from .serializers import (
 )
 
 
+def lookup_by_id_or_slug(value, id_field, slug_field):
+    return {id_field if value.isdigit() else slug_field: value}
+
+
+def apply_filter(queryset, value, **lookup):
+    return queryset.filter(**lookup) if value else queryset
+
+
 class MuscleGroupViewSet(viewsets.ModelViewSet):
     queryset = MuscleGroup.objects.all()
     serializer_class = MuscleGroupSerializer
@@ -25,10 +33,7 @@ class MuscleGroupViewSet(viewsets.ModelViewSet):
         queryset = super().get_queryset()
         body_region = self.request.query_params.get('body_region')
 
-        if body_region:
-            queryset = queryset.filter(body_region=body_region)
-
-        return queryset
+        return apply_filter(queryset, body_region, body_region=body_region)
 
 
 class ExerciseViewSet(viewsets.ModelViewSet):
@@ -43,15 +48,15 @@ class ExerciseViewSet(viewsets.ModelViewSet):
         difficulty = self.request.query_params.get('difficulty')
 
         if muscle_group:
-            lookup = {'muscle_targets__muscle_group__slug': muscle_group}
-            if muscle_group.isdigit():
-                lookup = {'muscle_targets__muscle_group__id': muscle_group}
-            queryset = queryset.filter(**lookup)
+            queryset = queryset.filter(
+                **lookup_by_id_or_slug(
+                    muscle_group,
+                    'muscle_targets__muscle_group__id',
+                    'muscle_targets__muscle_group__slug',
+                )
+            )
 
-        if difficulty:
-            queryset = queryset.filter(difficulty=difficulty)
-
-        return queryset.distinct()
+        return apply_filter(queryset, difficulty, difficulty=difficulty).distinct()
 
 
 class ExerciseVariationViewSet(viewsets.ModelViewSet):
@@ -62,10 +67,9 @@ class ExerciseVariationViewSet(viewsets.ModelViewSet):
         exercise = self.request.query_params.get('exercise')
 
         if exercise:
-            lookup = {'base_exercise__slug': exercise}
-            if exercise.isdigit():
-                lookup = {'base_exercise__id': exercise}
-            queryset = queryset.filter(**lookup)
+            queryset = queryset.filter(
+                **lookup_by_id_or_slug(exercise, 'base_exercise__id', 'base_exercise__slug')
+            )
 
         return queryset
 
@@ -83,10 +87,7 @@ class WorkoutPlanViewSet(viewsets.ModelViewSet):
         )
         difficulty = self.request.query_params.get('difficulty')
 
-        if difficulty:
-            queryset = queryset.filter(difficulty=difficulty)
-
-        return queryset
+        return apply_filter(queryset, difficulty, difficulty=difficulty)
 
 
 class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
@@ -106,16 +107,10 @@ class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
         workout_plan = self.request.query_params.get('workout_plan')
         session_date = self.request.query_params.get('session_date')
 
-        if workout_item:
-            queryset = queryset.filter(workout_item_id=workout_item)
+        queryset = apply_filter(queryset, workout_item, workout_item_id=workout_item)
+        queryset = apply_filter(queryset, workout_plan, workout_item__workout_plan_id=workout_plan)
+        return apply_filter(queryset, session_date, session_date=session_date)
 
-        if workout_plan:
-            queryset = queryset.filter(workout_item__workout_plan_id=workout_plan)
-
-        if session_date:
-            queryset = queryset.filter(session_date=session_date)
-
-        return queryset
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer

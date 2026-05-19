@@ -1,4 +1,4 @@
-import { startTransition, useEffect, useState } from 'react'
+import { createElement, startTransition, useEffect, useState } from 'react'
 import './ExerciseExplorer.css'
 import MuscleBodyMap from './MuscleBodyMap'
 
@@ -7,23 +7,49 @@ import {
   getMuscleTargetNames,
 } from '../lib/helpers'
 
+const accentByRegion = {
+  tren_inferior: 'exercise-card--legs',
+  core: 'exercise-card--core',
+  cuerpo_completo: 'exercise-card--full',
+}
+
+const diagramViews = [
+  {
+    label: 'Vista frontal',
+    shapes: [
+      ['rect', ['trapecios'], { x: 68, y: 58, width: 44, height: 18, rx: 9 }],
+      ['path', ['hombros', 'deltoides'], { d: 'M45 78c8-18 24-22 39-14v34H54c-10 0-15-10-9-20zM135 78c-8-18-24-22-39-14v34h30c10 0 15-10 9-20z' }],
+      ['path', ['pecho', 'pectorales'], { d: 'M62 86h56l8 58H54z' }],
+      ['path', ['abdominales', 'core', 'flexores-de-cadera'], { d: 'M58 148h64l-9 72H67z' }],
+      ['path', ['biceps'], { d: 'M42 105c16 0 24 12 20 28l-13 55c-2 9-16 7-15-2zM138 105c-16 0-24 12-20 28l13 55c2 9 16 7 15-2z' }],
+      ['path', ['antebrazos'], { d: 'M34 188c10 1 16 6 14 17l-7 52c-1 8-14 7-15-1zM146 188c-10 1-16 6-14 17l7 52c1 8 14 7 15-1z' }],
+      ['path', ['cuadriceps'], { d: 'M66 220h22l-4 95c0 11-18 11-20 0l-9-80c-1-8 3-14 11-15zM92 220h22c8 1 12 7 11 15l-9 80c-2 11-20 11-20 0z' }],
+      ['path', ['aductores', 'abductores'], { d: 'M80 224h20l-3 78H83z' }],
+      ['path', ['gemelos'], { d: 'M62 300h24l-4 45c-1 8-14 8-16 0zM94 300h24l-4 45c-2 8-15 8-16 0z' }],
+    ],
+  },
+  {
+    label: 'Vista posterior',
+    shapes: [
+      ['rect', ['trapecios'], { x: 65, y: 58, width: 50, height: 24, rx: 12 }],
+      ['path', ['dorsales', 'espalda-media', 'espalda'], { d: 'M55 82h70l-12 92H67z' }],
+      ['path', ['lumbar'], { d: 'M67 176h46l7 38H60z' }],
+      ['path', ['gluteos'], { d: 'M58 214h64l-8 44H66z' }],
+      ['path', ['triceps'], { d: 'M42 105c16 0 24 12 20 28l-13 55c-2 9-16 7-15-2zM138 105c-16 0-24 12-20 28l13 55c2 9 16 7 15-2z' }],
+      ['path', ['antebrazos'], { d: 'M34 188c10 1 16 6 14 17l-7 52c-1 8-14 7-15-1zM146 188c-10 1-16 6-14 17l7 52c1 8 14 7 15-1z' }],
+      ['path', ['isquiotibiales'], { d: 'M64 258h24l-4 58c-1 10-17 10-19 0zM92 258h24l-1 58c-2 10-18 10-19 0z' }],
+      ['path', ['gemelos'], { d: 'M62 306h24l-4 39c-1 8-14 8-16 0zM94 306h24l-4 39c-2 8-15 8-16 0z' }],
+    ],
+  },
+]
+
+function cx(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
 function getExerciseAccent(exercise) {
   const primaryMuscle = exercise.muscle_targets.find((target) => target.emphasis === 'principal')
-  const region = primaryMuscle?.muscle_group_detail?.body_region
-
-  if (region === 'tren_inferior') {
-    return 'exercise-card--legs'
-  }
-
-  if (region === 'core') {
-    return 'exercise-card--core'
-  }
-
-  if (region === 'cuerpo_completo') {
-    return 'exercise-card--full'
-  }
-
-  return 'exercise-card--upper'
+  return accentByRegion[primaryMuscle?.muscle_group_detail?.body_region] || 'exercise-card--upper'
 }
 
 function ExerciseIllustration({ exercise, large = false }) {
@@ -35,11 +61,12 @@ function ExerciseIllustration({ exercise, large = false }) {
 
   const muscles = getMuscleTargetNames(exercise, 'principal').slice(0, 2)
   const frameUrls = exercise.demo_frame_urls || []
+  const visualSizeClass = large && 'exercise-illustration__visual--large'
 
   return (
     <div className="exercise-illustration">
       {exercise.demo_gif_url ? (
-        <div className={`exercise-illustration__media ${large ? 'exercise-illustration__media--large' : ''}`}>
+        <div className={cx('exercise-illustration__visual', visualSizeClass)}>
           <img
             src={exercise.demo_gif_url}
             alt={`Demostracion de ${exercise.name}`}
@@ -47,11 +74,7 @@ function ExerciseIllustration({ exercise, large = false }) {
           />
         </div>
       ) : frameUrls.length ? (
-        <div
-          className={`exercise-illustration__sequence ${
-            large ? 'exercise-illustration__sequence--large' : ''
-          }`}
-        >
+        <div className={cx('exercise-illustration__visual', 'exercise-illustration__sequence', visualSizeClass)}>
           <img
             src={frameUrls[0]}
             alt={`Demostracion inicial de ${exercise.name}`}
@@ -68,7 +91,7 @@ function ExerciseIllustration({ exercise, large = false }) {
           ) : null}
         </div>
       ) : (
-        <div className="exercise-illustration__figure">
+        <div className={cx('exercise-illustration__visual', 'exercise-illustration__figure', visualSizeClass)}>
           <span>{initials || 'EX'}</span>
         </div>
       )}
@@ -95,12 +118,12 @@ function hasAnySlug(slugs, values) {
   return values.some((value) => slugs.has(value))
 }
 
-function getZoneClass(primarySlugs, secondarySlugs, values) {
-  if (hasAnySlug(primarySlugs, values)) {
+function getZoneClass(primarySlugs, secondarySlugs, slugs) {
+  if (hasAnySlug(primarySlugs, slugs)) {
     return 'exercise-body-diagram__zone exercise-body-diagram__zone--primary'
   }
 
-  if (hasAnySlug(secondarySlugs, values)) {
+  if (hasAnySlug(secondarySlugs, slugs)) {
     return 'exercise-body-diagram__zone exercise-body-diagram__zone--secondary'
   }
 
@@ -113,32 +136,19 @@ function ExerciseBodyDiagram({ exercise }) {
 
   return (
     <div className="exercise-body-diagram" aria-label="Zonas musculares trabajadas">
-      <svg viewBox="0 0 180 360" role="img" aria-label="Vista frontal">
-        <title>Vista frontal</title>
-        <circle className="exercise-body-diagram__base" cx="90" cy="34" r="21" />
-        <rect className={getZoneClass(primarySlugs, secondarySlugs, ['trapecios'])} x="68" y="58" width="44" height="18" rx="9" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['hombros', 'deltoides'])} d="M45 78c8-18 24-22 39-14v34H54c-10 0-15-10-9-20zM135 78c-8-18-24-22-39-14v34h30c10 0 15-10 9-20z" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['pecho', 'pectorales'])} d="M62 86h56l8 58H54z" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['abdominales', 'core', 'flexores-de-cadera'])} d="M58 148h64l-9 72H67z" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['biceps'])} d="M42 105c16 0 24 12 20 28l-13 55c-2 9-16 7-15-2zM138 105c-16 0-24 12-20 28l13 55c2 9 16 7 15-2z" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['antebrazos'])} d="M34 188c10 1 16 6 14 17l-7 52c-1 8-14 7-15-1zM146 188c-10 1-16 6-14 17l7 52c1 8 14 7 15-1z" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['cuadriceps'])} d="M66 220h22l-4 95c0 11-18 11-20 0l-9-80c-1-8 3-14 11-15zM92 220h22c8 1 12 7 11 15l-9 80c-2 11-20 11-20 0z" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['aductores', 'abductores'])} d="M80 224h20l-3 78H83z" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['gemelos'])} d="M62 300h24l-4 45c-1 8-14 8-16 0zM94 300h24l-4 45c-2 8-15 8-16 0z" />
-      </svg>
-
-      <svg viewBox="0 0 180 360" role="img" aria-label="Vista posterior">
-        <title>Vista posterior</title>
-        <circle className="exercise-body-diagram__base" cx="90" cy="34" r="21" />
-        <rect className={getZoneClass(primarySlugs, secondarySlugs, ['trapecios'])} x="65" y="58" width="50" height="24" rx="12" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['dorsales', 'espalda-media', 'espalda'])} d="M55 82h70l-12 92H67z" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['lumbar'])} d="M67 176h46l7 38H60z" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['gluteos'])} d="M58 214h64l-8 44H66z" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['triceps'])} d="M42 105c16 0 24 12 20 28l-13 55c-2 9-16 7-15-2zM138 105c-16 0-24 12-20 28l13 55c2 9 16 7 15-2z" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['antebrazos'])} d="M34 188c10 1 16 6 14 17l-7 52c-1 8-14 7-15-1zM146 188c-10 1-16 6-14 17l7 52c1 8 14 7 15-1z" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['isquiotibiales'])} d="M64 258h24l-4 58c-1 10-17 10-19 0zM92 258h24l-1 58c-2 10-18 10-19 0z" />
-        <path className={getZoneClass(primarySlugs, secondarySlugs, ['gemelos'])} d="M62 306h24l-4 39c-1 8-14 8-16 0zM94 306h24l-4 39c-2 8-15 8-16 0z" />
-      </svg>
+      {diagramViews.map((view) => (
+        <svg key={view.label} viewBox="0 0 180 360" role="img" aria-label={view.label}>
+          <title>{view.label}</title>
+          <circle className="exercise-body-diagram__base" cx="90" cy="34" r="21" />
+          {view.shapes.map(([shape, slugs, props]) =>
+            createElement(shape, {
+              ...props,
+              key: `${view.label}-${slugs.join('-')}`,
+              className: getZoneClass(primarySlugs, secondarySlugs, slugs),
+            })
+          )}
+        </svg>
+      ))}
     </div>
   )
 }
@@ -184,9 +194,7 @@ function ExerciseDetailModal({ exercise, onClose }) {
             <p className="section-heading__eyebrow">Detalle del ejercicio</p>
             <h2 id="exercise-modal-title">{exercise.name}</h2>
           </div>
-          <button type="button" className="exercise-modal__close" aria-label="Cerrar" onClick={onClose}>
-            <span aria-hidden="true">x</span>
-          </button>
+          <button type="button" className="exercise-modal__close" aria-label="Cerrar" onClick={onClose} />
         </header>
 
         <div className="exercise-modal__grid">
@@ -297,9 +305,12 @@ function ExerciseExplorer({
             <button
               key={exercise.id}
               type="button"
-              className={`exercise-card exercise-card--visual ${getExerciseAccent(exercise)} ${
-                selectedExerciseId === exercise.id ? 'exercise-card--selected' : ''
-              }`}
+              className={cx(
+                'exercise-card',
+                'exercise-card--visual',
+                getExerciseAccent(exercise),
+                selectedExerciseId === exercise.id && 'exercise-card--selected'
+              )}
               onClick={() =>
                 startTransition(() => {
                   onExerciseSelect(exercise.id)
@@ -307,11 +318,6 @@ function ExerciseExplorer({
                 })
               }
             >
-              <div className="exercise-card__icons">
-                <span className="exercise-card__bookmark">+</span>
-                <span className="exercise-card__hint">?</span>
-              </div>
-
               <ExerciseIllustration exercise={exercise} />
 
               <div className="exercise-card__content">

@@ -14,13 +14,9 @@ export default function ExercisesPage() {
   const [exercises, setExercises] = useState([])
   const [selectedBodyRegion, setSelectedBodyRegion] = useState('all')
   const [selectedMuscleSlug, setSelectedMuscleSlug] = useState('')
-  const [selectedDifficulty, setSelectedDifficulty] = useState('all')
-  const [selectedExerciseType, setSelectedExerciseType] = useState('all')
-  const [sortBy, setSortBy] = useState('name')
   const [selectedExerciseId, setSelectedExerciseId] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [loading, setLoading] = useState(true)
-  const [refreshing, setRefreshing] = useState(false)
   const [dashboardError, setDashboardError] = useState('')
 
   const deferredSearchTerm = useDeferredValue(searchTerm)
@@ -62,22 +58,6 @@ export default function ExercisesPage() {
     return () => controller.abort()
   }, [])
 
-  async function refreshDashboard() {
-    setRefreshing(true)
-    setDashboardError('')
-
-    try {
-      const [nextMuscleGroups, nextExercises] = await requestDashboardData()
-      applyDashboardData(nextMuscleGroups, nextExercises)
-    } catch (error) {
-      setDashboardError(
-        error.message || 'No se ha podido conectar con la API. Comprueba que Django este en marcha.'
-      )
-    } finally {
-      setRefreshing(false)
-    }
-  }
-
   const normalizedSearch = deferredSearchTerm.trim().toLowerCase()
   const filteredExercises = exercises.filter((exercise) => {
     if (selectedBodyRegion !== 'all') {
@@ -98,18 +78,6 @@ export default function ExercisesPage() {
       }
     }
 
-    if (selectedDifficulty !== 'all' && exercise.difficulty !== selectedDifficulty) {
-      return false
-    }
-
-    if (selectedExerciseType === 'compound' && !exercise.is_compound) {
-      return false
-    }
-
-    if (selectedExerciseType === 'isolation' && exercise.is_compound) {
-      return false
-    }
-
     if (!normalizedSearch) {
       return true
     }
@@ -128,15 +96,9 @@ export default function ExercisesPage() {
     return searchableText.includes(normalizedSearch)
   })
 
-  const visibleExercises = [...filteredExercises].sort((left, right) => {
-    if (sortBy === 'variations') {
-      return right.variations.length - left.variations.length || left.name.localeCompare(right.name, 'es')
-    }
-    if (sortBy === 'updated') {
-      return new Date(right.updated_at).getTime() - new Date(left.updated_at).getTime()
-    }
-    return left.name.localeCompare(right.name, 'es')
-  })
+  const visibleExercises = [...filteredExercises].sort((left, right) =>
+    left.name.localeCompare(right.name, 'es')
+  )
 
   useEffect(() => {
     if (!visibleExercises.length) {
@@ -147,30 +109,6 @@ export default function ExercisesPage() {
       setSelectedExerciseId(visibleExercises[0].id)
     }
   }, [visibleExercises, selectedExerciseId])
-
-  const selectedExercise =
-    visibleExercises.find((exercise) => exercise.id === selectedExerciseId) || null
-  const activeFiltersCount = [
-    selectedBodyRegion !== 'all',
-    selectedMuscleSlug !== '',
-    selectedDifficulty !== 'all',
-    selectedExerciseType !== 'all',
-    normalizedSearch !== '',
-  ].filter(Boolean).length
-
-  function handleRegionChange(region) {
-    startTransition(() => {
-      setSelectedBodyRegion(region)
-      if (region === 'all') {
-        setSelectedMuscleSlug('')
-        return
-      }
-      const selectedMuscle = muscleGroups.find((group) => group.slug === selectedMuscleSlug)
-      if (selectedMuscle && selectedMuscle.body_region !== region) {
-        setSelectedMuscleSlug('')
-      }
-    })
-  }
 
   function handleMuscleToggle(muscleGroup) {
     startTransition(() => {
@@ -185,15 +123,6 @@ export default function ExercisesPage() {
     setSelectedMuscleSlug('')
   }
 
-  function resetFilters() {
-    setSelectedBodyRegion('all')
-    setSelectedMuscleSlug('')
-    setSelectedDifficulty('all')
-    setSelectedExerciseType('all')
-    setSortBy('name')
-    setSearchTerm('')
-  }
-
   return (
     <div className="app-shell">
       {dashboardError ? (
@@ -206,27 +135,13 @@ export default function ExercisesPage() {
         loading={loading}
         muscleGroups={muscleGroups}
         visibleExercises={visibleExercises}
-        selectedBodyRegion={selectedBodyRegion}
         selectedMuscleSlug={selectedMuscleSlug}
-        selectedDifficulty={selectedDifficulty}
-        selectedExerciseType={selectedExerciseType}
-        sortBy={sortBy}
-        selectedExercise={selectedExercise}
         selectedExerciseId={selectedExerciseId}
         searchTerm={searchTerm}
-        totalExercises={exercises.length}
-        activeFiltersCount={activeFiltersCount}
         onSearchTermChange={setSearchTerm}
-        onRegionChange={handleRegionChange}
         onMuscleToggle={handleMuscleToggle}
         onExerciseSelect={setSelectedExerciseId}
-        onDifficultyChange={setSelectedDifficulty}
-        onExerciseTypeChange={setSelectedExerciseType}
-        onSortChange={setSortBy}
         onClearMuscleFilter={clearMuscleFilter}
-        onResetFilters={resetFilters}
-        refreshing={refreshing}
-        onRefresh={refreshDashboard}
       />
     </div>
   )

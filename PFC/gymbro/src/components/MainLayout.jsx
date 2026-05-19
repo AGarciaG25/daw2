@@ -1,4 +1,5 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { isLoggedIn, logout } from '../lib/api'
 import './MainLayout.css'
 
 function SidebarIcon({ path }) {
@@ -33,6 +34,14 @@ const mainLinks = [
 ]
 
 export default function MainLayout() {
+  const navigate = useNavigate()
+  const hasSession = isLoggedIn()
+
+  function handleLogout() {
+    logout()
+    navigate('/', { replace: true })
+  }
+
   return (
     <div className="shell-layout">
       <aside className="shell-sidebar">
@@ -58,6 +67,27 @@ export default function MainLayout() {
           ))}
         </nav>
 
+        <div className="sidebar-session">
+          <div className="sidebar-session__copy">
+            <strong>{hasSession ? 'Sesion activa' : 'Modo invitado'}</strong>
+            <small>{hasSession ? 'Token guardado localmente' : 'Puedes navegar sin cuenta'}</small>
+          </div>
+          {hasSession ? (
+            <button className="sidebar-logout" type="button" onClick={handleLogout}>
+              <SidebarIcon path="M10 6H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h4 M14 8l4 4-4 4 M9 12h9" />
+              <span>Salir</span>
+            </button>
+          ) : (
+            <div className="sidebar-auth-actions">
+              <NavLink className="sidebar-auth-link sidebar-auth-link--primary" to="/login">
+                Entrar
+              </NavLink>
+              <NavLink className="sidebar-auth-link" to="/register">
+                Registro
+              </NavLink>
+            </div>
+          )}
+        </div>
       </aside>
 
       <main className="shell-main">

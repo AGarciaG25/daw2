@@ -1,4 +1,5 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
+const AUTH_TOKEN_KEY = 'gymbro_token'
 
 function buildApiUrl(path) {
   const baseUrl = API_BASE_URL || window.location.origin
@@ -45,7 +46,7 @@ export async function apiFetch(path, options = {}) {
     ...(options.headers || {}),
   }
 
-  const token = localStorage.getItem('gymbro_token')
+  const token = localStorage.getItem(AUTH_TOKEN_KEY)
   if (token) {
     headers['Authorization'] = `Token ${token}`
   }
@@ -81,10 +82,10 @@ export async function apiFetch(path, options = {}) {
 export async function login(username, password) {
   const data = await apiFetch('/api/login/', {
     method: 'POST',
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify({ username, password }),
   })
   if (data.token) {
-    localStorage.setItem('gymbro_token', data.token)
+    localStorage.setItem(AUTH_TOKEN_KEY, data.token)
   }
   return data
 }
@@ -92,10 +93,14 @@ export async function login(username, password) {
 export async function register(username, email, password) {
   return apiFetch('/api/register/', {
     method: 'POST',
-    body: JSON.stringify({ username, email, password })
+    body: JSON.stringify({ username, email, password }),
   })
 }
 
 export function logout() {
-  localStorage.removeItem('gymbro_token')
+  localStorage.removeItem(AUTH_TOKEN_KEY)
+}
+
+export function isLoggedIn() {
+  return Boolean(localStorage.getItem(AUTH_TOKEN_KEY))
 }

@@ -15,6 +15,17 @@ from .models import (
 )
 
 
+def compact_detail(obj, *fields):
+    return {'id': obj.id, **{field: getattr(obj, field) for field in fields}}
+
+
+def update_instance(instance, validated_data):
+    for attr, value in validated_data.items():
+        setattr(instance, attr, value)
+    instance.save()
+    return instance
+
+
 class MuscleGroupSerializer(serializers.ModelSerializer):
     exercise_count = serializers.SerializerMethodField()
 
@@ -64,11 +75,7 @@ class ExerciseVariationSerializer(serializers.ModelSerializer):
         read_only_fields = ('slug', 'created_at', 'updated_at')
 
     def get_base_exercise_detail(self, obj):
-        return {
-            'id': obj.base_exercise_id,
-            'name': obj.base_exercise.name,
-            'slug': obj.base_exercise.slug,
-        }
+        return compact_detail(obj.base_exercise, 'name', 'slug')
 
 
 class ExerciseSerializer(serializers.ModelSerializer):
@@ -112,9 +119,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         muscle_targets = validated_data.pop('muscle_targets', None)
 
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
+        update_instance(instance, validated_data)
 
         if muscle_targets is not None:
             instance.muscle_targets.all().delete()
@@ -129,10 +134,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
         )
 
     def get_demo_gif_url(self, obj):
-        if not obj.demo_gif_path:
-            return ''
-
-        return static(obj.demo_gif_path)
+        return static(obj.demo_gif_path) if obj.demo_gif_path else ''
 
     def get_demo_frame_urls(self, obj):
         return [static(path) for path in (obj.demo_frame_paths or []) if path]
@@ -174,9 +176,7 @@ class WorkoutPlanItemSerializer(serializers.ModelSerializer):
             emphasis=ExerciseMuscleTarget.Emphasis.PRIMARY
         )
         return {
-            'id': obj.exercise_id,
-            'name': obj.exercise.name,
-            'slug': obj.exercise.slug,
+            **compact_detail(obj.exercise, 'name', 'slug'),
             'primary_muscles': [target.muscle_group.name for target in primary_targets],
         }
 
@@ -184,11 +184,7 @@ class WorkoutPlanItemSerializer(serializers.ModelSerializer):
         if not obj.variation:
             return None
 
-        return {
-            'id': obj.variation_id,
-            'name': obj.variation.name,
-            'slug': obj.variation.slug,
-        }
+        return compact_detail(obj.variation, 'name', 'slug')
 
 
 class WorkoutExerciseSetLogSerializer(serializers.ModelSerializer):
@@ -233,9 +229,7 @@ class WorkoutExerciseSessionSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         set_logs = validated_data.pop('set_logs', None)
 
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
+        update_instance(instance, validated_data)
 
         if set_logs is not None:
             instance.set_logs.all().delete()
@@ -260,12 +254,9 @@ class WorkoutExerciseSessionSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def _save_set_logs(session, set_logs):
-        logs = []
-
-        for set_log in set_logs:
-            logs.append(WorkoutExerciseSetLog(session=session, **set_log))
-
-        WorkoutExerciseSetLog.objects.bulk_create(logs)
+        WorkoutExerciseSetLog.objects.bulk_create(
+            [WorkoutExerciseSetLog(session=session, **set_log) for set_log in set_logs]
+        )
 
     def get_workout_item_detail(self, obj):
         return {
@@ -310,9 +301,7 @@ class WorkoutPlanSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         items = validated_data.pop('items', None)
 
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
+        update_instance(instance, validated_data)
 
         if items is not None:
             instance.items.all().delete()
@@ -339,6 +328,7 @@ class WorkoutPlanSerializer(serializers.ModelSerializer):
 
         WorkoutPlanItem.objects.bulk_create(workout_items)
 
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
@@ -347,10 +337,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         fields = ('username', 'email', 'password')
 
     def create(self, validated_data):
-        user = User.objects.create_user(
+        return User.objects.create_user(
             username=validated_data['username'],
             email=validated_data.get('email', ''),
             password=validated_data['password']
         )
-        return user
 

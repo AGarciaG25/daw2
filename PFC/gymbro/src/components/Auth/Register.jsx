@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { register } from '../../lib/api'
+import AuthForm from './AuthForm'
 import './Auth.css'
 
 export default function Register() {
@@ -11,8 +12,8 @@ export default function Register() {
   const [error, setError] = useState('')
   const navigate = useNavigate()
 
-  async function handleSubmit(e) {
-    e.preventDefault()
+  async function handleSubmit(event) {
+    event.preventDefault()
     setError('')
     setLoading(true)
 
@@ -27,62 +28,42 @@ export default function Register() {
   }
 
   return (
-    <div className="auth-layout">
-      <div className="auth-card">
-        <div className="auth-header">
-          <h1>Crear cuenta</h1>
-          <p>Unete a GymBro</p>
-        </div>
-
-        {error && <div className="auth-error">{error}</div>}
-
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="username">Usuario</label>
-            <input
-              id="username"
-              type="text"
-              className="form-input"
-              placeholder="Tu nombre de usuario"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Correo electronico</label>
-            <input
-              id="email"
-              type="email"
-              className="form-input"
-              placeholder="correo@ejemplo.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Contrasena</label>
-            <input
-              id="password"
-              type="password"
-              className="form-input"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <button type="submit" className="auth-button" disabled={loading}>
-            {loading ? 'Creando cuenta...' : 'Registrarme'}
-          </button>
-        </form>
-
-        <div className="auth-footer">
-          ¿Ya tienes cuenta?{' '}
-          <Link to="/login">Inicia sesion aqui</Link>
-        </div>
-      </div>
-    </div>
+    <AuthForm
+      title="Crear cuenta"
+      subtitle="Unete a GymBro"
+      loading={loading}
+      error={error}
+      submitLabel="Registrarme"
+      loadingLabel="Creando cuenta..."
+      footerText="Ya tienes cuenta?"
+      footerLink={{ to: '/login', label: 'Inicia sesion aqui' }}
+      onSubmit={handleSubmit}
+      fields={[
+        {
+          id: 'username',
+          label: 'Usuario',
+          type: 'text',
+          placeholder: 'Tu nombre de usuario',
+          value: username,
+          onChange: (event) => setUsername(event.target.value),
+        },
+        {
+          id: 'email',
+          label: 'Correo electronico',
+          type: 'email',
+          placeholder: 'correo@ejemplo.com',
+          value: email,
+          onChange: (event) => setEmail(event.target.value),
+        },
+        {
+          id: 'password',
+          label: 'Contrasena',
+          type: 'password',
+          placeholder: '********',
+          value: password,
+          onChange: (event) => setPassword(event.target.value),
+        },
+      ]}
+    />
   )
 }

@@ -1,13 +1,17 @@
 import { useNavigate } from 'react-router-dom'
-import { logout } from '../lib/api'
+import { isLoggedIn, logout } from '../lib/api'
 
 export default function ProfilePage() {
   const navigate = useNavigate()
-  const isLoggedIn = Boolean(localStorage.getItem('gymbro_token'))
+  const hasSession = isLoggedIn()
 
   function handleLogout() {
     logout()
-    navigate('/')
+    navigate('/', { replace: true })
+  }
+
+  function goToLogin() {
+    navigate('/login')
   }
 
   return (
@@ -23,15 +27,15 @@ export default function ProfilePage() {
         <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div className="empty-state">
             <div style={{ padding: '2rem', background: 'var(--surface-soft)', borderRadius: '8px', marginBottom: '1rem' }}>
-              <h3>{isLoggedIn ? 'Bienvenido a GymBro' : 'Estas navegando como invitado'}</h3>
+              <h3>{hasSession ? 'Bienvenido a GymBro' : 'Estas navegando como invitado'}</h3>
               <p>
-                {isLoggedIn
+                {hasSession
                   ? 'Has iniciado sesion correctamente. Aqui pronto podras configurar tus preferencias y metricas corporales.'
-                  : 'Ya puedes entrar en la web sin iniciar sesion. Si mas adelante quieres identificarte, puedes hacerlo desde la pantalla de acceso.'}
+                  : 'Puedes usar la web sin iniciar sesion. Si quieres guardar datos personales, inicia sesion cuando lo necesites.'}
               </p>
             </div>
 
-            {isLoggedIn ? (
+            {hasSession ? (
               <button
                 className="button button--ghost"
                 type="button"
@@ -40,7 +44,16 @@ export default function ProfilePage() {
               >
                 Cerrar sesion
               </button>
-            ) : null}
+            ) : (
+              <button
+                className="button button--primary"
+                type="button"
+                style={{ width: '100%', justifyContent: 'center' }}
+                onClick={goToLogin}
+              >
+                Iniciar sesion
+              </button>
+            )}
           </div>
         </div>
       </section>

@@ -54,15 +54,9 @@ function buildRepsSummary(setEntries) {
 function buildItemNotes(item) {
   const setDetails = item.setEntries
     .map((entry, index) => {
-      const details = []
-
-      if (String(entry.weight || '').trim()) {
-        details.push(`peso ${String(entry.weight).trim()}`)
-      }
-
-      if (String(entry.rir || '').trim()) {
-        details.push(`RIR ${String(entry.rir).trim()}`)
-      }
+      const weight = String(entry.weight || '').trim()
+      const rir = String(entry.rir || '').trim()
+      const details = [weight && `peso ${weight}`, rir && `RIR ${rir}`].filter(Boolean)
 
       if (!details.length) {
         return ''
@@ -110,22 +104,21 @@ export default function WorkoutsPage() {
     setWorkoutForm((currentValue) => ({ ...currentValue, [field]: value }))
   }
 
-  function handleItemChange(itemId, field, value) {
+  function updateItems(updater) {
     setWorkoutForm((currentValue) => ({
       ...currentValue,
-      items: currentValue.items.map((item) =>
-        item.id === itemId ? { ...item, [field]: value } : item
-      ),
+      items: currentValue.items.map(updater),
     }))
   }
 
+  function handleItemChange(itemId, field, value) {
+    updateItems((item) => (item.id === itemId ? { ...item, [field]: value } : item))
+  }
+
   function handleAssignExercise(itemId, exerciseId) {
-    setWorkoutForm((currentValue) => ({
-      ...currentValue,
-      items: currentValue.items.map((item) =>
-        item.id === itemId ? { ...item, exercise: exerciseId, variation: '' } : item
-      ),
-    }))
+    updateItems((item) =>
+      item.id === itemId ? { ...item, exercise: exerciseId, variation: '' } : item
+    )
   }
 
   function handleAddItem(exerciseId = '') {
@@ -149,49 +142,32 @@ export default function WorkoutsPage() {
   }
 
   function handleAddSet(itemId) {
-    setWorkoutForm((currentValue) => ({
-      ...currentValue,
-      items: currentValue.items.map((item) =>
-        item.id === itemId
-          ? {
-              ...item,
-              setEntries: [...item.setEntries, createSetEntry()],
-            }
-          : item
-      ),
-    }))
+    updateItems((item) =>
+      item.id === itemId
+        ? { ...item, setEntries: [...item.setEntries, createSetEntry()] }
+        : item
+    )
   }
 
   function handleSetChange(itemId, setId, field, value) {
-    setWorkoutForm((currentValue) => ({
-      ...currentValue,
-      items: currentValue.items.map((item) =>
-        item.id === itemId
-          ? {
-              ...item,
-              setEntries: item.setEntries.map((entry) =>
-                entry.id === setId ? { ...entry, [field]: value } : entry
-              ),
-            }
-          : item
-      ),
-    }))
+    updateItems((item) =>
+      item.id === itemId
+        ? {
+            ...item,
+            setEntries: item.setEntries.map((entry) =>
+              entry.id === setId ? { ...entry, [field]: value } : entry
+            ),
+          }
+        : item
+    )
   }
 
   function handleRemoveSet(itemId, setId) {
-    setWorkoutForm((currentValue) => ({
-      ...currentValue,
-      items: currentValue.items.map((item) => {
-        if (item.id !== itemId || item.setEntries.length === 1) {
-          return item
-        }
-
-        return {
-          ...item,
-          setEntries: item.setEntries.filter((entry) => entry.id !== setId),
-        }
-      }),
-    }))
+    updateItems((item) =>
+      item.id === itemId && item.setEntries.length > 1
+        ? { ...item, setEntries: item.setEntries.filter((entry) => entry.id !== setId) }
+        : item
+    )
   }
 
   function handleReset() {
