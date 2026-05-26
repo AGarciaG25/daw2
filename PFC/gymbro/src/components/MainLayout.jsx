@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { isLoggedIn, logout } from '../lib/api'
 import './MainLayout.css'
@@ -35,10 +36,11 @@ const mainLinks = [
 
 export default function MainLayout() {
   const navigate = useNavigate()
-  const hasSession = isLoggedIn()
+  const [hasSession, setHasSession] = useState(() => isLoggedIn())
 
   function handleLogout() {
     logout()
+    setHasSession(false)
     navigate('/', { replace: true })
   }
 
@@ -70,7 +72,6 @@ export default function MainLayout() {
         <div className="sidebar-session">
           <div className="sidebar-session__copy">
             <strong>{hasSession ? 'Sesion activa' : 'Modo invitado'}</strong>
-            <small>{hasSession ? 'Token guardado localmente' : 'Puedes navegar sin cuenta'}</small>
           </div>
           {hasSession ? (
             <button className="sidebar-logout" type="button" onClick={handleLogout}>
@@ -80,10 +81,7 @@ export default function MainLayout() {
           ) : (
             <div className="sidebar-auth-actions">
               <NavLink className="sidebar-auth-link sidebar-auth-link--primary" to="/login">
-                Entrar
-              </NavLink>
-              <NavLink className="sidebar-auth-link" to="/register">
-                Registro
+                Iniciar sesion
               </NavLink>
             </div>
           )}

@@ -99,7 +99,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument(
             '--json-path',
-            default=str(Path(settings.BASE_DIR).parent / '.codex-cache' / 'free-exercise-db.json'),
+            default=str(Path(settings.BASE_DIR) / 'data' / 'free-exercise-db.json'),
             help='Ruta local al JSON del dataset.',
         )
         parser.add_argument(

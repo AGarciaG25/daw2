@@ -11,6 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
+.codex-cache/
 
 # Directorios y archivos del editor
 .vscode/*
@@ -26,4 +27,3 @@ dist-ssr
 # Python / Django
 __pycache__/
 *.py[cod]
-backend/db.sqlite3

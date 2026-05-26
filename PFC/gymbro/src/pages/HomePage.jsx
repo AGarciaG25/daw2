@@ -52,6 +52,12 @@ export default function HomePage() {
     setSelectedWorkoutPlanId((currentValue) => (currentValue === planId ? null : planId))
   }
 
+  async function handleWorkoutPlanDelete(planId) {
+    await apiFetch(`/api/workout-plans/${planId}/`, { method: 'DELETE' })
+    setWorkoutPlans((currentPlans) => currentPlans.filter((plan) => plan.id !== planId))
+    setSelectedWorkoutPlanId((currentValue) => (currentValue === planId ? null : currentValue))
+  }
+
   if (loading) {
     return (
       <div className="app-shell" style={{ padding: '2rem' }}>
@@ -69,6 +75,7 @@ export default function HomePage() {
           selectedWorkoutPlanId={selectedWorkoutPlanId}
           selectedWorkoutPlan={selectedWorkoutPlan}
           onWorkoutPlanSelect={handleWorkoutPlanSelect}
+          onWorkoutPlanDelete={handleWorkoutPlanDelete}
         />
       ) : (
         <EmptyWorkoutPlans />
