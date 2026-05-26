@@ -42,8 +42,12 @@ function WorkoutPlans({
   selectedWorkoutPlanId,
   selectedWorkoutPlan,
   onWorkoutPlanSelect,
+  onWorkoutPlanDelete,
 }) {
   const [selectedWorkoutItemId, setSelectedWorkoutItemId] = useState(null)
+  const [deleteCandidate, setDeleteCandidate] = useState(null)
+  const [deletingPlanId, setDeletingPlanId] = useState(null)
+  const [deleteError, setDeleteError] = useState('')
 
   const selectedWorkoutItem =
     selectedWorkoutPlan?.items.find((item) => item.id === selectedWorkoutItemId) || null
@@ -59,6 +63,38 @@ function WorkoutPlans({
 
   function handleWorkoutItemClose() {
     setSelectedWorkoutItemId(null)
+  }
+
+  function handleDeleteRequest(plan) {
+    setDeleteCandidate(plan)
+    setDeleteError('')
+  }
+
+  function handleDeleteCancel() {
+    if (deletingPlanId) {
+      return
+    }
+
+    setDeleteCandidate(null)
+    setDeleteError('')
+  }
+
+  async function handleDeleteConfirm() {
+    if (!deleteCandidate || !onWorkoutPlanDelete) {
+      return
+    }
+
+    setDeletingPlanId(deleteCandidate.id)
+    setDeleteError('')
+
+    try {
+      await onWorkoutPlanDelete(deleteCandidate.id)
+      setDeleteCandidate(null)
+    } catch (error) {
+      setDeleteError(error.message || 'No se pudo eliminar la rutina.')
+    } finally {
+      setDeletingPlanId(null)
+    }
   }
 
   return (
@@ -81,29 +117,44 @@ function WorkoutPlans({
 
           <div className="plans-list">
             {workoutPlans.map((plan) => (
-              <button
+              <article
                 key={plan.id}
-                type="button"
                 className={`plan-card ${selectedWorkoutPlanId === plan.id ? 'plan-card--selected' : ''}`}
-                onClick={() => handlePlanSelect(plan.id)}
               >
-                <div className="plan-card__top">
-                  <span className="tag tag--accent">
-                    {difficultyLabels[plan.difficulty] || plan.difficulty}
-                  </span>
-                  <small>{plan.days_per_week} dias/semana</small>
-                </div>
-
-                <div className="plan-card__body">
-                  <h3>{plan.name}</h3>
-                  <div className="plan-card__meta">
-                    <span>{plan.items.length} ejercicios</span>
-                    <span>{plan.estimated_duration_minutes} min</span>
+                <button
+                  type="button"
+                  className="plan-card__select"
+                  onClick={() => handlePlanSelect(plan.id)}
+                >
+                  <div className="plan-card__top">
+                    <span className="tag tag--accent">
+                      {difficultyLabels[plan.difficulty] || plan.difficulty}
+                    </span>
+                    <small>{plan.days_per_week} dias/semana</small>
                   </div>
-                </div>
 
-                <small className="plan-card__hint">Pulsa para ver detalle</small>
-              </button>
+                  <div className="plan-card__body">
+                    <h3>{plan.name}</h3>
+                    <div className="plan-card__meta">
+                      <span>{plan.items.length} ejercicios</span>
+                      <span>{plan.estimated_duration_minutes} min</span>
+                    </div>
+                  </div>
+
+                  <small className="plan-card__hint">Pulsa para ver detalle</small>
+                </button>
+
+                {onWorkoutPlanDelete ? (
+                  <button
+                    type="button"
+                    className="plan-card__delete"
+                    aria-label={`Eliminar rutina ${plan.name}`}
+                    onClick={() => handleDeleteRequest(plan)}
+                  >
+                    Eliminar
+                  </button>
+                ) : null}
+              </article>
             ))}
           </div>
         </>
@@ -165,7 +216,6 @@ function WorkoutPlans({
                       </div>
                       <div className="plan-item__meta">
                         <small>{item.rest_seconds}s descanso</small>
-                        <small className="plan-item__hint">Abrir popup de seguimiento</small>
                       </div>
                     </button>
                   ))}
@@ -177,6 +227,42 @@ function WorkoutPlans({
       )}
 
       <WorkoutItemModal workoutItem={selectedWorkoutItem} onClose={handleWorkoutItemClose} />
+
+      {deleteCandidate ? (
+        <div className="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="delete-plan-title">
+          <button
+            type="button"
+            className="confirm-modal__backdrop"
+            aria-label="Cancelar eliminacion"
+            onClick={handleDeleteCancel}
+          />
+          <article className="confirm-modal__panel">
+            <h3 id="delete-plan-title">Eliminar rutina</h3>
+            <p>
+              Vas a eliminar "{deleteCandidate.name}". Esta accion no se puede deshacer.
+            </p>
+            {deleteError ? <div className="feedback feedback--error">{deleteError}</div> : null}
+            <div className="confirm-modal__actions">
+              <button
+                type="button"
+                className="button button--ghost"
+                onClick={handleDeleteCancel}
+                disabled={Boolean(deletingPlanId)}
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                className="button button--danger"
+                onClick={handleDeleteConfirm}
+                disabled={Boolean(deletingPlanId)}
+              >
+                {deletingPlanId ? 'Eliminando...' : 'Eliminar'}
+              </button>
+            </div>
+          </article>
+        </div>
+      ) : null}
     </section>
   )
 }

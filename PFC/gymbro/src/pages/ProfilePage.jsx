@@ -30,7 +30,7 @@ export default function ProfilePage() {
               <h3>{hasSession ? 'Bienvenido a GymBro' : 'Estas navegando como invitado'}</h3>
               <p>
                 {hasSession
-                  ? 'Has iniciado sesion correctamente. Aqui pronto podras configurar tus preferencias y metricas corporales.'
+                  ? 'Has iniciado sesion correctamente.'
                   : 'Puedes usar la web sin iniciar sesion. Si quieres guardar datos personales, inicia sesion cuando lo necesites.'}
               </p>
             </div>
