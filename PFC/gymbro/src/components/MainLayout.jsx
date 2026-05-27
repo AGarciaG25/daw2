@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { isLoggedIn, logout } from '../lib/api'
+import { getProfile, isLoggedIn, logout } from '../lib/api'
 import './MainLayout.css'
 
 function SidebarIcon({ path }) {
@@ -37,10 +37,44 @@ const mainLinks = [
 export default function MainLayout() {
   const navigate = useNavigate()
   const [hasSession, setHasSession] = useState(() => isLoggedIn())
+  const [profile, setProfile] = useState(null)
+
+  useEffect(() => {
+    let ignore = false
+
+    async function fetchProfile() {
+      if (!isLoggedIn()) {
+        setHasSession(false)
+        setProfile(null)
+        return
+      }
+
+      setHasSession(true)
+
+      try {
+        const fetchedProfile = await getProfile()
+        if (!ignore) {
+          setProfile(fetchedProfile)
+        }
+      } catch {
+        if (!ignore) {
+          setProfile(null)
+        }
+      }
+    }
+
+    fetchProfile()
+    window.addEventListener('gymbro-profile-updated', fetchProfile)
+    return () => {
+      ignore = true
+      window.removeEventListener('gymbro-profile-updated', fetchProfile)
+    }
+  }, [])
 
   function handleLogout() {
     logout()
     setHasSession(false)
+    setProfile(null)
     navigate('/', { replace: true })
   }
 
@@ -48,7 +82,13 @@ export default function MainLayout() {
     <div className="shell-layout">
       <aside className="shell-sidebar">
         <div className="shell-brand">
-          <span className="shell-brand__badge">G</span>
+          <span className="shell-brand__badge">
+            {profile?.avatar_data_url ? (
+              <img src={profile.avatar_data_url} alt="" />
+            ) : (
+              'G'
+            )}
+          </span>
           <div>
             <strong>GYMBRO</strong>
             <small>Biblioteca fitness</small>

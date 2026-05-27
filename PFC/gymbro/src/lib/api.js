@@ -66,7 +66,11 @@ export async function apiFetch(path, options = {}) {
     try {
       payload = await response.json()
     } catch {
-      payload = null
+      try {
+        payload = await response.text()
+      } catch {
+        payload = null
+      }
     }
 
     throw new Error(normalizeErrorMessage(payload))
@@ -82,7 +86,7 @@ export async function apiFetch(path, options = {}) {
 export async function login(username, password) {
   const data = await apiFetch('/api/login/', {
     method: 'POST',
-    body: JSON.stringify({ username, password }),
+    body: JSON.stringify({ username: username.trim(), password }),
   })
   if (data.token) {
     localStorage.setItem(AUTH_TOKEN_KEY, data.token)
@@ -94,6 +98,27 @@ export async function register(username, email, password) {
   return apiFetch('/api/register/', {
     method: 'POST',
     body: JSON.stringify({ username, email, password }),
+  })
+}
+
+export async function getProfile() {
+  return apiFetch('/api/profile/')
+}
+
+export async function updateProfile(profile) {
+  return apiFetch('/api/profile/', {
+    method: 'PATCH',
+    body: JSON.stringify(profile),
+  })
+}
+
+export async function changePassword(currentPassword, newPassword) {
+  return apiFetch('/api/profile/password/', {
+    method: 'POST',
+    body: JSON.stringify({
+      current_password: currentPassword,
+      new_password: newPassword,
+    }),
   })
 }
 

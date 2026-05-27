@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import WorkoutPlans from '../components/WorkoutPlans'
-import { apiFetch } from '../lib/api'
+import { apiFetch, isLoggedIn } from '../lib/api'
 
-function EmptyWorkoutPlans() {
+function EmptyWorkoutPlans({ hasSession }) {
   return (
     <section className="panel">
       <div className="empty-state">
-        <h3>Todavía no tienes tablas creadas</h3>
-        <p>Crea tu primera rutina para que aparezca aquí y puedas consultarla desde Inicio.</p>
-        <Link className="button button--primary" to="/tablas">
-          Crear rutina
+        <h3>{hasSession ? 'Todavía no tienes tablas creadas' : 'Inicia sesión para ver tus tablas'}</h3>
+        <p>
+          {hasSession
+            ? 'Crea tu primera rutina para que aparezca aquí y puedas consultarla desde Inicio.'
+            : 'Tus rutinas se guardan en tu cuenta y solo se muestran cuando has iniciado sesión.'}
+        </p>
+        <Link className="button button--primary" to={hasSession ? '/tablas' : '/login'}>
+          {hasSession ? 'Crear rutina' : 'Iniciar sesión'}
         </Link>
       </div>
     </section>
@@ -22,11 +26,19 @@ export default function HomePage() {
   const [selectedWorkoutPlanId, setSelectedWorkoutPlanId] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const hasSession = isLoggedIn()
 
   useEffect(() => {
     const controller = new AbortController()
 
     async function fetchWorkoutPlans() {
+      if (!isLoggedIn()) {
+        setWorkoutPlans([])
+        setSelectedWorkoutPlanId(null)
+        setLoading(false)
+        return
+      }
+
       try {
         const fetchedPlans = await apiFetch('/api/workout-plans/', { signal: controller.signal })
         setWorkoutPlans(fetchedPlans)
@@ -78,7 +90,7 @@ export default function HomePage() {
           onWorkoutPlanDelete={handleWorkoutPlanDelete}
         />
       ) : (
-        <EmptyWorkoutPlans />
+        <EmptyWorkoutPlans hasSession={hasSession} />
       )}
     </div>
   )

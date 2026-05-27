@@ -50,9 +50,9 @@ class WorkoutExerciseSetLogInline(admin.TabularInline):
 
 @admin.register(WorkoutPlan)
 class WorkoutPlanAdmin(admin.ModelAdmin):
-    list_display = ('name', 'difficulty', 'days_per_week', 'estimated_duration_minutes')
-    list_filter = ('difficulty',)
-    search_fields = ('name', 'goal', 'description')
+    list_display = ('name', 'user', 'difficulty', 'days_per_week', 'estimated_duration_minutes')
+    list_filter = ('difficulty', 'user')
+    search_fields = ('name', 'goal', 'description', 'user__username')
     prepopulated_fields = {'slug': ('name',)}
     inlines = [WorkoutPlanItemInline]
 

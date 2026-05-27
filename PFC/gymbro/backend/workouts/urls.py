@@ -6,6 +6,8 @@ from .views import (
     ExerciseVariationViewSet,
     ExerciseViewSet,
     MuscleGroupViewSet,
+    PasswordChangeView,
+    UserProfileView,
     WorkoutExerciseSessionViewSet,
     WorkoutPlanViewSet,
     RegisterView,
@@ -25,4 +27,6 @@ for prefix, viewset, basename in (
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', obtain_auth_token, name='login'),
+    path('profile/', UserProfileView.as_view(), name='profile'),
+    path('profile/password/', PasswordChangeView.as_view(), name='profile-password'),
 ] + router.urls

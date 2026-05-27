@@ -8,6 +8,7 @@ from .models import (
     ExerciseMuscleTarget,
     ExerciseVariation,
     MuscleGroup,
+    UserProfile,
     WorkoutExerciseSession,
     WorkoutExerciseSetLog,
     WorkoutPlan,
@@ -238,7 +239,19 @@ class WorkoutExerciseSessionSerializer(serializers.ModelSerializer):
         return instance
 
     def validate(self, attrs):
+        request = self.context.get('request')
+        workout_item = attrs.get('workout_item') or getattr(self.instance, 'workout_item', None)
         set_logs = attrs.get('set_logs')
+
+        if (
+            request
+            and request.user.is_authenticated
+            and workout_item
+            and workout_item.workout_plan.user_id != request.user.id
+        ):
+            raise serializers.ValidationError(
+                {'workout_item': 'No puedes registrar sesiones en una tabla de otro usuario.'}
+            )
 
         if set_logs:
             seen_orders = set()
@@ -277,6 +290,7 @@ class WorkoutPlanSerializer(serializers.ModelSerializer):
         model = WorkoutPlan
         fields = (
             'id',
+            'user',
             'name',
             'slug',
             'goal',
@@ -288,7 +302,7 @@ class WorkoutPlanSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         )
-        read_only_fields = ('slug', 'created_at', 'updated_at')
+        read_only_fields = ('user', 'slug', 'created_at', 'updated_at')
 
     @transaction.atomic
     def create(self, validated_data):
@@ -342,4 +356,49 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             email=validated_data.get('email', ''),
             password=validated_data['password']
         )
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username')
+    email = serializers.EmailField(source='user.email', read_only=True)
+
+    class Meta:
+        model = UserProfile
+        fields = ('username', 'email', 'avatar_data_url')
+
+    def validate_username(self, value):
+        user = self.instance.user
+        if User.objects.exclude(pk=user.pk).filter(username=value).exists():
+            raise serializers.ValidationError('Este nombre de usuario ya esta en uso.')
+
+        return value
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user', {})
+
+        if user_data:
+            user = instance.user
+            for attr, value in user_data.items():
+                setattr(user, attr, value)
+            user.save()
+
+        return update_instance(instance, validated_data)
+
+
+class PasswordChangeSerializer(serializers.Serializer):
+    current_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True, min_length=5)
+
+    def validate_current_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError('La contrasena actual no es correcta.')
+
+        return value
+
+    def save(self, **kwargs):
+        user = self.context['request'].user
+        user.set_password(self.validated_data['new_password'])
+        user.save()
+        return user
 

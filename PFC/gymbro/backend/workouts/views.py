@@ -1,4 +1,8 @@
-from rest_framework import viewsets, generics, permissions
+from django.contrib.auth.models import User
+from django.db import OperationalError, ProgrammingError
+from rest_framework import viewsets, generics, permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import (
     Exercise,
@@ -11,10 +15,13 @@ from .serializers import (
     ExerciseSerializer,
     ExerciseVariationSerializer,
     MuscleGroupSerializer,
+    PasswordChangeSerializer,
+    UserProfileSerializer,
     WorkoutExerciseSessionSerializer,
     WorkoutPlanSerializer,
     UserRegistrationSerializer,
 )
+from .models import UserProfile
 
 
 def lookup_by_id_or_slug(value, id_field, slug_field):
@@ -76,10 +83,11 @@ class ExerciseVariationViewSet(viewsets.ModelViewSet):
 
 class WorkoutPlanViewSet(viewsets.ModelViewSet):
     serializer_class = WorkoutPlanSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         queryset = (
-            WorkoutPlan.objects.all()
+            WorkoutPlan.objects.filter(user=self.request.user)
             .prefetch_related(
                 'items__exercise__muscle_targets__muscle_group',
                 'items__variation',
@@ -89,13 +97,19 @@ class WorkoutPlanViewSet(viewsets.ModelViewSet):
 
         return apply_filter(queryset, difficulty, difficulty=difficulty)
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
     serializer_class = WorkoutExerciseSessionSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         queryset = (
-            WorkoutExerciseSession.objects.all()
+            WorkoutExerciseSession.objects.filter(
+                workout_item__workout_plan__user=self.request.user
+            )
             .select_related(
                 'workout_item__exercise',
                 'workout_item__variation',
@@ -115,3 +129,66 @@ class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
 class RegisterView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
     permission_classes = (permissions.AllowAny,)
+
+
+class UserProfileView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_profile(self):
+        profile, _ = UserProfile.objects.get_or_create(user=self.request.user)
+        return profile
+
+    def get_profile_data(self, profile=None):
+        return {
+            'username': self.request.user.username,
+            'email': self.request.user.email,
+            'avatar_data_url': profile.avatar_data_url if profile else '',
+        }
+
+    def get(self, request):
+        try:
+            profile = self.get_profile()
+        except (OperationalError, ProgrammingError):
+            return Response(self.get_profile_data())
+
+        serializer = UserProfileSerializer(profile)
+        return Response(serializer.data)
+
+    def patch(self, request):
+        username = request.data.get('username')
+        if username is not None:
+            username = str(username).strip()
+            if not username:
+                return Response(
+                    {'username': 'El nombre de usuario no puede estar vacio.'},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            if User.objects.exclude(pk=request.user.pk).filter(username=username).exists():
+                return Response(
+                    {'username': 'Este nombre de usuario ya esta en uso.'},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            request.user.username = username
+            request.user.save(update_fields=['username'])
+
+        try:
+            profile = self.get_profile()
+        except (OperationalError, ProgrammingError):
+            return Response(self.get_profile_data())
+
+        if 'avatar_data_url' in request.data:
+            profile.avatar_data_url = request.data.get('avatar_data_url') or ''
+            profile.save(update_fields=['avatar_data_url', 'updated_at'])
+
+        return Response(self.get_profile_data(profile))
+
+
+class PasswordChangeView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+        serializer = PasswordChangeSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)

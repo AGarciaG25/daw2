@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
@@ -23,6 +24,18 @@ class TimeStampedModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class UserProfile(TimeStampedModel):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    avatar_data_url = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = 'Perfil de usuario'
+        verbose_name_plural = 'Perfiles de usuario'
+
+    def __str__(self):
+        return f'Perfil de {self.user.username}'
 
 
 class MuscleGroup(TimeStampedModel):
@@ -173,7 +186,14 @@ class WorkoutPlan(TimeStampedModel):
         INTERMEDIATE = 'intermedio', 'Intermedio'
         ADVANCED = 'avanzado', 'Avanzado'
 
-    name = models.CharField(max_length=140, unique=True)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='workout_plans',
+        null=True,
+        blank=True,
+    )
+    name = models.CharField(max_length=140)
     slug = models.SlugField(max_length=160, unique=True, blank=True)
     goal = models.CharField(max_length=180)
     description = models.TextField(blank=True)
