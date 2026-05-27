@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.core.management import call_command
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -18,6 +19,8 @@ from .models import (
 
 class WorkoutApiTests(APITestCase):
     def setUp(self):
+        self.user = User.objects.create_user(username='adrian', password='test-pass')
+        self.other_user = User.objects.create_user(username='otro', password='test-pass')
         self.chest = MuscleGroup.objects.create(
             name='Pecho',
             body_region=MuscleGroup.BodyRegion.UPPER_BODY,
@@ -51,6 +54,7 @@ class WorkoutApiTests(APITestCase):
             equipment_override='Banco inclinado y barra',
         )
         self.workout_plan = WorkoutPlan.objects.create(
+            user=self.user,
             name='Torso de prueba',
             goal='Ganar fuerza',
             description='Rutina para validar sesiones.',
@@ -58,6 +62,7 @@ class WorkoutApiTests(APITestCase):
             days_per_week=3,
             estimated_duration_minutes=60,
         )
+        self.client.force_authenticate(user=self.user)
         self.workout_item = WorkoutPlanItem.objects.create(
             workout_plan=self.workout_plan,
             exercise=self.bench_press,
@@ -71,6 +76,7 @@ class WorkoutApiTests(APITestCase):
         )
 
     def test_filter_exercises_by_muscle_group_slug(self):
+        self.client.force_authenticate(user=None)
         response = self.client.get('/api/exercises/', {'muscle_group': self.chest.slug})
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -102,7 +108,23 @@ class WorkoutApiTests(APITestCase):
         response = self.client.post('/api/workout-plans/', payload, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(WorkoutPlan.objects.get(id=response.data['id']).user, self.user)
         self.assertEqual(response.data['items'][0]['variation'], self.incline.id)
+
+    def test_workout_plans_are_limited_to_authenticated_user(self):
+        WorkoutPlan.objects.create(
+            user=self.other_user,
+            name='Rutina de otro usuario',
+            goal='Privada',
+            difficulty=WorkoutPlan.Difficulty.BEGINNER,
+            days_per_week=3,
+            estimated_duration_minutes=45,
+        )
+
+        response = self.client.get('/api/workout-plans/')
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual([plan['id'] for plan in response.data], [self.workout_plan.id])
 
     def test_reject_workout_item_when_variation_is_from_other_exercise(self):
         row = Exercise.objects.create(
@@ -140,6 +162,7 @@ class WorkoutApiTests(APITestCase):
         self.assertIn('variation', response.data['items'][0])
 
     def test_import_sample_set_command_creates_exercise_metadata(self):
+        self.client.force_authenticate(user=None)
         payload = [
             {
                 'bodyPart': 'chest',
@@ -175,6 +198,7 @@ class WorkoutApiTests(APITestCase):
         self.assertEqual(exercise.muscle_targets.count(), 3)
 
     def test_exercise_api_exposes_demo_frame_urls(self):
+        self.client.force_authenticate(user=None)
         frame_exercise = Exercise.objects.create(
             name='Curl con secuencia',
             description='Ejercicio con dos fotogramas.',
@@ -280,3 +304,37 @@ class WorkoutApiTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0]['workout_item'], self.workout_item.id)
+
+    def test_reject_workout_session_for_other_user_plan(self):
+        other_plan = WorkoutPlan.objects.create(
+            user=self.other_user,
+            name='Tabla ajena',
+            goal='Privada',
+            difficulty=WorkoutPlan.Difficulty.BEGINNER,
+            days_per_week=3,
+            estimated_duration_minutes=45,
+        )
+        other_item = WorkoutPlanItem.objects.create(
+            workout_plan=other_plan,
+            exercise=self.bench_press,
+            day_label='Dia 1',
+            order=1,
+            sets=3,
+            reps='10',
+            rest_seconds=90,
+            notes='',
+        )
+
+        response = self.client.post(
+            '/api/workout-sessions/',
+            {
+                'workout_item': other_item.id,
+                'session_date': '2026-05-05',
+                'notes': '',
+                'set_logs': [{'order': 1, 'reps': '10', 'weight': '60 kg', 'rir': '2', 'notes': ''}],
+            },
+            format='json',
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('workout_item', response.data)
