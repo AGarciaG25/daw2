@@ -1,10 +1,10 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from rest_framework.authtoken.views import obtain_auth_token
 
 from .views import (
     ExerciseVariationViewSet,
     ExerciseViewSet,
+    LoginView,
     MuscleGroupViewSet,
     PasswordChangeView,
     UserProfileView,
@@ -26,7 +26,7 @@ for prefix, viewset, basename in (
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
-    path('login/', obtain_auth_token, name='login'),
+    path('login/', LoginView.as_view(), name='login'),
     path('profile/', UserProfileView.as_view(), name='profile'),
     path('profile/password/', PasswordChangeView.as_view(), name='profile-password'),
 ] + router.urls

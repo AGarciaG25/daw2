@@ -1,6 +1,16 @@
 from django.contrib.auth.models import User
 from django.db import OperationalError, ProgrammingError
-from rest_framework import viewsets, generics, permissions, status
+from drf_spectacular.utils import (
+    OpenApiParameter,
+    OpenApiResponse,
+    OpenApiTypes,
+    extend_schema,
+    extend_schema_view,
+    inline_serializer,
+)
+from rest_framework import viewsets, generics, permissions, serializers, status
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -32,6 +42,44 @@ def apply_filter(queryset, value, **lookup):
     return queryset.filter(**lookup) if value else queryset
 
 
+@extend_schema(
+    summary='Iniciar sesion',
+    description='Recibe nombre de usuario y contrasena y devuelve un token de autenticacion.',
+    tags=['Autenticacion'],
+    request=AuthTokenSerializer,
+    responses={
+        200: inline_serializer(
+            name='TokenLoginResponse',
+            fields={'token': serializers.CharField()},
+        ),
+        400: OpenApiResponse(description='Credenciales invalidas.'),
+    },
+)
+class LoginView(ObtainAuthToken):
+    pass
+
+
+@extend_schema_view(
+    list=extend_schema(
+        summary='Listar grupos musculares',
+        description='Devuelve las zonas musculares disponibles. Permite filtrar por region corporal.',
+        tags=['Grupos musculares'],
+        parameters=[
+            OpenApiParameter(
+                name='body_region',
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description='Region corporal asociada al grupo muscular.',
+                required=False,
+            ),
+        ],
+    ),
+    retrieve=extend_schema(summary='Obtener un grupo muscular', tags=['Grupos musculares']),
+    create=extend_schema(summary='Crear un grupo muscular', tags=['Grupos musculares']),
+    update=extend_schema(summary='Actualizar un grupo muscular', tags=['Grupos musculares']),
+    partial_update=extend_schema(summary='Actualizar parcialmente un grupo muscular', tags=['Grupos musculares']),
+    destroy=extend_schema(summary='Eliminar un grupo muscular', tags=['Grupos musculares']),
+)
 class MuscleGroupViewSet(viewsets.ModelViewSet):
     queryset = MuscleGroup.objects.all()
     serializer_class = MuscleGroupSerializer
@@ -43,6 +91,34 @@ class MuscleGroupViewSet(viewsets.ModelViewSet):
         return apply_filter(queryset, body_region, body_region=body_region)
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary='Listar ejercicios',
+        description='Devuelve ejercicios con sus zonas musculares y variaciones. Permite filtrar por musculo y dificultad.',
+        tags=['Ejercicios'],
+        parameters=[
+            OpenApiParameter(
+                name='muscle_group',
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description='ID o slug del grupo muscular.',
+                required=False,
+            ),
+            OpenApiParameter(
+                name='difficulty',
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description='Dificultad del ejercicio.',
+                required=False,
+            ),
+        ],
+    ),
+    retrieve=extend_schema(summary='Obtener un ejercicio', tags=['Ejercicios']),
+    create=extend_schema(summary='Crear un ejercicio', tags=['Ejercicios']),
+    update=extend_schema(summary='Actualizar un ejercicio', tags=['Ejercicios']),
+    partial_update=extend_schema(summary='Actualizar parcialmente un ejercicio', tags=['Ejercicios']),
+    destroy=extend_schema(summary='Eliminar un ejercicio', tags=['Ejercicios']),
+)
 class ExerciseViewSet(viewsets.ModelViewSet):
     serializer_class = ExerciseSerializer
 
@@ -66,6 +142,27 @@ class ExerciseViewSet(viewsets.ModelViewSet):
         return apply_filter(queryset, difficulty, difficulty=difficulty).distinct()
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary='Listar variaciones de ejercicios',
+        description='Devuelve variaciones de ejercicios. Permite filtrar por ejercicio base usando ID o slug.',
+        tags=['Variaciones'],
+        parameters=[
+            OpenApiParameter(
+                name='exercise',
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description='ID o slug del ejercicio base.',
+                required=False,
+            ),
+        ],
+    ),
+    retrieve=extend_schema(summary='Obtener una variacion', tags=['Variaciones']),
+    create=extend_schema(summary='Crear una variacion', tags=['Variaciones']),
+    update=extend_schema(summary='Actualizar una variacion', tags=['Variaciones']),
+    partial_update=extend_schema(summary='Actualizar parcialmente una variacion', tags=['Variaciones']),
+    destroy=extend_schema(summary='Eliminar una variacion', tags=['Variaciones']),
+)
 class ExerciseVariationViewSet(viewsets.ModelViewSet):
     serializer_class = ExerciseVariationSerializer
 
@@ -81,6 +178,27 @@ class ExerciseVariationViewSet(viewsets.ModelViewSet):
         return queryset
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary='Listar rutinas del usuario',
+        description='Devuelve solo las rutinas del usuario autenticado. Permite filtrar por dificultad.',
+        tags=['Rutinas'],
+        parameters=[
+            OpenApiParameter(
+                name='difficulty',
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description='Dificultad de la rutina.',
+                required=False,
+            ),
+        ],
+    ),
+    retrieve=extend_schema(summary='Obtener una rutina del usuario', tags=['Rutinas']),
+    create=extend_schema(summary='Crear una rutina', description='Requiere autenticacion por token.', tags=['Rutinas']),
+    update=extend_schema(summary='Actualizar una rutina', description='Requiere autenticacion por token.', tags=['Rutinas']),
+    partial_update=extend_schema(summary='Actualizar parcialmente una rutina', description='Requiere autenticacion por token.', tags=['Rutinas']),
+    destroy=extend_schema(summary='Eliminar una rutina', description='Requiere autenticacion por token.', tags=['Rutinas']),
+)
 class WorkoutPlanViewSet(viewsets.ModelViewSet):
     serializer_class = WorkoutPlanSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -101,6 +219,23 @@ class WorkoutPlanViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 
+@extend_schema_view(
+    list=extend_schema(
+        summary='Listar sesiones de entrenamiento',
+        description='Devuelve solo las sesiones asociadas a rutinas del usuario autenticado.',
+        tags=['Sesiones'],
+        parameters=[
+            OpenApiParameter('workout_item', OpenApiTypes.INT, OpenApiParameter.QUERY, description='ID del ejercicio dentro de la rutina.'),
+            OpenApiParameter('workout_plan', OpenApiTypes.INT, OpenApiParameter.QUERY, description='ID de la rutina.'),
+            OpenApiParameter('session_date', OpenApiTypes.DATE, OpenApiParameter.QUERY, description='Fecha de la sesion en formato YYYY-MM-DD.'),
+        ],
+    ),
+    retrieve=extend_schema(summary='Obtener una sesion', tags=['Sesiones']),
+    create=extend_schema(summary='Crear una sesion', description='Requiere autenticacion por token.', tags=['Sesiones']),
+    update=extend_schema(summary='Actualizar una sesion', description='Requiere autenticacion por token.', tags=['Sesiones']),
+    partial_update=extend_schema(summary='Actualizar parcialmente una sesion', description='Requiere autenticacion por token.', tags=['Sesiones']),
+    destroy=extend_schema(summary='Eliminar una sesion', description='Requiere autenticacion por token.', tags=['Sesiones']),
+)
 class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
     serializer_class = WorkoutExerciseSessionSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -126,6 +261,11 @@ class WorkoutExerciseSessionViewSet(viewsets.ModelViewSet):
         return apply_filter(queryset, session_date, session_date=session_date)
 
 
+@extend_schema(
+    summary='Registrar usuario',
+    description='Crea una cuenta de usuario para acceder a las funcionalidades privadas de Gymbro.',
+    tags=['Autenticacion'],
+)
 class RegisterView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
     permission_classes = (permissions.AllowAny,)
@@ -145,6 +285,12 @@ class UserProfileView(APIView):
             'avatar_data_url': profile.avatar_data_url if profile else '',
         }
 
+    @extend_schema(
+        summary='Obtener perfil del usuario',
+        description='Devuelve el nombre de usuario, correo e imagen de perfil del usuario autenticado.',
+        tags=['Perfil'],
+        responses={200: UserProfileSerializer},
+    )
     def get(self, request):
         try:
             profile = self.get_profile()
@@ -154,6 +300,16 @@ class UserProfileView(APIView):
         serializer = UserProfileSerializer(profile)
         return Response(serializer.data)
 
+    @extend_schema(
+        summary='Actualizar perfil del usuario',
+        description='Permite cambiar el nombre de usuario y la imagen de perfil. El correo se devuelve como solo lectura.',
+        tags=['Perfil'],
+        request=UserProfileSerializer,
+        responses={
+            200: UserProfileSerializer,
+            400: OpenApiResponse(description='Datos invalidos o nombre de usuario duplicado.'),
+        },
+    )
     def patch(self, request):
         username = request.data.get('username')
         if username is not None:
@@ -187,6 +343,16 @@ class UserProfileView(APIView):
 class PasswordChangeView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
+    @extend_schema(
+        summary='Cambiar contrasena',
+        description='Cambia la contrasena del usuario autenticado comprobando primero la contrasena actual.',
+        tags=['Perfil'],
+        request=PasswordChangeSerializer,
+        responses={
+            204: OpenApiResponse(description='Contrasena actualizada correctamente.'),
+            400: OpenApiResponse(description='La contrasena actual no es correcta o la nueva no es valida.'),
+        },
+    )
     def post(self, request):
         serializer = PasswordChangeSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)

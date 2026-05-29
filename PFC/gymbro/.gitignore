@@ -27,3 +27,12 @@ dist-ssr
 # Python / Django
 __pycache__/
 *.py[cod]
+venv/
+backend/venv/
+db.sqlite3
+backend/db.sqlite3
+*.sqlite3
+
+# Archivos generados
+dist/
+*.rar

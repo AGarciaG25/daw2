@@ -1,0 +1,205 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="1550" viewBox="0 0 2200 1550">
+  <rect width="2200" height="1550" fill="#ffffff"/>
+  <defs>
+    <style>
+      .table { fill: #ffffff; stroke: #111111; stroke-width: 2; }
+      .relation { fill: #fff3c4; stroke: #111111; stroke-width: 2; }
+      .line { stroke: #111111; stroke-width: 2; fill: none; }
+      .title { font: 700 26px Arial, sans-serif; fill: #111111; }
+      .subtitle { font: 15px Arial, sans-serif; fill: #333333; }
+      .table-name { font: 700 16px Arial, sans-serif; fill: #111111; }
+      .field { font: 13px Arial, sans-serif; fill: #111111; }
+      .rel-name { font: 700 14px Arial, sans-serif; fill: #111111; text-anchor: middle; dominant-baseline: middle; }
+      .rel-type { font: 700 16px Arial, sans-serif; fill: #111111; text-anchor: middle; }
+      .card { font: 700 15px Arial, sans-serif; fill: #111111; text-anchor: middle; }
+    </style>
+  </defs>
+
+  <text x="40" y="42" class="title">Diagrama entidad-relacion - Gymbro</text>
+  <text x="40" y="70" class="subtitle">Entidades en rectangulos, relaciones en rombos, tipo de relacion encima del rombo y cardinalidad en cada extremo.</text>
+
+  <!-- Columna usuarios -->
+  <rect x="60" y="140" width="290" height="255" class="table"/>
+  <text x="78" y="170" class="table-name">auth_user</text>
+  <text x="78" y="198" class="field">id integer PK</text>
+  <text x="78" y="218" class="field">username varchar UK</text>
+  <text x="78" y="238" class="field">password varchar</text>
+  <text x="78" y="258" class="field">email varchar</text>
+  <text x="78" y="278" class="field">first_name varchar</text>
+  <text x="78" y="298" class="field">last_name varchar</text>
+  <text x="78" y="318" class="field">is_staff boolean</text>
+  <text x="78" y="338" class="field">is_active boolean</text>
+  <text x="78" y="358" class="field">date_joined datetime</text>
+
+  <!-- Columna cuenta/rutinas -->
+  <rect x="620" y="100" width="320" height="115" class="table"/>
+  <text x="638" y="130" class="table-name">authtoken_token</text>
+  <text x="638" y="158" class="field">key varchar PK</text>
+  <text x="638" y="178" class="field">created datetime</text>
+  <text x="638" y="198" class="field">user_id integer FK, UK</text>
+
+  <rect x="620" y="280" width="320" height="135" class="table"/>
+  <text x="638" y="310" class="table-name">workouts_userprofile</text>
+  <text x="638" y="338" class="field">id bigint PK</text>
+  <text x="638" y="358" class="field">user_id integer FK, UK</text>
+  <text x="638" y="378" class="field">avatar_data_url text</text>
+  <text x="638" y="398" class="field">created_at / updated_at datetime</text>
+
+  <rect x="620" y="540" width="320" height="175" class="table"/>
+  <text x="638" y="570" class="table-name">workouts_workoutplan</text>
+  <text x="638" y="598" class="field">id bigint PK</text>
+  <text x="638" y="618" class="field">user_id integer FK</text>
+  <text x="638" y="638" class="field">name varchar</text>
+  <text x="638" y="658" class="field">slug varchar UK</text>
+  <text x="638" y="678" class="field">goal varchar</text>
+  <text x="638" y="698" class="field">difficulty varchar</text>
+
+  <rect x="620" y="1040" width="340" height="140" class="table"/>
+  <text x="638" y="1070" class="table-name">workouts_workoutexercisesession</text>
+  <text x="638" y="1098" class="field">id bigint PK</text>
+  <text x="638" y="1118" class="field">workout_item_id bigint FK</text>
+  <text x="638" y="1138" class="field">session_date date</text>
+  <text x="638" y="1158" class="field">notes text</text>
+
+  <!-- Columna intermedia -->
+  <rect x="1120" y="540" width="340" height="205" class="table"/>
+  <text x="1138" y="570" class="table-name">workouts_workoutplanitem</text>
+  <text x="1138" y="598" class="field">id bigint PK</text>
+  <text x="1138" y="618" class="field">workout_plan_id bigint FK</text>
+  <text x="1138" y="638" class="field">exercise_id bigint FK</text>
+  <text x="1138" y="658" class="field">variation_id bigint FK, null</text>
+  <text x="1138" y="678" class="field">day_label varchar</text>
+  <text x="1138" y="698" class="field">order integer</text>
+  <text x="1138" y="718" class="field">sets smallint, reps varchar</text>
+
+  <rect x="1120" y="895" width="340" height="135" class="table"/>
+  <text x="1138" y="925" class="table-name">workouts_exercisemuscletarget</text>
+  <text x="1138" y="953" class="field">id bigint PK</text>
+  <text x="1138" y="973" class="field">exercise_id bigint FK</text>
+  <text x="1138" y="993" class="field">muscle_group_id bigint FK</text>
+  <text x="1138" y="1013" class="field">emphasis varchar</text>
+
+  <rect x="1120" y="1235" width="325" height="140" class="table"/>
+  <text x="1138" y="1265" class="table-name">workouts_workoutexercisesetlog</text>
+  <text x="1138" y="1293" class="field">id bigint PK</text>
+  <text x="1138" y="1313" class="field">session_id bigint FK</text>
+  <text x="1138" y="1333" class="field">order smallint</text>
+  <text x="1138" y="1353" class="field">reps, weight, rir varchar</text>
+
+  <!-- Columna ejercicios -->
+  <rect x="1660" y="180" width="300" height="220" class="table"/>
+  <text x="1678" y="210" class="table-name">workouts_exercise</text>
+  <text x="1678" y="238" class="field">id bigint PK</text>
+  <text x="1678" y="258" class="field">name varchar UK</text>
+  <text x="1678" y="278" class="field">slug varchar UK</text>
+  <text x="1678" y="298" class="field">external_id varchar UK</text>
+  <text x="1678" y="318" class="field">description text</text>
+  <text x="1678" y="338" class="field">difficulty varchar</text>
+  <text x="1678" y="358" class="field">is_compound boolean</text>
+
+  <rect x="1660" y="565" width="300" height="155" class="table"/>
+  <text x="1678" y="595" class="table-name">workouts_exercisevariation</text>
+  <text x="1678" y="623" class="field">id bigint PK</text>
+  <text x="1678" y="643" class="field">base_exercise_id bigint FK</text>
+  <text x="1678" y="663" class="field">name varchar</text>
+  <text x="1678" y="683" class="field">slug varchar UK</text>
+  <text x="1678" y="703" class="field">description text</text>
+
+  <rect x="1660" y="910" width="300" height="150" class="table"/>
+  <text x="1678" y="940" class="table-name">workouts_musclegroup</text>
+  <text x="1678" y="968" class="field">id bigint PK</text>
+  <text x="1678" y="988" class="field">name varchar UK</text>
+  <text x="1678" y="1008" class="field">slug varchar UK</text>
+  <text x="1678" y="1028" class="field">body_region varchar</text>
+
+  <!-- Relaciones de usuario -->
+  <line x1="350" y1="158" x2="420" y2="158" class="line"/>
+  <polygon points="500,118 580,158 500,198 420,158" class="relation"/>
+  <line x1="580" y1="158" x2="620" y2="158" class="line"/>
+  <text x="500" y="109" class="rel-type">1:1</text>
+  <text x="500" y="158" class="rel-name">Tiene token</text>
+  <text x="374" y="149" class="card">1</text>
+  <text x="602" y="149" class="card">0..1</text>
+
+  <line x1="350" y1="348" x2="420" y2="348" class="line"/>
+  <polygon points="500,308 580,348 500,388 420,348" class="relation"/>
+  <line x1="580" y1="348" x2="620" y2="348" class="line"/>
+  <text x="500" y="299" class="rel-type">1:1</text>
+  <text x="500" y="348" class="rel-name">Tiene perfil</text>
+  <text x="374" y="339" class="card">1</text>
+  <text x="602" y="339" class="card">0..1</text>
+
+  <polyline points="205,395 205,628 420,628" class="line"/>
+  <polygon points="500,588 580,628 500,668 420,628" class="relation"/>
+  <line x1="580" y1="628" x2="620" y2="628" class="line"/>
+  <text x="500" y="579" class="rel-type">1:N</text>
+  <text x="500" y="628" class="rel-name">Crea</text>
+  <text x="222" y="505" class="card">1</text>
+  <text x="602" y="619" class="card">0..N</text>
+
+  <!-- Rutina e item -->
+  <line x1="940" y1="628" x2="980" y2="628" class="line"/>
+  <polygon points="1040,588 1100,628 1040,668 980,628" class="relation"/>
+  <line x1="1100" y1="628" x2="1120" y2="628" class="line"/>
+  <text x="1040" y="579" class="rel-type">1:N</text>
+  <text x="1040" y="628" class="rel-name">Contiene</text>
+  <text x="962" y="619" class="card">1</text>
+  <text x="1108" y="619" class="card">0..N</text>
+
+  <!-- Item con ejercicio y variacion -->
+  <polyline points="1460,600 1510,600 1510,305 1530,305" class="line"/>
+  <polygon points="1580,265 1630,305 1580,345 1530,305" class="relation"/>
+  <line x1="1630" y1="305" x2="1660" y2="305" class="line"/>
+  <text x="1580" y="256" class="rel-type">N:1</text>
+  <text x="1580" y="305" class="rel-name">Usa</text>
+  <text x="1480" y="591" class="card">N</text>
+  <text x="1646" y="296" class="card">1</text>
+
+  <line x1="1460" y1="650" x2="1530" y2="650" class="line"/>
+  <polygon points="1580,610 1630,650 1580,690 1530,650" class="relation"/>
+  <line x1="1630" y1="650" x2="1660" y2="650" class="line"/>
+  <text x="1580" y="601" class="rel-type">N:1</text>
+  <text x="1580" y="650" class="rel-name">Usa opcional</text>
+  <text x="1480" y="641" class="card">N</text>
+  <text x="1648" y="641" class="card">0..1</text>
+
+  <!-- Ejercicio con variaciones -->
+  <polyline points="1960,360 2050,360 2050,510" class="line"/>
+  <polygon points="2050,510 2115,550 2050,590 1985,550" class="relation"/>
+  <polyline points="2050,590 2050,642 1960,642" class="line"/>
+  <text x="2050" y="501" class="rel-type">1:N</text>
+  <text x="2050" y="550" class="rel-name">Tiene</text>
+  <text x="1985" y="351" class="card">1</text>
+  <text x="1985" y="633" class="card">0..N</text>
+
+  <!-- Ejercicio y musculos mediante tabla intermedia -->
+  <polyline points="1460,962 1525,962 1525,805" class="line"/>
+  <polygon points="1585,765 1665,805 1585,845 1505,805" class="relation"/>
+  <polyline points="1665,805 1810,805 1810,910" class="line"/>
+  <polyline points="1585,765 1585,430 1660,330" class="line"/>
+  <text x="1585" y="756" class="rel-type">N:M</text>
+  <text x="1585" y="805" class="rel-name">Trabaja</text>
+  <text x="1482" y="953" class="card">N</text>
+  <text x="1798" y="883" class="card">M</text>
+  <text x="1625" y="525" class="card">1</text>
+
+  <!-- Item con sesiones -->
+  <polyline points="1290,745 1290,820 1040,820" class="line"/>
+  <polygon points="1040,780 1100,820 1040,860 980,820" class="relation"/>
+  <polyline points="980,820 790,820 790,1040" class="line"/>
+  <text x="1040" y="771" class="rel-type">1:N</text>
+  <text x="1040" y="820" class="rel-name">Registra</text>
+  <text x="1273" y="777" class="card">1</text>
+  <text x="806" y="1015" class="card">0..N</text>
+
+  <!-- Sesiones con series -->
+  <line x1="960" y1="1110" x2="980" y2="1110" class="line"/>
+  <polygon points="1040,1070 1100,1110 1040,1150 980,1110" class="relation"/>
+  <polyline points="1100,1110 1282,1110 1282,1235" class="line"/>
+  <text x="1040" y="1061" class="rel-type">1:N</text>
+  <text x="1040" y="1110" class="rel-name">Tiene series</text>
+  <text x="972" y="1101" class="card">1</text>
+  <text x="1298" y="1210" class="card">0..N</text>
+
+  <text x="40" y="1495" class="subtitle">Nota: la relacion N:M entre ejercicios y grupos musculares se implementa mediante workouts_exercisemuscletarget.</text>
+</svg>
