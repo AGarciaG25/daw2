@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Diagrama de base de datos - Gymbro</title>
+    <style>
+      body {
+        margin: 0;
+        background: #ffffff;
+        color: #111111;
+        font-family: Arial, sans-serif;
+      }
+
+      .toolbar {
+        position: sticky;
+        top: 0;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        padding: 14px 18px;
+        background: #ffffff;
+        border-bottom: 1px solid #dddddd;
+        z-index: 1;
+      }
+
+      .toolbar a {
+        display: inline-block;
+        padding: 10px 14px;
+        border: 1px solid #111111;
+        border-radius: 4px;
+        color: #111111;
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .diagram {
+        padding: 20px;
+        overflow: auto;
+      }
+
+      img {
+        display: block;
+        max-width: none;
+        background: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar">
+      <strong>Diagrama de base de datos - Gymbro</strong>
+      <a href="database-chen-diagram.svg" download>Descargar SVG</a>
+      <a href="database-chen-diagram.svg" target="_blank" rel="noreferrer">Abrir imagen</a>
+    </div>
+    <div class="diagram">
+      <img src="database-chen-diagram.svg" alt="Diagrama entidad-relacion de la base de datos de Gymbro">
+    </div>
+  </body>
+</html>

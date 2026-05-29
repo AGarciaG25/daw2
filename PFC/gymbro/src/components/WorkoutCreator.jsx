@@ -361,7 +361,7 @@ function WorkoutCreator({
           ) : (
             <div className="routine-empty">
               <h3>Tu rutina está vacía</h3>
-              <p>Usa la biblioteca de la derecha para ir agregando ejercicios y montar la sesión.</p>
+              <p>Usa la biblioteca de la derecha para ir agregando ejercicios.</p>
             </div>
           )}
         </section>

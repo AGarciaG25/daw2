@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'drf_spectacular',
     'workouts',
 ]
 
@@ -84,4 +85,21 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Gymbro API',
+    'DESCRIPTION': '''
+API REST para gestionar ejercicios, grupos musculares, variaciones, rutinas,
+sesiones de entrenamiento y datos del perfil de usuario.
+
+Autenticacion:
+- El registro, el login y la consulta de ejercicios son publicos.
+- Las rutinas, sesiones y datos de perfil requieren autenticacion.
+- El login devuelve un token en /api/login/.
+- Las peticiones protegidas deben incluir la cabecera Authorization: Token <token>.
+''',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
